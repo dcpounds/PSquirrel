@@ -19,6 +19,9 @@ import java.awt.Component;
 import javax.swing.JLabel;
 
 import org.projectsquirrel.controllers.NetworkManager;
+import org.projectsquirrel.models.Sensor;
+import org.projectsquirrel.models.SensorPacket;
+import org.projectsquirrel.models.SensorType;
 
 import java.awt.Font;
 import java.io.IOError;
@@ -34,7 +37,7 @@ public class ProjectSquirrelGUI {
      */
     public static void main(String[] args) {
     	try {
-    		NetworkManager.initialize("localhost", 10000);
+    		NetworkManager.initialize("localhost", 10004);
     	} catch (IOException e){
     		e.printStackTrace();
     	}

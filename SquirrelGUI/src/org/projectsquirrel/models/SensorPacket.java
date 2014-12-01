@@ -12,6 +12,9 @@ public class SensorPacket {
 		sensorData = new ArrayList<Sensor>();
 	}
 	
+	public void addSensor(Sensor sensor){
+		sensorData.add(sensor);
+	}
 	
 	public String toJson() {
 		String json;

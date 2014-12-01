@@ -1,0 +1,45 @@
+import socket
+import json
+import time
+
+class NetworkManager:
+    def __init__(self):
+        self.host = 'localhost'
+        self.port = 10000
+        self.backlog = 5
+        self.size = 2048
+        self.server = None
+        self.client = None
+        self.clientAddress = None
+
+        try:
+            self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.server.bind((self.host,self.port))
+            self.server.listen(self.backlog)
+            self.client, self.clientAddress = s.accept() 
+
+        except socket.error, (value,message):
+            if self.server:
+                self.server.close()
+            print "Could not open socket: " + message
+            sys.exit(1)
+
+    def close(self):
+        client.close()
+        server.close()
+
+    def sendSensorData(sensorData):
+        data = json.dumps(sensorData)
+        client.send(data)
+
+    def receiveCommand():
+        data = client.recv(self.size)
+        print data
+    
+if __name__ == "__main__":
+    sensorData = [{"SensorType":"ENCODER", "SensorNumber":0. "SensorValue":100},
+                  {"SensorType":"POTENTIOMETER", "SensorNumber":0. "SensorValue":100}]
+    s = NetworkManager()
+    while 1:
+        s.receiveCommand()
+        s.sendSensorData(sensorData)

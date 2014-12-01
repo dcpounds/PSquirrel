@@ -41,13 +41,14 @@ public class NetworkManager {
 		if(!isInitialized){
 			throw new NetworkUninitializedException();
 		}
-		out.print(commandPacket.toJson());
+		out.println(commandPacket.toJson());
 	}
 	
-	public static SensorPacket receiveSensorPacket(SensorPacket sensorPacket) throws IOException, NetworkUninitializedException{
+	public static SensorPacket receiveSensorPacket() throws IOException, NetworkUninitializedException{
 		if(!isInitialized){
 			throw new NetworkUninitializedException();
 		}
+		//while(!in.ready());
 		return SensorPacket.fromJson(in.readLine());
 	}
 	
