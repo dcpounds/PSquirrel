@@ -41,7 +41,7 @@ public class NetworkManager {
 		if(!isInitialized){
 			throw new NetworkUninitializedException();
 		}
-		System.out.print(commandPacket.toJson());
+		out.print(commandPacket.toJson());
 	}
 	
 	public static SensorPacket receiveSensorPacket(SensorPacket sensorPacket) throws IOException, NetworkUninitializedException{
