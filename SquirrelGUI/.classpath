@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/dave/Downloads/gson-2.3.1.jar"/>
-	<classpathentry kind="lib" path="/home/dave/Downloads/miglayout15-swing.jar"/>
+	<classpathentry kind="lib" path="/home/dave/dev/PSquirrel/SquirrelGUI/gson-2.3.1.jar"/>
+	<classpathentry kind="lib" path="/home/dave/dev/PSquirrel/SquirrelGUI/miglayout15-swing.jar"/>
 	<classpathentry kind="output" path="PSquirrel/bin"/>
 </classpath>
