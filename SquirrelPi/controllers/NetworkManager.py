@@ -27,8 +27,8 @@ class NetworkManager:
             sys.exit(1)
 
     def close(self):
-        client.close()
-        server.close()
+        self.client.close()
+        self.server.close()
 
     def sendSensorData(self, sensorData):
         data = json.dumps(sensorData)
