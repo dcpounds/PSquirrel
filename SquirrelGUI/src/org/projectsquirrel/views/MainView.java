@@ -28,36 +28,14 @@ import java.io.IOError;
 import java.io.IOException;
 
 
-public class ProjectSquirrelGUI {
+public class MainView {
 
     private JFrame frame;
 
     /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-    	try {
-    		NetworkManager.initialize("localhost", 10004);
-    	} catch (IOException e){
-    		e.printStackTrace();
-    	}
-    	
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ProjectSquirrelGUI window = new ProjectSquirrelGUI();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
      * Create the application.
      */
-    public ProjectSquirrelGUI() {
+    public MainView() {
         initialize();
     }
 
@@ -78,6 +56,10 @@ public class ProjectSquirrelGUI {
         
         JPanel controlPanel = new ControlView();
         frame.getContentPane().add(controlPanel, "cell 1 1,grow");
+    }
+    
+    public JFrame getFrame(){
+    	return frame;
     }
 
 }

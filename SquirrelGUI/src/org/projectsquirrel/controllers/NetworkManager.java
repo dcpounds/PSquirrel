@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.DatagramSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -12,36 +13,39 @@ import org.projectsquirrel.models.SensorPacket;
 
 public class NetworkManager {
 	private static NetworkManager instance = new NetworkManager();
-	private static Socket socket;
-	private static PrintWriter out;
-	private static BufferedReader in;
+	private static Socket mainSocket;
+	private static DatagramSocket cameraSocket;
+	private static PrintWriter mainOut;
+	private static BufferedReader mainIn;
 	private static String ip;
-	private static int port;
+	private static int mainPort;
 	private static boolean isInitialized;
 	
 	private NetworkManager(){
 	}
 	
-	//TODO add errors for unitialized network
-	public static void initialize(String ip, int port) throws UnknownHostException, IOException{
+	//TODO add errors for uninitialized network
+	public static void initialize(String ip, int mainPort) throws UnknownHostException, IOException{
 		NetworkManager.ip = ip;
-		NetworkManager.port = port;
+		NetworkManager.mainPort = mainPort;
+		//NetworkManager.cameraPort = cameraPort;
 		isInitialized = true;
         
-		socket = new Socket(ip, port);
-		out = new PrintWriter(socket.getOutputStream(), true);
-		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		mainSocket = new Socket(ip, mainPort);
+		//cameraSocket = new DatagramSocket(ip, cameraPort);
+		mainOut = new PrintWriter(mainSocket.getOutputStream(), true);
+		mainIn = new BufferedReader(new InputStreamReader(mainSocket.getInputStream()));
 	}
 	
 	public static void close() throws IOException{
-		socket.close();
+		mainSocket.close();
 	}
 	
 	public static void sendCommandPacket(CommandPacket commandPacket) throws NetworkUninitializedException{
 		if(!isInitialized){
 			throw new NetworkUninitializedException();
 		}
-		out.println(commandPacket.toJson());
+		mainOut.println(commandPacket.toJson());
 	}
 	
 	public static SensorPacket receiveSensorPacket() throws IOException, NetworkUninitializedException{
@@ -49,7 +53,7 @@ public class NetworkManager {
 			throw new NetworkUninitializedException();
 		}
 		//while(!in.ready());
-		return SensorPacket.fromJson(in.readLine());
+		return SensorPacket.fromJson(mainIn.readLine());
 	}
 	
 	public static NetworkManager getInstance(){
@@ -63,16 +67,16 @@ public class NetworkManager {
 	public void setIp(String ip) throws IOException {
 		close();
 		this.ip = ip;
-		initialize(ip, port);
+		initialize(ip, mainPort);
 	}
 
 	public int getPort() {
-		return port;
+		return mainPort;
 	}
 
 	public void setPort(int port) throws IOException {
 		close();
-		this.port = port;;
+		this.mainPort = port;;
 		initialize(ip, port);
 	}
 	
