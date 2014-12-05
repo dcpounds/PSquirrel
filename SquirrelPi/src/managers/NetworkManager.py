@@ -35,7 +35,7 @@ class NetworkManager:
         self.client.send(data + "\n")
 
     def receiveCommand(self):
-        data = self.client.recv(self.size)
+        data = json.loads(self.client.recv(self.size))
         return data
     
 if __name__ == "__main__":
