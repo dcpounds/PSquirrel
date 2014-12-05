@@ -2,6 +2,16 @@
 *.bin
 *.lock
 
+*.class
+*.DS_Store
+.metadata
+.metadata\*
+.metadata/*
+.metadata\.plugins\*
+javadoc
+test-results
+dist
+
 # Eclipse project files
 .classpath
 .project
