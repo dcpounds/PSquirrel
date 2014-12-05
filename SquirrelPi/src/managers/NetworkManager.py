@@ -35,15 +35,15 @@ class NetworkManager:
         self.client.send(data + "\n")
 
     def receiveCommand(self):
-        data = self.client.recv(self.size)
+        data = json.loads(self.client.recv(self.size))
         return data
     
 if __name__ == "__main__":
     sensorData = {"sensorData":[{"type":"ENCODER", 
-                                 "number":0, 
+                                 "id":0, 
                                  "value":100},
                                 {"type":"POTENTIOMETER", 
-                                 "number":0,
+                                 "id":0,
                                  "value":100}]}
     s = NetworkManager()
     while 1:
