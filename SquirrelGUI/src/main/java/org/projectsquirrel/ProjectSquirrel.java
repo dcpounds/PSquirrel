@@ -10,7 +10,7 @@ import org.projectsquirrel.controllers.NetworkManager;
 import org.projectsquirrel.views.MainView;
 
 /**
- * @author dave
+ * @author dave 
  *
  */
 public class ProjectSquirrel {
