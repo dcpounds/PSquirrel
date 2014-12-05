@@ -39,10 +39,10 @@ class NetworkManager:
         return data
     
 if __name__ == "__main__":
-    sensorData = {"sensorData":[{"type":"ENCODER", 
+    sensorData = {"sensorData":[{"sensorType":"ENCODER", 
                                  "number":0, 
                                  "value":100},
-                                {"type":"POTENTIOMETER", 
+                                {"sensorType":"POTENTIOMETER", 
                                  "number":0,
                                  "value":100}]}
     s = NetworkManager()
