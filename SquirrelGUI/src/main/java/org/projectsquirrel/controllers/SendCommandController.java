@@ -11,8 +11,8 @@ import org.projectsquirrel.models.CommandType;
 public class SendCommandController implements ActionListener {
 
 	private CommandPacket commandPacket;
-	
-	public SendCommandController(Command command, CommandType commandType){
+
+	public SendCommandController(Command command, CommandType commandType) {
 		commandPacket = new CommandPacket(command, commandType);
 	}
 
@@ -21,13 +21,13 @@ public class SendCommandController implements ActionListener {
 		try {
 			NetworkManager.sendCommandPacket(commandPacket);
 			System.out.println(NetworkManager.receiveSensorPacket().toJson());
-		} catch (NetworkUninitializedException e){
-			System.out.println("cannot send command without initializing network");
+		} catch (NetworkUninitializedException e) {
+			System.out
+					.println("cannot send command without initializing network");
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
 
 }

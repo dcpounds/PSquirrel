@@ -10,19 +10,19 @@ import com.google.gson.Gson;
  *
  */
 public class CommandPacket {
-	
+
 	private Command command;
 	private CommandType commandType;
-	
-	public CommandPacket(Command command, CommandType commandType){
+
+	public CommandPacket(Command command, CommandType commandType) {
 		this.setCommand(command);
 		this.setCommandType(commandType);
 	}
-	
+
 	/**
 	 * Converts a {@link CommandPacket} to a Json object in {link String} form.
-	 * @return  A {@link String} of this CommandPacket represented
-	 * in Json.
+	 * 
+	 * @return A {@link String} of this CommandPacket represented in Json.
 	 */
 	public String toJson() {
 		Gson gson = new Gson();
@@ -38,10 +38,11 @@ public class CommandPacket {
 	}
 
 	/**
-	 * @param command The {@link Command} to set in this packet.
+	 * @param command
+	 *            The {@link Command} to set in this packet.
 	 */
 	public void setCommand(Command command) {
-		if(command == null){
+		if (command == null) {
 			throw new NullPointerException();
 		} else {
 			this.command = command;
@@ -56,13 +57,14 @@ public class CommandPacket {
 	}
 
 	/**
-	 * @param commandType The {@link CommandType} to set in this packet.
+	 * @param commandType
+	 *            The {@link CommandType} to set in this packet.
 	 */
 	public void setCommandType(CommandType commandType) {
-		if(commandType == null){
+		if (commandType == null) {
 			throw new NullPointerException();
 		} else {
 			this.commandType = commandType;
 		}
-	}	
+	}
 }

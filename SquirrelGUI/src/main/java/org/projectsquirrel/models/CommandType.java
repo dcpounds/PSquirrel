@@ -1,7 +1,8 @@
 package org.projectsquirrel.models;
 
 /**
- * Enumeration of actuators, such as motors or servos. 
+ * Enumeration of actuators, such as motors or servos.
+ * 
  * @author David Pounds
  * @author Alex Stylos
  *
