@@ -1,0 +1,15 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+version='0.1.0-alpha'
+
+
+repositories{
+    mavenCentral()
+}
+
+dependencies{
+    compile 'com.miglayout:miglayout-swing:4.2'
+    compile 'com.google.code.gson:gson:2.3.1'
+    testCompile 'junit:junit:4.11'
+}

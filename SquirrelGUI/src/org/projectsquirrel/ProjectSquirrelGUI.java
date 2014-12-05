@@ -1,4 +1,4 @@
-package org.projectsquirrel.views;
+package org.projectsquirrel;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -22,6 +22,9 @@ import org.projectsquirrel.controllers.NetworkManager;
 import org.projectsquirrel.models.Sensor;
 import org.projectsquirrel.models.SensorPacket;
 import org.projectsquirrel.models.SensorType;
+import org.projectsquirrel.views.CameraView;
+import org.projectsquirrel.views.ControlView;
+import org.projectsquirrel.views.InfoView;
 
 import java.awt.Font;
 import java.io.IOError;
