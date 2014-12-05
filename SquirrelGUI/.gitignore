@@ -1,3 +1,26 @@
-/bin/
-/.gradle/
-/.classpath
+# Eclipse project files
+.classpath
+.project
+.settings
+#Gradle
+.gradletasknamecache
+.gradle/
+*.setting
+build/
+bin/
+# Intellij project files
+*.iml
+*.ipr
+*.iws
+.idea
+.idea/*
+#NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+.nb-gradle
+.nb-gradle-properties
