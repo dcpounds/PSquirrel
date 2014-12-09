@@ -2,73 +2,69 @@ package org.projectsquirrel.views;
 
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import static org.projectsquirrel.models.Command.*;
-import static org.projectsquirrel.models.CommandType.*;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
-import javax.swing.border.BevelBorder;
-
-import org.projectsquirrel.controllers.SendCommandController;
+import javax.swing.KeyStroke;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.projectsquirrel.controllers.SendCommandController;
+import org.projectsquirrel.models.Command;
+import org.projectsquirrel.models.CommandType;
+
 public class ControlView extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4398392847750945455L;
 
+	private JButton btnReleaseClaws = new JButton("Release Claws");
+	private JButton robotLeftBtn = new JButton("Left");
+	private JButton robotUpBtn = new JButton("Up");
+	private JButton robotDownBtn = new JButton("Down");
+	private JButton robotRightBtn = new JButton("Right");
+	private JButton cameraDownBtn = new JButton("Down");
+	private JButton cameraUpBtn = new JButton("Up");
+
+	private JLabel lblCameraControls = new JLabel("Camera Controls");
+	private JLabel lblRobotControls = new JLabel("Robot Controls");
+
+	/**
+	 * Sets up the layout for the panel, then adds in the action listeners.
+	 */
 	public ControlView() {
-		setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		setLayout(new MigLayout("", "[16%][16%][17%][17%][17%][17%]",
-				"[20%][20%][20%][20%][20%]"));
+		setLayout(new MigLayout("", "[grow][grow][grow][grow]", "[grow][grow][grow][grow][grow]"));
+		add(lblCameraControls, "cell 0 0,alignx center,aligny center");
+		
+				lblCameraControls.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		add(lblRobotControls, "cell 1 0 3 1,alignx center,aligny center");
+		
+				lblRobotControls.setFont(new Font("Tahoma", Font.PLAIN, 18));
 
-		JLabel lblCameraControls = new JLabel("Camera Controls");
-		lblCameraControls.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		add(lblCameraControls, "cell 3 0 3 1,alignx center,aligny center");
+		add(cameraUpBtn, "cell 0 1,grow");
 
-		JToggleButton cameraLeftBtn = new JToggleButton("Left");
-		cameraLeftBtn
-				.addActionListener(new SendCommandController(LEFT, CAMERA));
-		add(cameraLeftBtn, "cell 3 1,grow");
+		add(btnReleaseClaws, "cell 2 1,grow");
+		add(cameraDownBtn, "cell 0 2,grow");
+		add(robotLeftBtn, "cell 1 4,grow");
+		add(robotUpBtn, "cell 2 3,grow");
+		add(robotDownBtn, "cell 2 4,grow");
+		add(robotRightBtn, "cell 3 4,grow");
 
-		JToggleButton cameraRightBtn = new JToggleButton("Right");
-		cameraRightBtn.addActionListener(new SendCommandController(RIGHT,
-				CAMERA));
-		add(cameraRightBtn, "cell 5 1,grow");
+		addButtonActionListeners();
+	}
 
-		JLabel lblRobotControls = new JLabel("Robot Controls");
-		lblRobotControls.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		add(lblRobotControls, "cell 3 2 3 1,alignx center,aligny center");
-
-		JButton robotLeftBtn = new JButton("Left");
-		robotLeftBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-		robotLeftBtn.addActionListener(new SendCommandController(LEFT, MOTOR));
-		add(robotLeftBtn, "cell 3 4,grow");
-
-		JButton robotUpBtn = new JButton("Up");
-		robotUpBtn.addActionListener(new SendCommandController(UP, MOTOR));
-		add(robotUpBtn, "cell 4 3,grow");
-
-		JButton stopRobotBtn = new JButton("Stop Robot");
-		stopRobotBtn.addActionListener(new SendCommandController(STOP, MOTOR));
-		add(stopRobotBtn, "flowx,cell 0 3 2 2,grow");
-
-		JButton robotDownBtn = new JButton("Down");
-		robotDownBtn.addActionListener(new SendCommandController(DOWN, MOTOR));
-		add(robotDownBtn, "cell 4 4,grow");
-
-		JButton robotRightBtn = new JButton("Right");
-		robotRightBtn
-				.addActionListener(new SendCommandController(RIGHT, MOTOR));
-		add(robotRightBtn, "cell 5 4,grow");
+	/**
+	 * Adds action listeners too all the buttons in the view.
+	 */
+	private void addButtonActionListeners(){
+		//robotLeftBtn.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), actionMapKey);
+		
+		robotLeftBtn.addActionListener(new SendCommandController(Command.LEFT, CommandType.MOTOR));
+		cameraDownBtn.addActionListener(new SendCommandController(Command.LEFT, CommandType.CAMERA));
+		cameraUpBtn.addActionListener(new SendCommandController(Command.RIGHT, CommandType.CAMERA));
+		robotUpBtn.addActionListener(new SendCommandController(Command.UP, CommandType.MOTOR));
+		robotDownBtn.addActionListener(new SendCommandController(Command.DOWN, CommandType.MOTOR));
+		robotRightBtn.addActionListener(new SendCommandController(Command.RIGHT, CommandType.MOTOR));
 	}
 
 }
