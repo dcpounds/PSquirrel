@@ -1,10 +1,10 @@
 import multiprocessing as mp
-from src.controllers.CameraController import CameraController
-from src.controllers.RobotController import RobotController
-from src.managers.CameraManager import CameraManager
-from src.managers.MotorManager import MotorManager
-from src.managers.NetworkManager import NetworkManager
-from src.managers.SensorManager import SensorManager
+from controllers.CameraController import CameraController
+from controllers.RobotController import RobotController
+from managers.CameraManager import CameraManager
+from managers.MotorManager import MotorManager
+from managers.NetworkManager import NetworkManager
+from managers.SensorManager import SensorManager
 
 
 def main():
