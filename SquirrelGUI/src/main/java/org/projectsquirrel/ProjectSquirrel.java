@@ -20,7 +20,7 @@ public class ProjectSquirrel {
 	 */
 	public static void main(String[] args) {
 		try {
-			NetworkManager.initialize("localhost", 10004);
+			NetworkManager.initialize("10.5.5.1", 10004);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

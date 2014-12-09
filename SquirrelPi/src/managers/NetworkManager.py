@@ -5,7 +5,7 @@ import time
 
 class NetworkManager:
     def __init__(self):
-        self.host = 'localhost'
+        self.host = '10.5.5.1'
         self.port = 10004
         self.backlog = 5
         self.size = 2048
