@@ -2,7 +2,7 @@
 
 class CameraController():
     
-    def init(self, networkManager, cameraManager):
+    def __init__(self, networkManager, cameraManager):
         self.networkManager = networkManager
         self.cameraManager = cameraManager
         

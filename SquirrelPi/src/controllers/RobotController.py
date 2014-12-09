@@ -2,13 +2,13 @@
 
 class RobotController():
     
-    def init(self, networkManager, sensorManager, motorManager):
+    def __init__(self, networkManager, sensorManager, motorManager):
         self.networkManager = networkManager
         self.sensorManager = sensorManager
         self.motorManager = motorManager
         self.driveCommand = "STOP"
         self.cameraCommand = "STOP"
-        self.sensorData = self.sensorManager.readSensorData()
+        self.sensorData = self.sensorManager.updateSensorData()
         self.heartbeatCounter = 100
         
     def run(self):

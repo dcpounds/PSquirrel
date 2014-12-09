@@ -1,5 +1,5 @@
 
-class Sensor():
+class Sensor(object):
     
     def __init__(self, sensorType, ID, pin):
         self.sensorType = sensorType
