@@ -7,6 +7,7 @@ import java.awt.EventQueue;
 import java.io.IOException;
 
 import org.projectsquirrel.controllers.NetworkManager;
+import org.projectsquirrel.debug.DebugWindow;
 import org.projectsquirrel.views.MainView;
 
 /**
@@ -28,8 +29,10 @@ public class ProjectSquirrel {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainView window = new MainView();
-					window.getFrame().setVisible(true);
+					MainView mainWindow = new MainView();
+					mainWindow.getFrame().setVisible(true);
+					DebugWindow debugWindow = new DebugWindow();
+					debugWindow.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

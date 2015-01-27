@@ -1,5 +1,6 @@
 package org.projectsquirrel.views;
 
+import java.awt.Container;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -31,7 +32,7 @@ import java.awt.Dimension;
 
 public class MainView {
 
-	private JFrame frmProjectSquirrelController;
+	private JFrame window;
 
 	/**
 	 * Create the application.
@@ -44,26 +45,28 @@ public class MainView {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmProjectSquirrelController = new JFrame();
-		frmProjectSquirrelController.setMinimumSize(new Dimension(950, 850));
-		frmProjectSquirrelController.setTitle("Project Squirrel Controller");
-		frmProjectSquirrelController.setBounds(100, 100, 942, 596);
-		frmProjectSquirrelController.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmProjectSquirrelController.getContentPane().setLayout(
-				new MigLayout("", "[grow][]", "[66%][34%]"));
+		window = new JFrame();
+		Container contentPane = window.getContentPane();
+		
+		//frmProjectSquirrelController.setMinimumSize(new Dimension(950, 850));
+		window.setTitle("Project Squirrel Controller");
+		window.setBounds(100, 100, 942, 596);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		contentPane.setLayout(new MigLayout("", "[grow][]", "[66%][34%]"));
 
+		
 		JPanel cameraPanel = new CameraView();
-		frmProjectSquirrelController.getContentPane().add(cameraPanel, "cell 0 0 2 1,grow");
+		contentPane.add(cameraPanel, "cell 0 0 2 1,grow");
 
 		JPanel infoPanel = new InfoView();
-		frmProjectSquirrelController.getContentPane().add(infoPanel, "cell 0 1,grow");
+		contentPane.add(infoPanel, "cell 0 1,grow");
 
 		JPanel controlPanel = new ControlView();
-		frmProjectSquirrelController.getContentPane().add(controlPanel, "cell 1 1,grow");
+		contentPane.add(controlPanel, "cell 1 1,grow");
 	}
 
 	public JFrame getFrame() {
-		return frmProjectSquirrelController;
+		return window;
 	}
 
 }

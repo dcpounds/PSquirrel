@@ -1,8 +1,8 @@
 from src.sensors.sensor import Sensor
 
-class Current(Sensor):
+class LimitSwitch(Sensor):
     """
-    Class representing a current sensor.
+    Class representing a limit switch.
     """
     
     def __init__(self, ID, pin):
@@ -12,7 +12,7 @@ class Current(Sensor):
         ID - id number of sensor
         pin - pin sensor is attached to
         """
-        super(Current, self).__init__("CURRENT", ID, pin)
+        super(LimitSwitch, self).__init__("LIMITSWITCH", ID, pin)
     
     def updateValue(self):
         """
