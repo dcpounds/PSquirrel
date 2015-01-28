@@ -52,7 +52,7 @@ public class MainView {
 		window.setTitle("Project Squirrel Controller");
 		window.setBounds(100, 100, 942, 596);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		contentPane.setLayout(new MigLayout("", "[grow][]", "[66%][34%]"));
+		contentPane.setLayout(new MigLayout("", "[grow][]", "[50%][50%]"));
 
 		
 		JPanel cameraPanel = new CameraView();

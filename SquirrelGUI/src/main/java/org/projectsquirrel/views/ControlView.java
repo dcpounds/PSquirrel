@@ -18,33 +18,46 @@ public class ControlView extends JPanel {
 
 	private static final long serialVersionUID = -4398392847750945455L;
 
-	private JButton btnReleaseClaws = new JButton("Release Claws");
-	private JButton robotLeftBtn = new JButton("Left");
-	private JButton robotUpBtn = new JButton("Up");
-	private JButton robotDownBtn = new JButton("Down");
-	private JButton robotRightBtn = new JButton("Right");
-	private JButton cameraDownBtn = new JButton("Down");
-	private JButton cameraUpBtn = new JButton("Up");
+	private JButton btnReleaseClaws;
+	private JButton robotLeftBtn;
+	private JButton robotUpBtn;
+	private JButton robotDownBtn;
+	private JButton robotRightBtn;
+	private JButton cameraDownBtn;
+	private JButton cameraUpBtn;
 
-	private JLabel lblCameraControls = new JLabel("Camera Controls");
-	private JLabel lblRobotControls = new JLabel("Robot Controls");
+	private JLabel lblCameraControls;
+	private JLabel lblRobotControls;
 
 	/**
 	 * Sets up the layout for the panel, then adds in the action listeners.
 	 */
 	public ControlView() {
+		
+
+		lblRobotControls = new JLabel("Robot Controls");
+		lblRobotControls.setFont(new Font("Tahoma", Font.PLAIN, 18));
+
+		btnReleaseClaws = new JButton("Release Claws");
+		robotLeftBtn = new JButton("\u2190");
+		robotUpBtn = new JButton("\u2191");
+		robotDownBtn = new JButton("\u2193");
+		robotRightBtn = new JButton("\u2192");
+		
+		lblCameraControls = new JLabel("Camera Controls");
+		lblCameraControls.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		cameraDownBtn = new JButton("\u2193");
+		cameraUpBtn = new JButton("\u2191");
+
+
 		setLayout(new MigLayout("", "[grow][grow][grow][grow]", "[grow][grow][grow][grow][grow]"));
+
 		add(lblCameraControls, "cell 0 0,alignx center,aligny center");
-		
-				lblCameraControls.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		add(lblRobotControls, "cell 1 0 3 1,alignx center,aligny center");
-		
-				lblRobotControls.setFont(new Font("Tahoma", Font.PLAIN, 18));
-
 		add(cameraUpBtn, "cell 0 1,grow");
-
-		add(btnReleaseClaws, "cell 2 1,grow");
 		add(cameraDownBtn, "cell 0 2,grow");
+		
+		add(lblRobotControls, "cell 1 0 3 1,alignx center,aligny center");
+		add(btnReleaseClaws, "cell 2 1,grow");
 		add(robotLeftBtn, "cell 1 4,grow");
 		add(robotUpBtn, "cell 2 3,grow");
 		add(robotDownBtn, "cell 2 4,grow");
