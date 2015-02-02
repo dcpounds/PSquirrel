@@ -1,4 +1,4 @@
-class CameraManager():
+class CameraStreamManager():
     """Class for receiving frames from the camera"""
     
     def __init__(self):

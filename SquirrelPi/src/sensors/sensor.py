@@ -22,6 +22,9 @@ class Sensor(object):
         Update the internally stored value for the sensor.
         """
         self.value = -1
+        
+    def readValue(self):
+        return self.value
     
     def toDict(self):
         """

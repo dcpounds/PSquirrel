@@ -3,6 +3,8 @@ class Motor():
     """
     Class representing a motor.
     """
+    CW = 0
+    CCW = 255
     
     def __init__(self, pin):
         """
@@ -11,6 +13,11 @@ class Motor():
         pin - pin the motor is attached to
         """
         self.pin = pin
+        
+    def stop(self):
+        """
+        stops motor
+        """
         
     def write(self, direction, speed):
         """

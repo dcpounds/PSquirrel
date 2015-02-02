@@ -12,11 +12,11 @@ class RobotController():
         
         networkManager - manager for sending and receiving packets
         sensorManager - manager for reading the sensor data
-        motorManager - manager for driving the motors based on given drive commands
+        driveMotorManager - manager for driving the motors based on given drive commands
         """
         self.networkManager = networkManager
         self.sensorManager = sensorManager
-        self.motorManager = motorManager
+        self.driveMotorManager = motorManager
         self.driveCommand = "STOP"
         self.cameraCommand = "STOP"
         self.sensorData = self.sensorManager.updateSensorData()
@@ -41,5 +41,6 @@ class RobotController():
                 if command['commandType'] == 'CAMERA':
                     self.cameraCommand = command['command']
             self.sensorData = self.sensorManager.updateSensorData()
-            self.motorManager.driveMotors(self.driveCommand, self.cameraCommand)
+            self.driveMotorManager.driveMotor(self.driveCommand)
+            self.cameraMotorManager.driveMotor(self.cameraCommand)
                 
