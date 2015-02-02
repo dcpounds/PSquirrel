@@ -48,7 +48,7 @@ class DriveMotorManager():
         
         distance - specified half (TOP or BOTTOM)
         """
-        #PID stuff
+        #PID stuff?
         pass
     
     def attachClaws(self, robotHalf):
