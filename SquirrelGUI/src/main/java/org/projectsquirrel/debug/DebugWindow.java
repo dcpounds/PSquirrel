@@ -52,7 +52,7 @@ public class DebugWindow extends JFrame {
 
 	public DebugWindow(){
 		setTitle("Project Squirrel GUI Debugger");
-		setBounds(1042, 100, 300, 596);
+		setBounds(950, 75, 300, 625);
 
 		debugView = new JPanel();
 

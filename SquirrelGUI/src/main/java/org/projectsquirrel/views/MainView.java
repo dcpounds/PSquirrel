@@ -50,7 +50,7 @@ public class MainView {
 		
 		//frmProjectSquirrelController.setMinimumSize(new Dimension(950, 850));
 		window.setTitle("Project Squirrel Controller");
-		window.setBounds(100, 100, 942, 596);
+		window.setBounds(200, 75, 700, 625);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane.setLayout(new MigLayout("", "[grow][]", "[50%][50%]"));
 
@@ -61,7 +61,7 @@ public class MainView {
 		JPanel infoPanel = new InfoView();
 		contentPane.add(infoPanel, "cell 0 1,grow");
 
-		JPanel controlPanel = new ControlView();
+		JPanel controlPanel = new ControlPanel();
 		contentPane.add(controlPanel, "cell 1 1,grow");
 	}
 

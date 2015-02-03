@@ -36,12 +36,11 @@ public class SonarPanel extends JPanel {
     private JProgressBar sonarBot;
 
 	public SonarPanel() {
-		setBorder(new LineBorder(Color.LIGHT_GRAY));
 
 		JLabel label = new JLabel("Sonar");
 		
 		sonarTop = new JProgressBar();
-		sonarTop.setSize(new Dimension(14, 100));
+		sonarTop.setSize(new Dimension(14, 40));
 		sonarTop.setOrientation(SwingConstants.VERTICAL);
 		sonarTop.setValue(0);
 		sonarTop.setBorder(new LineBorder(Color.BLACK));
@@ -53,7 +52,7 @@ public class SonarPanel extends JPanel {
 		sonarRobotPlaceHolder.setSize(new Dimension(14, 14));
 		
 		sonarBot = new JProgressBar();
-		sonarBot.setSize(new Dimension(14, 100));
+		sonarBot.setSize(new Dimension(14, 40));
 		sonarBot.setOrientation(SwingConstants.VERTICAL);
 		sonarBot.setValue(100);
 		sonarBot.setBorder(new LineBorder(Color.BLACK));

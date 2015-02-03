@@ -1,6 +1,7 @@
 package org.projectsquirrel.views;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JButton;
@@ -14,7 +15,7 @@ import org.projectsquirrel.controllers.SendCommandController;
 import org.projectsquirrel.models.Command;
 import org.projectsquirrel.models.CommandType;
 
-public class ControlView extends JPanel {
+public class ControlPanel extends JPanel {
 
 	private static final long serialVersionUID = -4398392847750945455L;
 
@@ -32,36 +33,45 @@ public class ControlView extends JPanel {
 	/**
 	 * Sets up the layout for the panel, then adds in the action listeners.
 	 */
-	public ControlView() {
+	public ControlPanel() {
 		
 
 		lblRobotControls = new JLabel("Robot Controls");
 		lblRobotControls.setFont(new Font("Tahoma", Font.PLAIN, 18));
 
+		Dimension buttonDimension = new Dimension(15, 30);
 		btnReleaseClaws = new JButton("Release Claws");
 		robotLeftBtn = new JButton("\u2190");
+		robotLeftBtn.setSize(buttonDimension);
 		robotUpBtn = new JButton("\u2191");
+		robotLeftBtn.setSize(buttonDimension);
 		robotDownBtn = new JButton("\u2193");
+		robotLeftBtn.setSize(buttonDimension);
 		robotRightBtn = new JButton("\u2192");
+		robotLeftBtn.setSize(buttonDimension);
 		
 		lblCameraControls = new JLabel("Camera Controls");
 		lblCameraControls.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		cameraDownBtn = new JButton("\u2193");
+		robotLeftBtn.setSize(buttonDimension);
 		cameraUpBtn = new JButton("\u2191");
+		robotLeftBtn.setSize(buttonDimension);
 
+		JPanel robotButtonPanel = new JPanel();
+		setLayout(new MigLayout("", "[]", "[][][][]"));
+		robotButtonPanel.setLayout(new MigLayout("", "[][][]", "[][]"));
 
-		setLayout(new MigLayout("", "[grow][grow][grow][grow]", "[grow][grow][grow][grow][grow]"));
-
-		add(lblCameraControls, "cell 0 0,alignx center,aligny center");
-		add(cameraUpBtn, "cell 0 1,grow");
-		add(cameraDownBtn, "cell 0 2,grow");
+		add(lblCameraControls, "cell 0 0,alignx center,aligny bottom");
+		add(cameraUpBtn, "cell 0 1, flowy, alignx center, aligny top");
+		add(cameraDownBtn, "cell 0 1, flowy, alignx center");
 		
-		add(lblRobotControls, "cell 1 0 3 1,alignx center,aligny center");
-		add(btnReleaseClaws, "cell 2 1,grow");
-		add(robotLeftBtn, "cell 1 4,grow");
-		add(robotUpBtn, "cell 2 3,grow");
-		add(robotDownBtn, "cell 2 4,grow");
-		add(robotRightBtn, "cell 3 4,grow");
+		add(lblRobotControls, "cell 0 2,alignx center,aligny bottom");
+		//add(btnReleaseClaws, "cell 2 1,grow");
+		robotButtonPanel.add(robotUpBtn, "cell 1 0, alignx center, aligny bottom");
+		robotButtonPanel.add(robotLeftBtn, "cell 0 1, alignx right, aligny top");
+		robotButtonPanel.add(robotDownBtn, "cell 1 1, alignx center, aligny top");
+		robotButtonPanel.add(robotRightBtn, "cell 2 1, alignx left, aligny top");
+		add(robotButtonPanel, "cell 0 3, alignx center, aligny top");
 
 		addButtonActionListeners();
 	}
