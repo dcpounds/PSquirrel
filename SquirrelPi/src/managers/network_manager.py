@@ -9,15 +9,15 @@ class NetworkManager:
     and receiving commands from network.
     """
     
-    def __init__(self):
+    def __init__(self, host, port, size):
         """
         Initializes the network manager.
         TODO: parameterize the host and port number
         """
-        self.host = '10.5.5.1'
-        self.port = 10004
+        self.host = host
+        self.port = port
         self.backlog = 5
-        self.size = 2048
+        self.size = size
         self.server = None
         self.client = None
         self.clientAddress = None
@@ -34,8 +34,6 @@ class NetworkManager:
                 self.server.close()
             print "Could not open socket: " + message
             sys.exit(1)
-        
-        
 
     def close(self):
         """
@@ -92,35 +90,6 @@ class NetworkManager:
         Check to see if there is a drive command ready to be received
         """
         return False
-    
-    def run(self):
-        sensorData = {"sensorData":[{"sensorType":"ENCODER", 
-                                     "number":0, 
-                                     "value":100},
-                                    {"sensorType":"POTENTIOMETER", 
-                                     "number":0,
-                                     "value":100}]}
-        while 1:
-            data = self.receiveCommand()
-            time.sleep(0.01)
-            if data:
-                print data
-                self.sendSensorData(sensorData)
         
-if __name__ == "__main__":
-    """main loop that just echoes sensor data back for received commands"""
-    sensorData = {"sensorData":[{"sensorType":"ENCODER", 
-                                 "number":0, 
-                                 "value":100},
-                                {"sensorType":"POTENTIOMETER", 
-                                 "number":0,
-                                 "value":100}]}
-    s = NetworkManager()
-    while 1:
-        data = s.receiveCommand()
-        time.sleep(0.01)
-        if data:
-            print data
-            s.sendSensorData(sensorData)
 
-#{"sensorData":[{"type":"ENCODER","number":0,"value":0},{"type":"ENCODER","number":0,"value":0},{"type":"POTENTIOMETER","number":0,"value":0}]}
+                #{"sensorData":[{"type":"ENCODER","number":0,"value":0},{"type":"ENCODER","number":0,"value":0},{"type":"POTENTIOMETER","number":0,"value":0}]}

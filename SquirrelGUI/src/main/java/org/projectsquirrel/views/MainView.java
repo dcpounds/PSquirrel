@@ -55,7 +55,7 @@ public class MainView {
 		contentPane.setLayout(new MigLayout("", "[grow][]", "[50%][50%]"));
 
 		
-		JPanel cameraPanel = new CameraView();
+		JPanel cameraPanel = new CameraPanel();
 		contentPane.add(cameraPanel, "cell 0 0 2 1,grow");
 
 		JPanel infoPanel = new InfoView();
