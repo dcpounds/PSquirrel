@@ -24,7 +24,7 @@ public class ProjectSquirrel {
 	 */
 	public static void main(String[] args) {
 		try {
-			NetworkManager.initialize("localhost", 9030, 9031);
+			NetworkManager.initialize("localhost", 9006, 9007);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -36,7 +36,7 @@ public class ProjectSquirrel {
 					try {
 						imageBuf = NetworkManager.receiveCameraPacket();
 						if(imageBuf != null){
-							CameraController.updateCameraPanel(imageBuf);
+							//CameraController.updateCameraPanel(imageBuf);
 							System.out.println("received: " + imageBuf.toString());
 						} else {
 							System.out.println("no luck");

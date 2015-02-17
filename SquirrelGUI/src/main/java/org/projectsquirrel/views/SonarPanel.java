@@ -37,15 +37,19 @@ public class SonarPanel extends JPanel {
 
 	public SonarPanel() {
 
-		JLabel label = new JLabel("Sonar");
+		JLabel label = new JLabel("Clearance");
+		Color BROWN = new Color(97, 65, 38);
 		
+		
+
 		sonarTop = new JProgressBar();
 		sonarTop.setSize(new Dimension(14, 40));
 		sonarTop.setOrientation(SwingConstants.VERTICAL);
 		sonarTop.setValue(0);
-		sonarTop.setBorder(new LineBorder(Color.BLACK));
+		sonarTop.setBorder(new LineBorder(BROWN));
+		//sonarTop.setBorderPainted(false);
 		sonarTop.setForeground(Color.GREEN);
-		sonarTop.setBackground(Color.RED);
+		sonarTop.setBackground(BROWN);
 		
 		JPanel sonarRobotPlaceHolder = new JPanel();
 		sonarRobotPlaceHolder.setBackground(Color.BLACK);
@@ -55,8 +59,9 @@ public class SonarPanel extends JPanel {
 		sonarBot.setSize(new Dimension(14, 40));
 		sonarBot.setOrientation(SwingConstants.VERTICAL);
 		sonarBot.setValue(100);
-		sonarBot.setBorder(new LineBorder(Color.BLACK));
-		sonarBot.setForeground(Color.RED);
+		sonarBot.setBorder(new LineBorder(BROWN));
+		//sonarBot.setBorderPainted(false);
+		sonarBot.setForeground(BROWN);
 		sonarBot.setBackground(Color.GREEN);;
 
 		setLayout(new MigLayout("", "[]", "[][][][]"));

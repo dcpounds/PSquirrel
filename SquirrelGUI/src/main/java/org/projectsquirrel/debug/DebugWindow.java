@@ -112,11 +112,11 @@ public class DebugWindow extends JFrame {
 		
 		topSonar = new JTextField("0");
 		topSonar.setColumns(3);
-		topLabel = new JLabel("Top Sonar:");
+		topLabel = new JLabel("Top Clearance:");
 
 		botSonar = new JTextField("0");
 		botSonar.setColumns(3);
-		botLabel = new JLabel("Bottom Sonar:");
+		botLabel = new JLabel("Bottom Clearance:");
 
 		KeyListener sonarKeyListener= new KeyListener() {
 			@Override

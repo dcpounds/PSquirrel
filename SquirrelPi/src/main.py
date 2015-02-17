@@ -4,7 +4,6 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."));
 import multiprocessing as mp
 from src.controllers import camera_controller
 from src.controllers import robot_controller
-from src.managers import drive_motor_manager
 from src.managers import network_manager
 from src.managers import sensor_manager
 
@@ -16,8 +15,8 @@ def main():
     """
     
     host = 'localhost'
-    mainPort = 9030
-    cameraPort = 9031
+    mainPort = 9006
+    cameraPort = 9007
     bufSize = 8192
     
     mainNetworkManager = network_manager.NetworkManager(host, mainPort, bufSize)

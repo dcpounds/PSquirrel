@@ -106,6 +106,8 @@ public class RobotSkeletonFront extends JPanel{
 		//y coordinate of Back-left corner of lower segment 
 		double y11 = y1-width/2*Math.cos(-1*robotAngle)-height/2*Math.sin(-1*robotAngle);
 
+		g.setColor(new Color(97, 65, 38));
+		g.fillRect(getWidth()/4, 0, getWidth()/2, getHeight());
 
 		g.setColor(color);
 		int nPoints = 4;

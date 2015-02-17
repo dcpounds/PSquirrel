@@ -2,6 +2,8 @@ package org.projectsquirrel.controllers;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,6 +11,10 @@ import java.io.PrintWriter;
 import java.net.DatagramSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.Base64;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -23,6 +29,7 @@ public class NetworkManager {
 	private static PrintWriter mainOut;
 	private static BufferedReader mainIn;
 	private static InputStream cameraStream;
+	private static BufferedReader cameraIn;
 	private static String ip;
 	private static int mainPort;
 	private static int cameraPort;
@@ -39,13 +46,15 @@ public class NetworkManager {
 		NetworkManager.cameraPort = cameraPort;
 		isInitialized = true;
 
-		mainSocket = new Socket(ip, mainPort);
+		mainSocket = new Socket(ip, mainPort);	
 		cameraSocket = new Socket(ip, cameraPort);
 		mainOut = new PrintWriter(mainSocket.getOutputStream(), true);
 		mainIn = new BufferedReader(new InputStreamReader(
 				mainSocket.getInputStream()));
 		
-		cameraStream = cameraSocket.getInputStream();
+		cameraStream = new DataInputStream(cameraSocket.getInputStream());
+		cameraIn = new BufferedReader(new InputStreamReader(
+				cameraStream));
 	}
 
 	public static void close() throws IOException {
@@ -74,8 +83,21 @@ public class NetworkManager {
 	NetworkUninitializedException {
 		if (!isInitialized) {
 			throw new NetworkUninitializedException();
-		}
-		return ImageIO.read(cameraStream);
+		} 
+
+		// Read the prefixed size
+		byte [] sizeBuf = new byte[10];
+		cameraStream.read(sizeBuf);
+        int size = Integer.parseInt(new String(sizeBuf, Charset.forName("UTF-8")));
+        
+        byte[] imageBuf = new byte[size];
+        System.out.println(cameraStream.read(imageBuf));
+        System.out.println(new String(imageBuf, Charset.forName("UTF-8")));
+        byte[] bytearray = Base64.getDecoder().decode(imageBuf);
+        
+		BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytearray));
+		
+		return image;
 	}
 
 
@@ -97,3 +119,5 @@ public class NetworkManager {
 
 
 }
+
+

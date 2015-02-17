@@ -53,9 +53,9 @@ public class ControlPanel extends JPanel {
 		lblCameraControls = new JLabel("Camera Controls");
 		lblCameraControls.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		cameraDownBtn = new JButton("\u2193");
-		robotLeftBtn.setSize(buttonDimension);
+		cameraDownBtn.setSize(buttonDimension);
 		cameraUpBtn = new JButton("\u2191");
-		robotLeftBtn.setSize(buttonDimension);
+		cameraUpBtn.setSize(buttonDimension);
 
 		JPanel robotButtonPanel = new JPanel();
 		setLayout(new MigLayout("", "[]", "[][][][]"));
