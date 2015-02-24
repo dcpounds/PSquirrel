@@ -27,7 +27,7 @@ class CameraController():
                 with open("../resources/test2.jpeg", 'r') as image2:
                     img1 = image1.read()
                     self.networkManager.client.send("{:0>10}".format(str(len(img1))))
-                    self.networkManager.client.send(base64.b64encode(img1))
+                    self.networkManager.client.send(img1)
                     print "sending 1"
                     print base64.b64encode(img1)
                     time.sleep(0.5);
@@ -35,7 +35,7 @@ class CameraController():
                     print "sending 2"
                     img2 = image2.read()
                     self.networkManager.client.send("{:0>10}".format(str(len(img2))))
-                    self.networkManager.client.send(base64.b64encode(img2))
+                    self.networkManager.client.send(img2)
                     print base64.b64encode(img2)
                     time.sleep(0.5);
                 

@@ -15,8 +15,8 @@ def main():
     """
     
     host = 'localhost'
-    mainPort = 9006
-    cameraPort = 9007
+    mainPort = 9003
+    cameraPort = 9004
     bufSize = 8192
     
     mainNetworkManager = network_manager.NetworkManager(host, mainPort, bufSize)

@@ -20,6 +20,7 @@ import java.awt.Component;
 
 import javax.swing.JLabel;
 
+import org.projectsquirrel.controllers.CameraController;
 import org.projectsquirrel.controllers.NetworkManager;
 import org.projectsquirrel.models.Sensor;
 import org.projectsquirrel.models.SensorPacket;
@@ -52,17 +53,17 @@ public class MainView {
 		window.setTitle("Project Squirrel Controller");
 		window.setBounds(200, 75, 700, 625);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		contentPane.setLayout(new MigLayout("", "[grow][]", "[50%][50%]"));
+		contentPane.setLayout(new MigLayout("", "[grow][]", "[][]"));
 
 		
-		JPanel cameraPanel = new CameraPanel();
-		contentPane.add(cameraPanel, "cell 0 0 2 1,grow");
+		JPanel cameraPanel = CameraController.getCameraPanel();
+		contentPane.add(cameraPanel, "cell 0 0, grow");
 
 		JPanel infoPanel = new InfoView();
-		contentPane.add(infoPanel, "cell 0 1,grow");
+		contentPane.add(infoPanel, "cell 0 1, grow");
 
 		JPanel controlPanel = new ControlPanel();
-		contentPane.add(controlPanel, "cell 1 1,grow");
+		contentPane.add(controlPanel, "cell 1 0 1 2, grow");
 	}
 
 	public JFrame getFrame() {

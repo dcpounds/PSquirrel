@@ -3,6 +3,8 @@ package org.projectsquirrel.views.robotDisplay;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -20,6 +22,7 @@ public class RobotSkeletonSide extends JPanel{
 	double len = 98; //length of robot body in mm
 	double height= 152; //height of robot body in mm
 	double scale = 3; 	//scale: 1 -> 1 pixel/mm
+	boolean isTopAttached;
 	Color color;
 	/**
 	 * @param alpha		pitch angle of the ball joint
@@ -32,6 +35,7 @@ public class RobotSkeletonSide extends JPanel{
 		topHeight /= scale;
 		height /= scale;
 		len /= scale;
+		isTopAttached = true;
 		update(robotAngle, bendAngle, extend, color);
 	}
 	
@@ -41,6 +45,20 @@ public class RobotSkeletonSide extends JPanel{
 		this.bendAngle = (-1*bendAngle) * 3.14159/180;
 		this.extend = extend/scale;
 		this.color = color;
+		repaint();
+	}
+	
+	public void updateClaws(List<Integer> attachedClaws){
+		int top = 0;
+		int bot = 0;
+		for(Integer claw : attachedClaws){
+			if(claw <= 4){
+				top++;
+			} else {
+				bot++;
+			}
+		}
+		isTopAttached = top >= bot? true: false;
 		repaint();
 	}
 	
@@ -107,7 +125,11 @@ public class RobotSkeletonSide extends JPanel{
 		double y11 = y1-len/2*Math.cos(-1*robotAngle)-height/2*Math.sin(-1*robotAngle);
 
 		g.setColor(new Color(97, 65, 38));
-		g.fillRect(getWidth()/2 + 7, 0, getWidth(), getHeight());
+		double treeAngle = isTopAttached? robotAngle + bendAngle: robotAngle;
+		int offset = (int)(getHeight()/2/Math.tan(treeAngle));
+		int[] xPoints0 = {getWidth()/2 + offset + 7, getWidth() + offset + 7, getWidth() - offset + 7, getWidth()/2 - offset + 7};
+		int[] yPoints0 = {0, 0, getHeight(), getHeight()};
+		g.fillPolygon(xPoints0, yPoints0, 4);
 		
 		g.setColor(color);
 		int nPoints = 4;

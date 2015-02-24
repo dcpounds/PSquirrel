@@ -65,14 +65,6 @@ class NetworkManager:
         {"cameFrame": <encodedFrame>}
         """
         self.client.send(cameraFrame + "\n")
-        
-    def sendHeartbeatSignal(self, signal):
-        """
-        Sends a JSON encoded heart beat signal to the network.
-        
-        signal - signal to be sent of form:
-        {"heartbeat": <signal>}
-        """
 
     def receiveCommand(self):
         """

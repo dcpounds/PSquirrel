@@ -61,5 +61,6 @@ public class RobotPanel extends JPanel {
 
 	public void updateClaws(List<Integer> attachedClaws){
 		this.robotFrontPanel.updateClaws(attachedClaws);
+		this.robotSidePanel.updateClaws(attachedClaws);
 	}
 }

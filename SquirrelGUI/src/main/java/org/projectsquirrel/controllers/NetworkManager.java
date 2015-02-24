@@ -91,11 +91,8 @@ public class NetworkManager {
         int size = Integer.parseInt(new String(sizeBuf, Charset.forName("UTF-8")));
         
         byte[] imageBuf = new byte[size];
-        System.out.println(cameraStream.read(imageBuf));
-        System.out.println(new String(imageBuf, Charset.forName("UTF-8")));
-        byte[] bytearray = Base64.getDecoder().decode(imageBuf);
-        
-		BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytearray));
+        cameraStream.read(imageBuf);
+		BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBuf));
 		
 		return image;
 	}

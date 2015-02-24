@@ -1,5 +1,6 @@
 package org.projectsquirrel.views;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.border.BevelBorder;
@@ -28,38 +29,21 @@ public class CameraPanel extends JPanel {
 	
 	private static final long serialVersionUID = 6507516338199185322L;
 	
-	private JPanel cameraPanel;
+	private JLabel picture = new JLabel();
 	private BufferedImage image;
 	
 	public CameraPanel() {
-		setLayout(new MigLayout("", "[grow][]", "[grow]"));
-
-		cameraPanel = new JPanel();
-		cameraPanel.setBackground(Color.GRAY);
-		image = null;
-		cameraPanel.setPreferredSize(new Dimension(480, 360));
-		add(cameraPanel, "cell 0 0, alignx left, aligny center");
-		
-		ConnectionPanel connectionPanel = ConnectionPanelController.getConnectionPanel();
-		add(connectionPanel, "flowy,cell 1 0, alignx center, aligny top, flowy");
-		
-		BatteryPanel batteryPanel = BatteryPanelController.getBatteryPanel();
-		add(batteryPanel, "flowy,cell 1 0, alignx center, aligny top, flowy");
+		setLayout(new MigLayout("", "[grow]", "[grow]"));
+		setPreferredSize(new Dimension(480, 360));
+		setMinimumSize(new Dimension(360, 270));
+		add(picture, "cell 0 0, alignx left, aligny center");
 	}
 	
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if(image != null){
-        	g.drawImage(image, 0, 0, null);
-        }
-    }
     
 	/**
 	 * Updates the view with the new camera frame to display
 	 */
 	public void update(BufferedImage image){
-		this.image = image;
-		repaint();
+		picture.setIcon(new ImageIcon(image));
 	}
 }
