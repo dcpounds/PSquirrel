@@ -1,8 +1,8 @@
 import base64
+import io
 import time
 import picamera
 import picamera.array
-import cv2
 
 
 
@@ -30,12 +30,22 @@ class CameraController():
     
         
         with picamera.PiCamera() as camera:
+            stream = io.BytesIO()
+            camera.resolution = (512, 384)
             camera.start_preview()
             while 1:
-                camera.capture(self.networkManager.client, format='bgr')
-                time.sleep(.03)
+                stream.seek(0)
+                camera.capture(stream, format='jpeg', use_video_port=True)
+                stream.seek(0)
+                img = stream.read()
+                self.networkManager.client.send("{:0>10}".format(str(len(img))))
+                print "{:0>10}".format(str(len(img)))
+                self.networkManager.client.send(img)
             
             """
+            
+            test stream
+            
             with open("../resources/test1.jpeg", 'r') as image1:
                 with open("../resources/test2.jpeg", 'r') as image2:
                     img1 = image1.read()

@@ -85,13 +85,16 @@ public class NetworkManager {
 			throw new NetworkUninitializedException();
 		} 
 
-		// Read the prefixed size
+		// Read the prefixed sizeou
 		byte [] sizeBuf = new byte[10];
 		cameraStream.read(sizeBuf);
         int size = Integer.parseInt(new String(sizeBuf, Charset.forName("UTF-8")));
         
         byte[] imageBuf = new byte[size];
-        cameraStream.read(imageBuf);
+        int bytesRead = 0;
+        while(bytesRead < size){
+        	bytesRead += cameraStream.read(imageBuf, bytesRead, size-bytesRead);
+        }
 		BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBuf));
 		
 		return image;

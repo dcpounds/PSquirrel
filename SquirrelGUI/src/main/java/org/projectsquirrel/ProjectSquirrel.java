@@ -24,7 +24,7 @@ public class ProjectSquirrel {
 	 */
 	public static void main(String[] args) {
 		try {
-			NetworkManager.initialize("localhost", 9003, 9004);
+			NetworkManager.initialize("10.5.5.1", 9003, 9004);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -37,14 +37,8 @@ public class ProjectSquirrel {
 						imageBuf = NetworkManager.receiveCameraPacket();
 						if(imageBuf != null){
 							CameraController.updateCameraPanel(imageBuf);
-							System.out.println("received: " + imageBuf.toString());
-						} else {
-							System.out.println("no luck");
 						}
-						Thread.sleep(200);
 					} catch (IOException | NetworkUninitializedException e) {
-						e.printStackTrace();
-					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}

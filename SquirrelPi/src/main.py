@@ -14,7 +14,7 @@ def main():
     Creates a subprocess for each controller and runs them separately
     """
     
-    host = 'localhost'
+    host = '10.5.5.1'
     mainPort = 9003
     cameraPort = 9004
     bufSize = 8192
