@@ -7,6 +7,8 @@ import java.io.IOException;
 import org.projectsquirrel.models.Command;
 import org.projectsquirrel.models.CommandPacket;
 import org.projectsquirrel.models.CommandType;
+import org.projectsquirrel.network.NetworkUninitializedException;
+import org.projectsquirrel.network.SocketManager;
 
 public class SendCommandController implements ActionListener {
 
@@ -19,8 +21,8 @@ public class SendCommandController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		try {
-			NetworkManager.sendCommandPacket(commandPacket);
-			System.out.println(NetworkManager.receiveSensorPacket().toJson());
+			SocketManager.sendCommandPacket(commandPacket);
+			System.out.println(SocketManager.receiveSensorPacket().toJson());
 		} catch (NetworkUninitializedException e) {
 			System.out
 					.println("cannot send command without initializing network");

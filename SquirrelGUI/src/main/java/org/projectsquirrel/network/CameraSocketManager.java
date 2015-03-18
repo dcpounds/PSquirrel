@@ -1,4 +1,4 @@
-package org.projectsquirrel.controllers;
+package org.projectsquirrel.network;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -22,35 +22,26 @@ import javax.swing.ImageIcon;
 import org.projectsquirrel.models.CommandPacket;
 import org.projectsquirrel.models.SensorPacket;
 
-public class NetworkManager {
-	private static NetworkManager instance = new NetworkManager();
-	private static Socket mainSocket;
+public class CameraSocketManager {
+	private static CameraSocketManager instance = new CameraSocketManager();
 	private static Socket cameraSocket;
-	private static PrintWriter mainOut;
-	private static BufferedReader mainIn;
 	private static InputStream cameraStream;
 	private static BufferedReader cameraIn;
 	private static String ip;
-	private static int mainPort;
 	private static int cameraPort;
 	private static boolean isInitialized;
 
-	private NetworkManager() {
+	private CameraSocketManager() {
 	}
 
 	// TODO add errors for uninitialized network
-	public static void initialize(String ip, int mainPort, int cameraPort)
+	public static void initialize(String ip, int cameraPort)
 			throws UnknownHostException, IOException {
-		NetworkManager.ip = ip;
-		NetworkManager.mainPort = mainPort;
-		NetworkManager.cameraPort = cameraPort;
+		CameraSocketManager.ip = ip;
+		CameraSocketManager.cameraPort = cameraPort;
 		isInitialized = true;
 
-		mainSocket = new Socket(ip, mainPort);	
 		cameraSocket = new Socket(ip, cameraPort);
-		mainOut = new PrintWriter(mainSocket.getOutputStream(), true);
-		mainIn = new BufferedReader(new InputStreamReader(
-				mainSocket.getInputStream()));
 		
 		cameraStream = new DataInputStream(cameraSocket.getInputStream());
 		cameraIn = new BufferedReader(new InputStreamReader(
@@ -58,25 +49,7 @@ public class NetworkManager {
 	}
 
 	public static void close() throws IOException {
-		mainSocket.close();
 		cameraSocket.close();
-	}
-
-	public static void sendCommandPacket(CommandPacket commandPacket)
-			throws NetworkUninitializedException {
-		if (!isInitialized) {
-			throw new NetworkUninitializedException();
-		}
-		mainOut.println(commandPacket.toJson());
-	}
-
-	public static SensorPacket receiveSensorPacket() throws IOException,
-			NetworkUninitializedException {
-		if (!isInitialized) {
-			throw new NetworkUninitializedException();
-		}
-		// while(!in.ready());
-		return SensorPacket.fromJson(mainIn.readLine());
 	}
 	
 	public static BufferedImage receiveCameraPacket() throws IOException,
@@ -101,16 +74,12 @@ public class NetworkManager {
 	}
 
 
-	public static NetworkManager getInstance() {
+	public static CameraSocketManager getInstance() {
 		return instance;
 	}
 
 	public String getIp() {
 		return ip;
-	}
-
-	public int getMainPort() {
-		return mainPort;
 	}
 	
 	public int getCameraPort() {

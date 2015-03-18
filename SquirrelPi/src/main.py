@@ -6,6 +6,7 @@ from src.controllers import camera_controller
 from src.controllers import robot_controller
 from src.managers import network_manager
 from src.managers import sensor_manager
+from src.managers import drive_motor_manager
 
 
 def main():
@@ -23,14 +24,13 @@ def main():
     cameraNetworkManager = network_manager.NetworkManager(host, cameraPort, bufSize)
     
     
-    #sensorManager = sensor_manager()
-    #motorManager = drive_motor_manager(sensorManager)
-    #robotController = robot_controller(networkManager, sensorManager, motorManager)
+    sensorManager = sensor_manager()
+    motorManager = drive_motor_manager(sensorManager)
+    robotController = robot_controller(mainNetworkManager, sensorManager, motorManager)
     cameraController = camera_controller.CameraController(cameraNetworkManager)
     
     #mp.Process(target=cameraController.run)
-    #robotController.run()
-    cameraController.run()
+    robotController.run()
     
 if __name__ == "__main__":
     main()

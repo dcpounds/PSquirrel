@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 import org.projectsquirrel.controllers.BatteryPanelController;
 import org.projectsquirrel.controllers.RobotPanelController;
-import org.projectsquirrel.controllers.SonarPanelController;
+import org.projectsquirrel.controllers.UltrasonicPanelController;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -214,7 +214,7 @@ public class DebugWindow extends JFrame {
 	
 	private void sonarUpdateHelper(){
 		try {
-			SonarPanelController.updateSonar(
+			UltrasonicPanelController.updateSonar(
 					Float.parseFloat(topSonar.getText()),
 					Float.parseFloat(botSonar.getText()));
 		} catch(NumberFormatException e) {

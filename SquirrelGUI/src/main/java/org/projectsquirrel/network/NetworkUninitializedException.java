@@ -1,4 +1,4 @@
-package org.projectsquirrel.controllers;
+package org.projectsquirrel.network;
 
 public class NetworkUninitializedException extends Exception {
 

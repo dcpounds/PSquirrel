@@ -14,7 +14,7 @@ class Potentiometer(Sensor):
         """
         super(Potentiometer, self).__init__("POTENTIOMETER", ID, pin)
     
-    def updateValue(self):
+    def takeReading(self):
         """
         Update the internally stored value for the sensor.
         """

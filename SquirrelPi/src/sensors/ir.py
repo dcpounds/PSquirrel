@@ -14,7 +14,7 @@ class IR(Sensor):
         """
         super(IR, self).__init__("IR", ID, pin)
     
-    def updateValue(self):
+    def takeReading(self):
         """
         Update the internally stored value for the sensor.
         """

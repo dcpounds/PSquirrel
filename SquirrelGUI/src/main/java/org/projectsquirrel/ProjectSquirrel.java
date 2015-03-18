@@ -8,9 +8,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import org.projectsquirrel.controllers.CameraController;
-import org.projectsquirrel.controllers.NetworkManager;
-import org.projectsquirrel.controllers.NetworkUninitializedException;
 import org.projectsquirrel.debug.DebugWindow;
+import org.projectsquirrel.network.CameraSocketManager;
+import org.projectsquirrel.network.NetworkUninitializedException;
+import org.projectsquirrel.network.SocketManager;
 import org.projectsquirrel.views.MainView;
 
 /**
@@ -23,18 +24,20 @@ public class ProjectSquirrel {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		try {
-			NetworkManager.initialize("10.5.5.1", 9003, 9004);
+		/*try {
+			String ip = "localhost";
+			SocketManager.initialize(ip, 9003);
+			CameraSocketManager.initialize(ip, 9004);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 
 		Thread cameraThread = new Thread(){
 			public void run() {
 				BufferedImage imageBuf;
 				while(true){
 					try {
-						imageBuf = NetworkManager.receiveCameraPacket();
+						imageBuf = CameraSocketManager.receiveCameraPacket();
 						if(imageBuf != null){
 							CameraController.updateCameraPanel(imageBuf);
 						}
@@ -55,7 +58,7 @@ public class ProjectSquirrel {
 		}
 
 		cameraThread.setDaemon(true);
-		cameraThread.start();
+		//cameraThread.start();
 		
 		
 	}

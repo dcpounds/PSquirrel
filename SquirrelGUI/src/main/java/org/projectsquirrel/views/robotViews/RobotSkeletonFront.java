@@ -1,4 +1,4 @@
-package org.projectsquirrel.views.robotDisplay;
+package org.projectsquirrel.views.robotViews;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -31,8 +31,8 @@ public class RobotSkeletonFront extends JPanel{
 
 	public void update(double robotAngle, double bendAngle, double extend, Color color){
 		//convert to radians and change direction
-		this.robotAngle = (90-robotAngle) * 3.14159/180;
-		this.bendAngle = (-1*bendAngle) * 3.14159/180;
+		this.robotAngle = Math.toRadians(90-robotAngle);
+		this.bendAngle = Math.toRadians(-1*bendAngle);
 		this.extend = extend/scale;
 		this.color = color;
 		repaint();

@@ -17,13 +17,13 @@ class Sensor(object):
         self.value = -1
         self.pin = pin
         
-    def updateValue(self):
+    def takeReading(self):
         """
         Update the internally stored value for the sensor.
         """
         self.value = -1
         
-    def readValue(self):
+    def getValue(self):
         return self.value
     
     def toDict(self):

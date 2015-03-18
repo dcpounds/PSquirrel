@@ -1,4 +1,4 @@
-package org.projectsquirrel.views.robotDisplay;
+package org.projectsquirrel.views.robotViews;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import org.projectsquirrel.controllers.UltrasonicPanelController;
+
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -25,30 +27,31 @@ import net.miginfocom.swing.MigLayout;
 public class RobotPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	RobotSkeletonFront robotFrontPanel;	//top view of robot
-	RobotSkeletonSide robotSidePanel;	//side view of robot
-	JLabel frontViewLabel;	
-	JLabel sideViewLabel;	
+	private RobotSkeletonFront robotFrontPanel;	//top view of robot
+	private RobotSkeletonSide robotSidePanel;	//side view of robot
+	private UltrasonicPanel ultrasonicPanel;
+	private JLabel frontViewLabel;	
+	private JLabel sideViewLabel;	
+	private JLabel ultrasonicLabel;
 
 	public RobotPanel() {
 
 		frontViewLabel = new JLabel("Front View");
 		sideViewLabel = new JLabel("Side View");
+		ultrasonicLabel = new JLabel("Clearance");
 
 		robotFrontPanel = new RobotSkeletonFront(0,0,0,Color.BLACK);
 		robotSidePanel = new RobotSkeletonSide(0,0,0,Color.BLACK);
+		ultrasonicPanel = UltrasonicPanelController.getUltrasonicPanel();
 
-		JSeparator separator = new JSeparator();
-		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setForeground(new Color(0, 0, 0));
+		setLayout(new MigLayout("", "[][][]", "[]"));
 
-		setLayout(new MigLayout("", "[grow]0[grow]", "[][]"));
-
-		add(separator, "cell 1 0 1 1, alignx center");
-		add(frontViewLabel, "cell 0 0, alignx center, aligny top");
-		add(robotFrontPanel, "cell 0 1, alignx center");
-		add(sideViewLabel, "cell 2 0, alignx center, aligny top");
-		add(robotSidePanel, "cell 2 1, alignx center");
+		add(ultrasonicLabel, "cell 0 0, flowy, alignx center, aligny top");
+		add(ultrasonicPanel, "cell 0 0, flowy, alignx center");
+		add(frontViewLabel, "cell 1 0, flowy, alignx center, aligny top");
+		add(robotFrontPanel, "cell 1 0, flowy, alignx center");
+		add(sideViewLabel, "cell 2 0, flowy, alignx center, aligny top");
+		add(robotSidePanel, "cell 2 0, flowy, alignx center");
 	}
 
 	/**

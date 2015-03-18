@@ -1,4 +1,4 @@
-package org.projectsquirrel.views;
+package org.projectsquirrel.views.cameraViews;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;

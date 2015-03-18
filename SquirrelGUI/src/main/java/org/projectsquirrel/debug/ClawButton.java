@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JToggleButton;
 
 import org.projectsquirrel.controllers.RobotPanelController;
-import org.projectsquirrel.controllers.SonarPanelController;
+import org.projectsquirrel.controllers.UltrasonicPanelController;
 
 /**
  * @author dave

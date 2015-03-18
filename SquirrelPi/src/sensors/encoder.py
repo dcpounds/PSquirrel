@@ -14,7 +14,7 @@ class Encoder(Sensor):
         """
         super(Encoder, self).__init__("ENCODER", ID, pin)
     
-    def updateValue(self):
+    def takeReading(self):
         """
         Update the internally stored value for the sensor.
         """

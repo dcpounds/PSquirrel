@@ -14,7 +14,7 @@ class Gyro(Sensor):
         """
         super(Gyro, self).__init__("GYRO", ID, pin)
     
-    def updateValue(self):
+    def takeReading(self):
         """
         Update the internally stored value for the sensor.
         """

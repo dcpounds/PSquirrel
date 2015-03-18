@@ -5,10 +5,10 @@ package org.projectsquirrel.controllers;
 
 import java.util.List;
 
-import org.projectsquirrel.views.BatteryPanel;
-import org.projectsquirrel.views.ConnectionPanel;
-import org.projectsquirrel.views.SonarPanel;
-import org.projectsquirrel.views.robotDisplay.RobotPanel;
+import org.projectsquirrel.views.controlViews.BatteryPanel;
+import org.projectsquirrel.views.controlViews.ConnectionPanel;
+import org.projectsquirrel.views.robotViews.RobotPanel;
+import org.projectsquirrel.views.robotViews.UltrasonicPanel;
 
 /**
  * @author dave

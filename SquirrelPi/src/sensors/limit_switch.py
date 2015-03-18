@@ -14,7 +14,7 @@ class LimitSwitch(Sensor):
         """
         super(LimitSwitch, self).__init__("LIMITSWITCH", ID, pin)
     
-    def updateValue(self):
+    def takeReading(self):
         """
         Update the internally stored value for the sensor.
         """

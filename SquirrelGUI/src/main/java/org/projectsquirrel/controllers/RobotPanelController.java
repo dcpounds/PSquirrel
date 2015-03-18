@@ -5,7 +5,7 @@ package org.projectsquirrel.controllers;
 
 import java.util.List;
 
-import org.projectsquirrel.views.robotDisplay.RobotPanel;
+import org.projectsquirrel.views.robotViews.RobotPanel;
 
 /**
  * @author dave

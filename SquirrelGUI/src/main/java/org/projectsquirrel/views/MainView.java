@@ -21,10 +21,13 @@ import java.awt.Component;
 import javax.swing.JLabel;
 
 import org.projectsquirrel.controllers.CameraController;
-import org.projectsquirrel.controllers.NetworkManager;
+import org.projectsquirrel.controllers.RobotPanelController;
 import org.projectsquirrel.models.Sensor;
 import org.projectsquirrel.models.SensorPacket;
 import org.projectsquirrel.models.SensorType;
+import org.projectsquirrel.network.SocketManager;
+import org.projectsquirrel.views.controlViews.ControlPanel;
+import org.projectsquirrel.views.robotViews.RobotPanel;
 
 import java.awt.Font;
 import java.io.IOError;
@@ -59,8 +62,8 @@ public class MainView {
 		JPanel cameraPanel = CameraController.getCameraPanel();
 		contentPane.add(cameraPanel, "cell 0 0, grow");
 
-		JPanel infoPanel = new InfoView();
-		contentPane.add(infoPanel, "cell 0 1, grow");
+		JPanel robotPanel = RobotPanelController.getRobotPanel();
+		contentPane.add(robotPanel, "cell 0 1, grow");
 
 		JPanel controlPanel = new ControlPanel();
 		contentPane.add(controlPanel, "cell 1 0 1 2, grow");

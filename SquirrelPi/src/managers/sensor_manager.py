@@ -4,7 +4,7 @@ from src.sensors.current import Current
 from src.sensors.gyro import Gyro
 from src.sensors.ir import IR
 from src.sensors.limit_switch import LimitSwitch
-from src.sensors.sonar import Sonar
+from src.sensors.sonar import Ultrasonic
 
 class SensorManager():
     """
@@ -64,16 +64,16 @@ class SensorManager():
         self.sensors.append(LimitSwitch(6, 0))
         self.sensors.append(LimitSwitch(7, 0))
         self.sensors.append(LimitSwitch(8, 0))
-        self.sensors.append(Sonar(1, 0))
-        self.sensors.append(Sonar(2, 0))
-        
-    def updateSensorData(self):
-        """
-        reads all the sensors and updates internal data
-        """
+        self.sensors.append(Ultrasonic(1, 0))
+        self.sensors.append(Ultrasonic(2, 0))
         for sensor in self.sensors:
-            sensor.updateValue()
-        return {"sensorData":self.sensors}
+            sensor.takeReading()
+        
+    def getRobotStateData(self):
+        """
+        reads all the data about the robot's position, claws attached, and battery
+        """
+        
     
     def getSensor(self, sensorID, sensorType):
         """
@@ -88,7 +88,7 @@ class SensorManager():
             
     def readSensorValue(self, sensorID, sensorType):
         """
-        returns the currently stored data for the given sensor ID and type
+        reads the current sensor data on the robot
         
         sensorType - type of the sensor
         sensorID - id number of the sensor

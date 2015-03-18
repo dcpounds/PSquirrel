@@ -1,4 +1,4 @@
-package org.projectsquirrel.views.robotDisplay;
+package org.projectsquirrel.views.robotViews;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -41,8 +41,8 @@ public class RobotSkeletonSide extends JPanel{
 	
 	public void update(double robotAngle, double bendAngle, double extend, Color color){
 		//convert to radians and change direction
-		this.robotAngle = (90-robotAngle) * 3.14159/180;
-		this.bendAngle = (-1*bendAngle) * 3.14159/180;
+		this.robotAngle = Math.toRadians(90-robotAngle);
+		this.bendAngle = Math.toRadians(-1*bendAngle);
 		this.extend = extend/scale;
 		this.color = color;
 		repaint();
@@ -125,10 +125,24 @@ public class RobotSkeletonSide extends JPanel{
 		double y11 = y1-len/2*Math.cos(-1*robotAngle)-height/2*Math.sin(-1*robotAngle);
 
 		g.setColor(new Color(97, 65, 38));
-		double treeAngle = isTopAttached? robotAngle + bendAngle: robotAngle;
-		int offset = (int)(getHeight()/2/Math.tan(treeAngle));
-		int[] xPoints0 = {getWidth()/2 + offset + 7, getWidth() + offset + 7, getWidth() - offset + 7, getWidth()/2 - offset + 7};
-		int[] yPoints0 = {0, 0, getHeight(), getHeight()};
+		double treeAngle = -(isTopAttached? robotAngle + bendAngle: robotAngle) + Math.PI/2;
+		double treeWidth = getWidth()/2;
+		double treeHeight = getHeight() + 70;
+		double xtreeOffset = 7 + getWidth()/4*Math.cos(treeAngle);
+		double ytreeOffset = 7 + getWidth()/4*Math.sin(treeAngle);
+		double xTree0 = xtreeOffset + x2 - treeWidth/2*Math.cos(treeAngle) - treeHeight*Math.sin(treeAngle);
+		double xTree1 = xtreeOffset + x2 + treeWidth/2*Math.cos(treeAngle) - treeHeight*Math.sin(treeAngle);
+		double xTree2 = xtreeOffset + x2 + treeWidth/2*Math.cos(treeAngle) + treeHeight*Math.sin(treeAngle);
+		double xTree3 = xtreeOffset + x2 - treeWidth/2*Math.cos(treeAngle) + treeHeight*Math.sin(treeAngle);
+
+		double yTree0 = ytreeOffset + y2 - treeWidth/2*Math.sin(treeAngle) + treeHeight*Math.cos(treeAngle);
+		double yTree1 = ytreeOffset + y2 + treeWidth/2*Math.sin(treeAngle) + treeHeight*Math.cos(treeAngle);
+		double yTree2 = ytreeOffset + y2 + treeWidth/2*Math.sin(treeAngle) - treeHeight*Math.cos(treeAngle);
+		double yTree3 = ytreeOffset + y2 - treeWidth/2*Math.sin(treeAngle) - treeHeight*Math.cos(treeAngle);
+		
+
+		int[] xPoints0 = {(int)xTree0,(int)xTree1,(int)xTree2,(int)xTree3};
+		int[] yPoints0 = {(int)yTree0,(int)yTree1,(int)yTree2,(int)yTree3};
 		g.fillPolygon(xPoints0, yPoints0, 4);
 		
 		g.setColor(color);

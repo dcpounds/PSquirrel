@@ -19,8 +19,7 @@ class RobotController():
         self.driveMotorManager = motorManager
         self.driveCommand = "STOP"
         self.cameraCommand = "STOP"
-        self.sensorData = self.sensorManager.updateSensorData()
-        self.heartbeatCounter = 100
+        self.stateData = self.sensorManager.getRobotStateData()
         
     def run(self):
         """
@@ -31,16 +30,14 @@ class RobotController():
         the motors are driven.
         """
         while 1:
-            if self.heartbeatCounter <= 0:
-                self.networkManager.sendHeartbeat()
             if self.networkManager.checkForCommand():
                 command = self.networkManager.receiveCommand()
                 if command['commandType'] == 'DRIVE':
                     self.driveCommand = command['command']
-                    self.networkManager.sendSensorData(self.sensorData)
+                    self.networkManager.sendSensorData(self.stateData)
                 if command['commandType'] == 'CAMERA':
                     self.cameraCommand = command['command']
-            self.sensorData = self.sensorManager.updateSensorData()
+            self.stateData = self.sensorManager.getRoboStateData()
             self.driveMotorManager.driveMotor(self.driveCommand)
             self.cameraMotorManager.driveMotor(self.cameraCommand)
                 

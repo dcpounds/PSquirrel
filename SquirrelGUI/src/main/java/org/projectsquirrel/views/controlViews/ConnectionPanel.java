@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.projectsquirrel.views;
+package org.projectsquirrel.views.controlViews;
 
 import java.awt.Color;
 

@@ -14,7 +14,7 @@ class Current(Sensor):
         """
         super(Current, self).__init__("CURRENT", ID, pin)
     
-    def updateValue(self):
+    def takeReading(self):
         """
         Update the internally stored value for the sensor.
         """
