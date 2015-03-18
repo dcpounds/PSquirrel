@@ -24,9 +24,7 @@ import org.jfree.ui.StandardGradientPaintTransformer;
 import org.projectsquirrel.controllers.BatteryPanelController;
 import org.projectsquirrel.controllers.ConnectionPanelController;
 import org.projectsquirrel.controllers.RobotPanelController;
-import org.projectsquirrel.controllers.UltrasonicPanelController;
 import org.projectsquirrel.views.robotViews.RobotPanel;
-import org.projectsquirrel.views.robotViews.UltrasonicPanel;
 
 public class ControlPanel extends JPanel {
 

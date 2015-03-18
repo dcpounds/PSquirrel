@@ -21,7 +21,9 @@ public class RobotSkeletonSide extends JPanel{
 	double topHeight = 150; 	//distance to center of top segment of robot in mm
 	double len = 98; //length of robot body in mm
 	double height= 152; //height of robot body in mm
-	double scale = 3; 	//scale: 1 -> 1 pixel/mm
+	double scale = 4; 	//scale: 1 -> 1 pixel/mm
+	double topBranchDistance = 0;
+	double botBranchDistance = 0;
 	boolean isTopAttached;
 	Color color;
 	/**
@@ -62,6 +64,12 @@ public class RobotSkeletonSide extends JPanel{
 		repaint();
 	}
 	
+	public void updateBranchDistances(float top, float bot){
+		topBranchDistance = top;
+		botBranchDistance = bot;
+		repaint();
+	}
+	
 	@Override
 	public Dimension getPreferredSize() {
         return new Dimension(500,500);
@@ -73,6 +81,13 @@ public class RobotSkeletonSide extends JPanel{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
+		drawTree(g);
+		drawTopBranch(g);
+		drawBotBranch(g);
+		drawRobot(g);
+	}
+	
+	private void drawRobot(Graphics g){
 
 		//x coordinate of center of ball joint
 		double x2 = getWidth()/2; 	
@@ -124,27 +139,6 @@ public class RobotSkeletonSide extends JPanel{
 		//y coordinate of Back-left corner of lower segment 
 		double y11 = y1-len/2*Math.cos(-1*robotAngle)-height/2*Math.sin(-1*robotAngle);
 
-		g.setColor(new Color(97, 65, 38));
-		double treeAngle = -(isTopAttached? robotAngle + bendAngle: robotAngle) + Math.PI/2;
-		double treeWidth = getWidth()/2;
-		double treeHeight = getHeight() + 70;
-		double xtreeOffset = 7 + getWidth()/4*Math.cos(treeAngle);
-		double ytreeOffset = 7 + getWidth()/4*Math.sin(treeAngle);
-		double xTree0 = xtreeOffset + x2 - treeWidth/2*Math.cos(treeAngle) - treeHeight*Math.sin(treeAngle);
-		double xTree1 = xtreeOffset + x2 + treeWidth/2*Math.cos(treeAngle) - treeHeight*Math.sin(treeAngle);
-		double xTree2 = xtreeOffset + x2 + treeWidth/2*Math.cos(treeAngle) + treeHeight*Math.sin(treeAngle);
-		double xTree3 = xtreeOffset + x2 - treeWidth/2*Math.cos(treeAngle) + treeHeight*Math.sin(treeAngle);
-
-		double yTree0 = ytreeOffset + y2 - treeWidth/2*Math.sin(treeAngle) + treeHeight*Math.cos(treeAngle);
-		double yTree1 = ytreeOffset + y2 + treeWidth/2*Math.sin(treeAngle) + treeHeight*Math.cos(treeAngle);
-		double yTree2 = ytreeOffset + y2 + treeWidth/2*Math.sin(treeAngle) - treeHeight*Math.cos(treeAngle);
-		double yTree3 = ytreeOffset + y2 - treeWidth/2*Math.sin(treeAngle) - treeHeight*Math.cos(treeAngle);
-		
-
-		int[] xPoints0 = {(int)xTree0,(int)xTree1,(int)xTree2,(int)xTree3};
-		int[] yPoints0 = {(int)yTree0,(int)yTree1,(int)yTree2,(int)yTree3};
-		g.fillPolygon(xPoints0, yPoints0, 4);
-		
 		g.setColor(color);
 		int nPoints = 4;
 
@@ -161,6 +155,79 @@ public class RobotSkeletonSide extends JPanel{
 		//middle segment
 		g.drawLine((int)x1, (int)y1, (int)x2, (int)y2);
 		g.drawLine((int)x2, (int)y2, (int)x3, (int)y3);
-
 	}
+	
+	private void drawTree(Graphics g){
+		g.setColor(new Color(97, 65, 38));
+		double treeAngle = -(isTopAttached? robotAngle + bendAngle: robotAngle) + Math.PI/2;
+		double treeWidth = getWidth()/2;
+		double treeHeight = getHeight() + 70;
+		double xtreeOffset = (7 + getWidth()/4)*Math.cos(treeAngle) + getWidth()/2;
+		double ytreeOffset = (7 + getWidth()/4)*Math.sin(treeAngle) + getHeight()/2;
+		double xTree0 = xtreeOffset - treeWidth/2*Math.cos(treeAngle) - treeHeight*Math.sin(treeAngle);
+		double xTree1 = xtreeOffset + treeWidth/2*Math.cos(treeAngle) - treeHeight*Math.sin(treeAngle);
+		double xTree2 = xtreeOffset + treeWidth/2*Math.cos(treeAngle) + treeHeight*Math.sin(treeAngle);
+		double xTree3 = xtreeOffset - treeWidth/2*Math.cos(treeAngle) + treeHeight*Math.sin(treeAngle);
+
+		double yTree0 = ytreeOffset - treeWidth/2*Math.sin(treeAngle) + treeHeight*Math.cos(treeAngle);
+		double yTree1 = ytreeOffset + treeWidth/2*Math.sin(treeAngle) + treeHeight*Math.cos(treeAngle);
+		double yTree2 = ytreeOffset + treeWidth/2*Math.sin(treeAngle) - treeHeight*Math.cos(treeAngle);
+		double yTree3 = ytreeOffset - treeWidth/2*Math.sin(treeAngle) - treeHeight*Math.cos(treeAngle);
+		
+
+		int[] xPoints = {(int)xTree0,(int)xTree1,(int)xTree2,(int)xTree3};
+		int[] yPoints = {(int)yTree0,(int)yTree1,(int)yTree2,(int)yTree3};
+		g.fillPolygon(xPoints, yPoints, 4);
+	}
+	
+	private void drawTopBranch(Graphics g){
+		g.setColor(new Color(97, 65, 38));
+		double branchAngle = -(isTopAttached? robotAngle + bendAngle: robotAngle) + Math.PI/2;
+		double branchWidth = getWidth()/4;
+		double branchHeight = getHeight()/70;
+		double robotOffset = extend + topHeight + height/2;
+		double topBranchScaledDistance = 4 + branchHeight/2 + robotOffset + topBranchDistance*(getHeight()/2 - robotOffset)/100;
+		double xbranchOffset = (9 - branchWidth/2)*Math.cos(branchAngle) + topBranchScaledDistance*Math.sin(branchAngle) + getWidth()/2;
+		double ybranchOffset = (9 - branchWidth/2)*Math.sin(branchAngle) - topBranchScaledDistance*Math.cos(branchAngle) + getHeight()/2;
+		double xBranch0 = xbranchOffset - branchWidth/2*Math.cos(branchAngle) - branchHeight*Math.sin(branchAngle);
+		double xBranch1 = xbranchOffset + branchWidth/2*Math.cos(branchAngle) - branchHeight*Math.sin(branchAngle);
+		double xBranch2 = xbranchOffset + branchWidth/2*Math.cos(branchAngle) + branchHeight*Math.sin(branchAngle);
+		double xBranch3 = xbranchOffset - branchWidth/2*Math.cos(branchAngle) + branchHeight*Math.sin(branchAngle);
+
+		double yBranch0 = ybranchOffset - branchWidth/2*Math.sin(branchAngle) + branchHeight*Math.cos(branchAngle);
+		double yBranch1 = ybranchOffset + branchWidth/2*Math.sin(branchAngle) + branchHeight*Math.cos(branchAngle);
+		double yBranch2 = ybranchOffset + branchWidth/2*Math.sin(branchAngle) - branchHeight*Math.cos(branchAngle);
+		double yBranch3 = ybranchOffset - branchWidth/2*Math.sin(branchAngle) - branchHeight*Math.cos(branchAngle);
+		
+
+		int[] xPoints = {(int)xBranch0,(int)xBranch1,(int)xBranch2,(int)xBranch3};
+		int[] yPoints = {(int)yBranch0,(int)yBranch1,(int)yBranch2,(int)yBranch3};
+		g.fillPolygon(xPoints, yPoints, 4);
+	}
+	
+	private void drawBotBranch(Graphics g){
+		g.setColor(new Color(97, 65, 38));
+		double branchAngle = -(isTopAttached? robotAngle + bendAngle: robotAngle) + Math.PI/2;
+		double branchWidth = getWidth()/4;
+		double branchHeight = getHeight()/70;
+		double robotOffset = botHeight + height/2; 
+		double botBranchScaledDistance = 4 + branchHeight/2 + robotOffset + botBranchDistance*(getHeight()/2 - robotOffset)/100;
+		double xbranchOffset = (9 - branchWidth/2)*Math.cos(branchAngle) - botBranchScaledDistance*Math.sin(branchAngle) + getWidth()/2;
+		double ybranchOffset = (9 - branchWidth/2)*Math.sin(branchAngle) + botBranchScaledDistance*Math.cos(branchAngle) + getHeight()/2;
+		double xBranch0 = xbranchOffset - branchWidth/2*Math.cos(branchAngle) - branchHeight*Math.sin(branchAngle);
+		double xBranch1 = xbranchOffset + branchWidth/2*Math.cos(branchAngle) - branchHeight*Math.sin(branchAngle);
+		double xBranch2 = xbranchOffset + branchWidth/2*Math.cos(branchAngle) + branchHeight*Math.sin(branchAngle);
+		double xBranch3 = xbranchOffset - branchWidth/2*Math.cos(branchAngle) + branchHeight*Math.sin(branchAngle);
+
+		double yBranch0 = ybranchOffset - branchWidth/2*Math.sin(branchAngle) + branchHeight*Math.cos(branchAngle);
+		double yBranch1 = ybranchOffset + branchWidth/2*Math.sin(branchAngle) + branchHeight*Math.cos(branchAngle);
+		double yBranch2 = ybranchOffset + branchWidth/2*Math.sin(branchAngle) - branchHeight*Math.cos(branchAngle);
+		double yBranch3 = ybranchOffset - branchWidth/2*Math.sin(branchAngle) - branchHeight*Math.cos(branchAngle);
+		
+
+		int[] xPoints = {(int)xBranch0,(int)xBranch1,(int)xBranch2,(int)xBranch3};
+		int[] yPoints = {(int)yBranch0,(int)yBranch1,(int)yBranch2,(int)yBranch3};
+		g.fillPolygon(xPoints, yPoints, 4);
+	}
+	
 }

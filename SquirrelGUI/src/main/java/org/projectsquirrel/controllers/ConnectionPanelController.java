@@ -8,7 +8,6 @@ import java.util.List;
 import org.projectsquirrel.views.controlViews.BatteryPanel;
 import org.projectsquirrel.views.controlViews.ConnectionPanel;
 import org.projectsquirrel.views.robotViews.RobotPanel;
-import org.projectsquirrel.views.robotViews.UltrasonicPanel;
 
 /**
  * @author dave

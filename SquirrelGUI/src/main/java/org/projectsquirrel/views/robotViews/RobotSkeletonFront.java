@@ -17,7 +17,9 @@ public class RobotSkeletonFront extends JPanel{
 	double topHeight = 150; 	//distance to center of top segment of robot in mm
 	double width = 92; 	//width of robot body in mm
 	double height= 152;	//height of robot body in mm
-	double scale = 3; 	//scale 1 -> 1 pixel/mm
+	double scale = 4; 	//scale 1 -> 1 pixel/mm
+	double topBranchDistance = 0;
+	double botBranchDistance = 0;
 	List<Integer> attachedClaws = new LinkedList<Integer>();
 	Color color;
 
@@ -43,6 +45,12 @@ public class RobotSkeletonFront extends JPanel{
 		repaint();
 	}
 
+	public void updateBranchDistances(float top, float bot){
+		topBranchDistance = top;
+		botBranchDistance = bot;
+		repaint();
+	}
+	
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(500,500);
@@ -54,7 +62,13 @@ public class RobotSkeletonFront extends JPanel{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g); 
-
+		drawTree(g);
+		drawTopBranch(g);
+		drawBotBranch(g);
+		drawRobot(g);
+	}	
+		
+	private void drawRobot(Graphics g){
 		//x coordinate of center of ball joint
 		double x2 = getWidth()/2; 	
 		//x coordinate of center point of lower segment
@@ -106,9 +120,6 @@ public class RobotSkeletonFront extends JPanel{
 		//y coordinate of Back-left corner of lower segment 
 		double y11 = y1-width/2*Math.cos(-1*robotAngle)-height/2*Math.sin(-1*robotAngle);
 
-		g.setColor(new Color(97, 65, 38));
-		g.fillRect(getWidth()/4, 0, getWidth()/2, getHeight());
-
 		g.setColor(color);
 		int nPoints = 4;
 		//upper segment
@@ -156,4 +167,32 @@ public class RobotSkeletonFront extends JPanel{
 			return Color.GREEN;
 		}
 	}
+	
+	private void drawTree(Graphics g){
+		g.setColor(new Color(97, 65, 38));
+		g.fillRect(getWidth()/4, 0, getWidth()/2, getHeight());
+	}
+	
+	private void drawTopBranch(Graphics g){
+		g.setColor(Color.BLACK);
+		double branchDiameter = getHeight()/40;
+		double robotOffset = extend + topHeight + height/2;
+		double topBranchScaledDistance = 4 + branchDiameter/2 + robotOffset + topBranchDistance*(getHeight()/2 - robotOffset)/100;
+		g.fillOval((int)(getWidth()/2 - branchDiameter/2), 
+				(int)(getHeight()/2 - topBranchScaledDistance - branchDiameter/2),
+				(int)branchDiameter,
+				(int)branchDiameter);
+	}
+	
+	private void drawBotBranch(Graphics g){
+		g.setColor(Color.BLACK);
+		double branchDiameter = getHeight()/40;
+		double robotOffset = botHeight + height/2;
+		double botBranchScaledDistance = 4 + branchDiameter/2 + robotOffset + botBranchDistance*(getHeight()/2 - robotOffset)/100;
+		g.fillOval((int)(getWidth()/2 - branchDiameter/2), 
+				(int)(getHeight()/2 + botBranchScaledDistance - branchDiameter/2),
+				(int)branchDiameter,
+				(int)branchDiameter);
+	}
+	
 }

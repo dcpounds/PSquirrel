@@ -36,6 +36,8 @@ public class RobotPanelController {
 		robotPanel.updateClaws(attachedClaws);
 	}
 	
-	
+	public static void updateBranchDistances(float top, float bot){
+		robotPanel.updateBranchDistances(top, bot);
+	}
 	
 }

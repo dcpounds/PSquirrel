@@ -18,7 +18,6 @@ import javax.swing.JTextField;
 
 import org.projectsquirrel.controllers.BatteryPanelController;
 import org.projectsquirrel.controllers.RobotPanelController;
-import org.projectsquirrel.controllers.UltrasonicPanelController;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -34,8 +33,8 @@ public class DebugWindow extends JFrame {
 	private JTextField alpha;		//overall robot yaw angle
 	private JTextField yaw;		//middle segment yaw angle
 	private JTextField extend;		//screw extension
-	private JTextField topSonar;
-	private JTextField botSonar;
+	private JTextField topUltrasonic;
+	private JTextField botUltrasonic;
 	private JTextField battery;
 	private JLabel alphaLabel;		
 	private JLabel yawLabel;		
@@ -110,12 +109,12 @@ public class DebugWindow extends JFrame {
 			clawButtons.add(new ClawButton(i, this));
 		}
 		
-		topSonar = new JTextField("0");
-		topSonar.setColumns(3);
+		topUltrasonic = new JTextField("0");
+		topUltrasonic.setColumns(3);
 		topLabel = new JLabel("Top Clearance:");
 
-		botSonar = new JTextField("0");
-		botSonar.setColumns(3);
+		botUltrasonic = new JTextField("0");
+		botUltrasonic.setColumns(3);
 		botLabel = new JLabel("Bottom Clearance:");
 
 		KeyListener sonarKeyListener= new KeyListener() {
@@ -135,8 +134,8 @@ public class DebugWindow extends JFrame {
 			}
 		};
 		
-		topSonar.addKeyListener(sonarKeyListener);
-		botSonar.addKeyListener(sonarKeyListener);
+		topUltrasonic.addKeyListener(sonarKeyListener);
+		botUltrasonic.addKeyListener(sonarKeyListener);
 
 		battery = new JTextField("0");
 		battery.setColumns(3);
@@ -179,9 +178,9 @@ public class DebugWindow extends JFrame {
 			debugView.add(clawButton, "cell 0 5, flowy");
 		}
 		debugView.add(topLabel, "cell 0 6");
-		debugView.add(topSonar, "cell 1 6");
+		debugView.add(topUltrasonic, "cell 1 6");
 		debugView.add(botLabel, "cell 0 7");
-		debugView.add(botSonar, "cell 1 7");
+		debugView.add(botUltrasonic, "cell 1 7");
 		debugView.add(batteryLabel, "cell 0 8");
 		debugView.add(battery, "cell 1 8");
 		debugView.add(connectionButton, "cell 0 9");
@@ -214,9 +213,9 @@ public class DebugWindow extends JFrame {
 	
 	private void sonarUpdateHelper(){
 		try {
-			UltrasonicPanelController.updateSonar(
-					Float.parseFloat(topSonar.getText()),
-					Float.parseFloat(botSonar.getText()));
+			RobotPanelController.updateBranchDistances(
+					Float.parseFloat(topUltrasonic.getText()),
+					Float.parseFloat(botUltrasonic.getText()));
 		} catch(NumberFormatException e) {
 			//do nothing
 		}

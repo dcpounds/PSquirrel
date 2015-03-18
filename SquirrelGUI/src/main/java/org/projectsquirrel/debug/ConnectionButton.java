@@ -11,7 +11,6 @@ import javax.swing.JToggleButton;
 
 import org.projectsquirrel.controllers.ConnectionPanelController;
 import org.projectsquirrel.controllers.RobotPanelController;
-import org.projectsquirrel.controllers.UltrasonicPanelController;
 
 /**
  * @author dave
