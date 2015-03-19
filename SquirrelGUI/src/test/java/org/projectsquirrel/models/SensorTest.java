@@ -26,7 +26,7 @@ public class SensorTest {
 	public void setup(){
 		sensorPotentiometer = SensorType.POTENTIOMETER;
 		sensorEncoder = SensorType.ENCODER;
-		sensorSonar = SensorType.SONAR;
+		sensorSonar = SensorType.ULTRASONIC;
 		sensorGyro = SensorType.GYRO;
 		sensorLimitSwitch = SensorType.LIMITSWITCH;
 		sensorCurrent = SensorType.CURRENTSENSOR;
@@ -36,7 +36,7 @@ public class SensorTest {
 	
 	@Test
 	public void testGetValueReturnsProperValue(){
-		int testValue = sensor.getValue();
+		float testValue = sensor.getValue();
 		assertEquals(testValue, 1000);
 	}
 	
@@ -50,41 +50,6 @@ public class SensorTest {
 	public void testGetSensorTypeReturnsProperType(){
 		SensorType testSensorType = sensor.getSensorType();
 		assertEquals(testSensorType, sensorPotentiometer);
-	}
-	
-	@Test (expected=NullPointerException.class)
-	public void testSetSensorTypeFailWithNull(){
-		sensor.setSensorType(null);
-	}
-	
-	@Test (expected=IllegalArgumentException.class)
-	public void testSetSensorIdFailWithNegative(){
-		sensor.setSensorId(-1);
-	}
-	
-	@Test (expected=IllegalArgumentException.class)
-	public void testSetValueFailWithNegative(){
-		sensor.setValue(-1);
-	}
-	
-	@Test
-	public void testSetSensorIdSucceedWithZero(){
-		sensor.setSensorId(0);
-	}
-	
-	@Test
-	public void testSetValueSucceedWithZero(){
-		sensor.setValue(0);
-	}
-	
-	@Test
-	public void testSetSensorIdSucceedWithOne(){
-		sensor.setSensorId(0);
-	}
-	
-	@Test
-	public void testSetValueSucceedWithOne(){
-		sensor.setValue(0);
 	}
 	
 	@Test

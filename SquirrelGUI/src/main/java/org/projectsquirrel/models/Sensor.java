@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 public class Sensor {
 	private SensorType sensorType;
 	private int sensorId;
-	private int value;
+	private float value;
 
 	/**
 	 * @param type
@@ -23,10 +23,10 @@ public class Sensor {
 	 *            The measured value of the sensor. -1 if there is an error with
 	 *            the data.
 	 */
-	public Sensor(SensorType type, int sensorId, int value) {
-		this.setSensorType(type);
-		this.setSensorId(sensorId);
-		this.setValue(value);
+	public Sensor(SensorType type, int id, float value) {
+		sensorType = type;
+		sensorId = id;
+		this.value = value;
 	}
 
 	/**
@@ -48,18 +48,6 @@ public class Sensor {
 	}
 
 	/**
-	 * @param type
-	 *            The type of sensor.
-	 */
-	public void setSensorType(SensorType type) {
-		if (type == null) {
-			throw new NullPointerException();
-		} else {
-			this.sensorType = type;
-		}
-	}
-
-	/**
 	 * @return The unique sensor id.
 	 */
 	public int getSensorId() {
@@ -67,33 +55,10 @@ public class Sensor {
 	}
 
 	/**
-	 * @param id
-	 *            The unique sensor id.
-	 */
-	public void setSensorId(int id) {
-		if (id < 0) {
-			throw new IllegalArgumentException();
-		} else {
-			this.sensorId = id;
-		}
-	}
-
-	/**
 	 * @return The measured value of the sensor.
 	 */
-	public int getValue() {
+	public float getValue() {
 		return value;
 	}
-
-	/**
-	 * @param value
-	 *            The measured value of the sensor.
-	 */
-	public void setValue(int value) {
-		if (value < 0) {
-			throw new IllegalArgumentException();
-		} else {
-			this.value = value;
-		}
-	}
+	
 }

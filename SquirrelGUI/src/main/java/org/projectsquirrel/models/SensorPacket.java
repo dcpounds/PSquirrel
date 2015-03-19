@@ -35,6 +35,15 @@ public class SensorPacket {
 	public void removeSensor(Sensor sensor) {
 		sensorData.remove(sensor);
 	}
+	
+	public float getSensorValue(SensorType type, int id) throws Exception{
+		for(Sensor sensor: sensorData){
+			if(sensor.getSensorId() == id && sensor.getSensorType() == type){
+				return sensor.getValue();
+			}
+		}
+		throw new Exception();
+	}
 
 	/**
 	 * @return An {@link ArrayList} of {@link Sensor} data.
