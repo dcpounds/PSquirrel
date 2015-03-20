@@ -11,6 +11,8 @@ import org.projectsquirrel.views.robotViews.RobotPanel;
 
 /**
  * @author dave
+ * 
+ * Singleton for updating the connection status
  *
  */
 public class ConnectionPanelController {
@@ -18,19 +20,35 @@ public class ConnectionPanelController {
 	private static ConnectionPanelController instance = new ConnectionPanelController();
 	private static ConnectionPanel connectionPanel = new ConnectionPanel();
 	
+	/**
+	 * constructor is private because class is a singleton
+	 */
 	private ConnectionPanelController(){
 	}
 	
+	/**
+	 * get the one instance of the controller
+	 * @return
+	 */
 	public static ConnectionPanelController getInstace(){
 		return instance;
 	}
 	
+
+	/**
+	 * get the connection panel view associated with this controller
+	 * @return
+	 */
 	public static ConnectionPanel getConnectionPanel(){
 		return connectionPanel;
 	}
 	
-	public static void updateConnection(boolean isPressed){
-		connectionPanel.update(isPressed);
+	/**
+	 * updates the connection with the given status
+	 * @param isConnected - given status; true is connected else false
+	 */
+	public static void updateConnection(boolean isConnected){
+		connectionPanel.update(isConnected);
 	}
 	
 	

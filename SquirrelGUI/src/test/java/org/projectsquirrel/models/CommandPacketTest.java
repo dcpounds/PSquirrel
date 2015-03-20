@@ -31,7 +31,7 @@ public class CommandPacketTest {
 		commandLeft = Command.LEFT;
 		commandRight = Command.RIGHT;
 		commandStop = Command.STOP;
-		typeMotor = CommandType.MOTOR;
+		typeMotor = CommandType.DRIVE;
 		typeCamera = CommandType.CAMERA;
 		command = new CommandPacket(commandUp, typeMotor);
 	}

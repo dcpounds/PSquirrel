@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.projectsquirrel.debug;
+package org.projectsquirrel.GUIdebug;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -9,28 +9,25 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JToggleButton;
 
+import org.projectsquirrel.controllers.ConnectionPanelController;
 import org.projectsquirrel.controllers.RobotPanelController;
 
 /**
  * @author dave
  *
- */
-/**
- * @author dave
+ * debug class for toggle button that toggles connection state
  *
  */
-public class ClawButton extends JToggleButton implements ActionListener {
+public class ConnectionButton extends JToggleButton implements ActionListener {
 
 	private Integer number;
 	private boolean pressed;
 	private DebugWindow debugWindow;
 	
-	ClawButton(Integer number, DebugWindow debugWindow){
-		super(number.toString());
-		this.number = number;
+	ConnectionButton(){
+		super("Toggle Connection");
 		pressed = false;
 		addActionListener(this);
-		this.debugWindow = debugWindow;
 	}
 	
 	/* (non-Javadoc)
@@ -43,7 +40,7 @@ public class ClawButton extends JToggleButton implements ActionListener {
 		} else {
 			pressed = true;
 		}
-		RobotPanelController.updateRobotClaws(debugWindow.getPressedClaws());
+		ConnectionPanelController.updateConnection(pressed);
 	}
 
 	/**

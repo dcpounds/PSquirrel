@@ -7,8 +7,8 @@ import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import org.projectsquirrel.GUIdebug.DebugWindow;
 import org.projectsquirrel.controllers.CameraController;
-import org.projectsquirrel.debug.DebugWindow;
 import org.projectsquirrel.network.CameraSocketManager;
 import org.projectsquirrel.network.NetworkUninitializedException;
 import org.projectsquirrel.network.SocketManager;

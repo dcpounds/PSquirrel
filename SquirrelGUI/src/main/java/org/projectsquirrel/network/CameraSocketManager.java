@@ -22,6 +22,13 @@ import javax.swing.ImageIcon;
 import org.projectsquirrel.models.CommandPacket;
 import org.projectsquirrel.models.SensorPacket;
 
+/**
+ * @author dave
+ *
+ * Singleton for maintaining the socket for the camera
+ * Only camera images are received; nothing is sent
+ *
+ */
 public class CameraSocketManager {
 	private static CameraSocketManager instance = new CameraSocketManager();
 	private static Socket cameraSocket;
@@ -31,10 +38,20 @@ public class CameraSocketManager {
 	private static int cameraPort;
 	private static boolean isInitialized;
 
+	/**
+	 * constructor is private because class is a singleton
+	 */
 	private CameraSocketManager() {
 	}
 
 	// TODO add errors for uninitialized network
+	/**
+	 * Initialize the socket to the given ip and port
+	 * @param ip - ip of the RasPi
+	 * @param cameraPort - port of the RasPi to connect to for the camera
+	 * @throws UnknownHostException
+	 * @throws IOException
+	 */
 	public static void initialize(String ip, int cameraPort)
 			throws UnknownHostException, IOException {
 		CameraSocketManager.ip = ip;
@@ -48,12 +65,22 @@ public class CameraSocketManager {
 				cameraStream));
 	}
 
+	/**
+	 * closes the camera socket
+	 * @throws IOException
+	 */
 	public static void close() throws IOException {
 		cameraSocket.close();
 	}
 	
-	public static BufferedImage receiveCameraPacket() throws IOException,
-	NetworkUninitializedException {
+	/**
+	 * receives the next image from the raspi. 
+	 * Note the size is received first and then the corresponding number of bytes is received
+	 * @return - the image in the form of a buffered image
+	 * @throws IOException
+	 * @throws NetworkUninitializedException
+	 */
+	public static BufferedImage receiveCameraPacket() throws IOException, NetworkUninitializedException {
 		if (!isInitialized) {
 			throw new NetworkUninitializedException();
 		} 
@@ -73,15 +100,26 @@ public class CameraSocketManager {
 		return image;
 	}
 
-
+	/**
+	 * get the one instance of the controller
+	 * @return
+	 */
 	public static CameraSocketManager getInstance() {
 		return instance;
 	}
 
+	/**
+	 * get the ip address
+	 * @return
+	 */
 	public String getIp() {
 		return ip;
 	}
 	
+	/**
+	 * get the camera port
+	 * @return
+	 */
 	public int getCameraPort() {
 		return cameraPort;
 	}

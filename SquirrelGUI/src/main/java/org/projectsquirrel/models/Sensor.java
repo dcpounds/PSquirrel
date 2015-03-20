@@ -3,7 +3,7 @@ package org.projectsquirrel.models;
 import com.google.gson.Gson;
 
 /**
- * Data type for storing sensor information on the robot.
+ * Class for storing sensor information on the robot.
  * 
  * @author David Pounds
  * @author Alex Stylos

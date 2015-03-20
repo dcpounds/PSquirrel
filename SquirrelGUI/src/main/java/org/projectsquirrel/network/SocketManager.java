@@ -22,6 +22,13 @@ import javax.swing.ImageIcon;
 import org.projectsquirrel.models.CommandPacket;
 import org.projectsquirrel.models.SensorPacket;
 
+/**
+ * @author dave
+ *
+ * Singleton for maintaining the socket for sending commands and receiving sensor data
+ * Data sent and received is encoded as JSON objects
+ *
+ */
 public class SocketManager {
 	private static SocketManager instance = new SocketManager();
 	private static Socket socket;
@@ -39,6 +46,13 @@ public class SocketManager {
 	}
 
 	// TODO add errors for uninitialized network
+	/**
+	 * Initialize the socket to the given ip and port
+	 * @param ip - ip of the RasPi
+	 * @param cameraPort - port of the RasPi to connect to send commands to and receive sensor data from
+	 * @throws UnknownHostException
+	 * @throws IOException
+	 */
 	public static void initialize(String ip, int port)
 			throws UnknownHostException, IOException {
 		SocketManager.ip = ip;
@@ -51,10 +65,19 @@ public class SocketManager {
 				socket.getInputStream()));
 	}
 
+	/**
+	 * closes the socket
+	 * @throws IOException
+	 */
 	public static void close() throws IOException {
 		socket.close();
 	}
 
+	/**
+	 * Send command packet to the RasPi
+	 * @param commandPacket - command packet to be sent
+	 * @throws NetworkUninitializedException
+	 */
 	public static void sendCommandPacket(CommandPacket commandPacket)
 			throws NetworkUninitializedException {
 		if (!isInitialized) {
@@ -63,6 +86,12 @@ public class SocketManager {
 		out.println(commandPacket.toJson());
 	}
 
+	/**
+	 * Receives raw sensor data from the RasPi
+	 * @return - raw sensor data as a SensorPacket
+	 * @throws IOException
+	 * @throws NetworkUninitializedException
+	 */
 	public static SensorPacket receiveSensorPacket() throws IOException,
 			NetworkUninitializedException {
 		if (!isInitialized) {
@@ -72,22 +101,29 @@ public class SocketManager {
 		return SensorPacket.fromJson(in.readLine());
 	}
 
+	/**
+	 * get the one instance of the controller
+	 * @return
+	 */
 	public static SocketManager getInstance() {
 		return instance;
 	}
 
+	/**
+	 * get the ip address
+	 * @return
+	 */
 	public String getIp() {
 		return ip;
 	}
-
-	public int getMainPort() {
-		return mainPort;
-	}
 	
-	public int getCameraPort() {
+	/**
+	 * get the port
+	 * @return
+	 */
+	public int getPort() {
 		return port;
 	}
-
 
 }
 

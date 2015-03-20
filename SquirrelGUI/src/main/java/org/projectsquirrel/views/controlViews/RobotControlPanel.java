@@ -67,10 +67,10 @@ public class RobotControlPanel extends JPanel {
 	private void addButtonActionListeners(){
 		//robotLeftBtn.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), actionMapKey);
 		
-		robotLeftBtn.addActionListener(new SendCommandController(Command.LEFT, CommandType.MOTOR));
-		robotUpBtn.addActionListener(new SendCommandController(Command.UP, CommandType.MOTOR));
-		robotDownBtn.addActionListener(new SendCommandController(Command.DOWN, CommandType.MOTOR));
-		robotRightBtn.addActionListener(new SendCommandController(Command.RIGHT, CommandType.MOTOR));
+		robotLeftBtn.addActionListener(new SendCommandController(Command.LEFT, CommandType.DRIVE));
+		robotUpBtn.addActionListener(new SendCommandController(Command.UP, CommandType.DRIVE));
+		robotDownBtn.addActionListener(new SendCommandController(Command.DOWN, CommandType.DRIVE));
+		robotRightBtn.addActionListener(new SendCommandController(Command.RIGHT, CommandType.DRIVE));
 	}
 
 }

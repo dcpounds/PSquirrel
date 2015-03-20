@@ -1,12 +1,12 @@
 package org.projectsquirrel.models;
 
 /**
- * Enumeration of actuators, such as motors or servos.
+ * Enumeration for types of commands sent to robot from GUI
  * 
  * @author David Pounds
  * @author Alex Stylos
  *
  */
 public enum CommandType {
-	MOTOR, CAMERA;
+	DRIVE, CAMERA;
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.gson.Gson;
 
 /**
- * Data type for sending {@link Sensor} information as a packet.
+ * Class for containing the raw sensor data received by the RasPi
  * 
  * @author David Pounds
  * @author Alex Stylos

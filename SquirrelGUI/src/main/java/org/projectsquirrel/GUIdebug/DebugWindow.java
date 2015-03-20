@@ -1,7 +1,7 @@
 /** 
  * 
  */
-package org.projectsquirrel.debug;
+package org.projectsquirrel.GUIdebug;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,18 +24,19 @@ import net.miginfocom.swing.MigLayout;
 /**
  * @author dave
  *
+ * debug class for window that is able to toggle the different values in the GUI
+ *
  */
 public class DebugWindow extends JFrame {
 
-	private JButton updateButton;				//update button
-	private JTextField gamma;		//overall robot pitch angle
-	private JTextField pitch;		//middle segment pitch angle
-	private JTextField alpha;		//overall robot yaw angle
-	private JTextField yaw;		//middle segment yaw angle
-	private JTextField extend;		//screw extension
-	private JTextField topUltrasonic;
-	private JTextField botUltrasonic;
-	private JTextField battery;
+	private JTextField gamma;		 //overall robot pitch angle
+	private JTextField pitch;		 //middle segment pitch angle
+	private JTextField alpha;		 //overall robot yaw angle
+	private JTextField yaw;		     //middle segment yaw angle
+	private JTextField extend;		 //screw extension
+	private JTextField topClearance; //distance to any top obstructions
+	private JTextField botClearance; //distance to any bottom obstructions
+	private JTextField battery;      //battery percentage left
 	private JLabel alphaLabel;		
 	private JLabel yawLabel;		
 	private JLabel extendLabel;		
@@ -45,9 +46,9 @@ public class DebugWindow extends JFrame {
 	private JLabel botLabel;
 	private JLabel batteryLabel;
 	private JLabel clawLabel;
-	private JPanel debugView;  
-	private List<ClawButton> clawButtons;
-	private ConnectionButton connectionButton;
+	private JPanel debugView;   
+	private List<ClawButton> clawButtons;        //buttons for toggling claws
+	private ConnectionButton connectionButton;   //button for toggling connection status
 
 	public DebugWindow(){
 		setTitle("Project Squirrel GUI Debugger");
@@ -109,12 +110,12 @@ public class DebugWindow extends JFrame {
 			clawButtons.add(new ClawButton(i, this));
 		}
 		
-		topUltrasonic = new JTextField("0");
-		topUltrasonic.setColumns(3);
+		topClearance = new JTextField("0");
+		topClearance.setColumns(3);
 		topLabel = new JLabel("Top Clearance:");
 
-		botUltrasonic = new JTextField("0");
-		botUltrasonic.setColumns(3);
+		botClearance = new JTextField("0");
+		botClearance.setColumns(3);
 		botLabel = new JLabel("Bottom Clearance:");
 
 		KeyListener sonarKeyListener= new KeyListener() {
@@ -134,8 +135,8 @@ public class DebugWindow extends JFrame {
 			}
 		};
 		
-		topUltrasonic.addKeyListener(sonarKeyListener);
-		botUltrasonic.addKeyListener(sonarKeyListener);
+		topClearance.addKeyListener(sonarKeyListener);
+		botClearance.addKeyListener(sonarKeyListener);
 
 		battery = new JTextField("0");
 		battery.setColumns(3);
@@ -178,9 +179,9 @@ public class DebugWindow extends JFrame {
 			debugView.add(clawButton, "cell 0 5, flowy");
 		}
 		debugView.add(topLabel, "cell 0 6");
-		debugView.add(topUltrasonic, "cell 1 6");
+		debugView.add(topClearance, "cell 1 6");
 		debugView.add(botLabel, "cell 0 7");
-		debugView.add(botUltrasonic, "cell 1 7");
+		debugView.add(botClearance, "cell 1 7");
 		debugView.add(batteryLabel, "cell 0 8");
 		debugView.add(battery, "cell 1 8");
 		debugView.add(connectionButton, "cell 0 9");
@@ -214,8 +215,8 @@ public class DebugWindow extends JFrame {
 	private void sonarUpdateHelper(){
 		try {
 			RobotPanelController.updateBranchDistances(
-					Float.parseFloat(topUltrasonic.getText()),
-					Float.parseFloat(botUltrasonic.getText()));
+					Float.parseFloat(topClearance.getText()),
+					Float.parseFloat(botClearance.getText()));
 		} catch(NumberFormatException e) {
 			//do nothing
 		}
