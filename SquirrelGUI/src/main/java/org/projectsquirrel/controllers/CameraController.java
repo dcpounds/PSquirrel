@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import org.projectsquirrel.views.cameraViews.CameraPanel;
-import org.projectsquirrel.views.controlViews.BatteryPanel;
+import org.projectsquirrel.views.miscViews.BatteryPanel;
 import org.projectsquirrel.views.robotViews.RobotPanel;
 
 /**

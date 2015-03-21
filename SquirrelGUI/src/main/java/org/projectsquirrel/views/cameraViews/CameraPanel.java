@@ -32,6 +32,9 @@ public class CameraPanel extends JPanel {
 	private JLabel picture = new JLabel();
 	private BufferedImage image;
 	
+	/**
+	 *  Constructs a camera panel
+	 */
 	public CameraPanel() {
 		setLayout(new MigLayout("", "[grow]", "[grow]"));
 		setPreferredSize(new Dimension(480, 360));

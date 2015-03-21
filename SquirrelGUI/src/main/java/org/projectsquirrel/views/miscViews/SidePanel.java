@@ -1,4 +1,4 @@
-package org.projectsquirrel.views.controlViews;
+package org.projectsquirrel.views.miscViews;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -24,13 +24,18 @@ import org.jfree.ui.StandardGradientPaintTransformer;
 import org.projectsquirrel.controllers.BatteryPanelController;
 import org.projectsquirrel.controllers.ConnectionPanelController;
 import org.projectsquirrel.controllers.RobotPanelController;
+import org.projectsquirrel.controllers.SendCommandController;
+import org.projectsquirrel.models.Command;
+import org.projectsquirrel.models.CommandType;
 import org.projectsquirrel.views.robotViews.RobotPanel;
 
-public class ControlPanel extends JPanel {
-
-	/**
-	 * 
-	 */
+/**
+ * @author dave
+ * 
+ * View that contains the battery, connection, camera control and robot control views
+ * 
+ */
+public class SidePanel extends JPanel {
 	private static final long serialVersionUID = -8434788151525363749L;
 
 	private BatteryPanel batteryPanel;
@@ -38,7 +43,10 @@ public class ControlPanel extends JPanel {
 	private CameraControlPanel cameraControlPanel;
 	private RobotControlPanel robotControlPanel;
 	
-	public ControlPanel() {
+	/**
+	 * Constructs the View
+	 */
+	public SidePanel() {
 		batteryPanel = BatteryPanelController.getBatteryPanel();
 		connectionPanel = ConnectionPanelController.getConnectionPanel();
 		cameraControlPanel = new CameraControlPanel();

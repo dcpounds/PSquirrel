@@ -26,7 +26,7 @@ import org.projectsquirrel.models.Sensor;
 import org.projectsquirrel.models.SensorPacket;
 import org.projectsquirrel.models.SensorType;
 import org.projectsquirrel.network.SocketManager;
-import org.projectsquirrel.views.controlViews.ControlPanel;
+import org.projectsquirrel.views.miscViews.SidePanel;
 import org.projectsquirrel.views.robotViews.RobotPanel;
 
 import java.awt.Font;
@@ -65,7 +65,7 @@ public class MainView {
 		JPanel robotPanel = RobotPanelController.getRobotPanel();
 		contentPane.add(robotPanel, "cell 0 1, grow");
 
-		JPanel controlPanel = new ControlPanel();
+		JPanel controlPanel = new SidePanel();
 		contentPane.add(controlPanel, "cell 1 0 1 2, grow");
 	}
 

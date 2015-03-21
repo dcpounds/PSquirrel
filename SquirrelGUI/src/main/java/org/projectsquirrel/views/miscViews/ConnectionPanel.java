@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.projectsquirrel.views.controlViews;
+package org.projectsquirrel.views.miscViews;
 
 import java.awt.Color;
 
@@ -14,12 +14,18 @@ import net.miginfocom.swing.MigLayout;
 /**
  * @author dave
  *
+ * View for displaying the connection status with the RasPi on the robot
+ *
  */
 public class ConnectionPanel extends JPanel {
 	
 
 	private JLabel lblConnected;
 	
+	/**
+	 * Constructs a new connection view
+	 * 
+	 */
 	public ConnectionPanel(){
 		JLabel lblConnectionStatus = new JLabel("Connection Status");
 		lblConnected = new JLabel();
@@ -30,6 +36,10 @@ public class ConnectionPanel extends JPanel {
 		add(lblConnected, "cell 0 1, alignx center");
 	}
 	
+	/**
+	 * Updates the connection status
+	 * @param isConnected - true if connected to robot else false
+	 */
 	public void update(boolean isConnected){
 		if(isConnected){
 			lblConnected.setText("Connected");

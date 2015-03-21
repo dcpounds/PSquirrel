@@ -5,7 +5,7 @@ package org.projectsquirrel.controllers;
 
 import java.util.List;
 
-import org.projectsquirrel.views.controlViews.BatteryPanel;
+import org.projectsquirrel.views.miscViews.BatteryPanel;
 import org.projectsquirrel.views.robotViews.RobotPanel;
 
 /**

@@ -1,4 +1,4 @@
-package org.projectsquirrel.views.controlViews;
+package org.projectsquirrel.views.miscViews;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -17,6 +17,12 @@ import org.projectsquirrel.controllers.SendCommandController;
 import org.projectsquirrel.models.Command;
 import org.projectsquirrel.models.CommandType;
 
+/**
+ * @author dave
+ * 
+ * View that contains buttons for controlling the camera
+ * 
+ */
 public class CameraControlPanel extends JPanel {
 
 	private static final long serialVersionUID = -4398392847750945455L;
@@ -55,7 +61,7 @@ public class CameraControlPanel extends JPanel {
 	}
 
 	/**
-	 * Adds action listeners too all the buttons in the view.
+	 * Adds action listeners to all the buttons in the view.
 	 */
 	private void addButtonActionListeners(){
 		cameraCCWBtn.addActionListener(new SendCommandController(Command.LEFT, CommandType.CAMERA));

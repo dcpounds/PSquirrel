@@ -1,4 +1,4 @@
-package org.projectsquirrel.views.controlViews;
+package org.projectsquirrel.views.miscViews;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -17,6 +17,12 @@ import org.projectsquirrel.controllers.SendCommandController;
 import org.projectsquirrel.models.Command;
 import org.projectsquirrel.models.CommandType;
 
+/**
+ * @author dave
+ * 
+ * View that contains buttons for controlling the robot gait
+ * 
+ */
 public class RobotControlPanel extends JPanel {
 
 	private static final long serialVersionUID = -4398392847750945455L;
