@@ -8,8 +8,13 @@ import java.util.List;
 
 import javax.swing.*;
 
+/**
+ * @author dave
+ * View that contains the front robot graphic
+ */
 public class RobotSkeletonFront extends JPanel{
-
+	
+	private static final long serialVersionUID = -5584830551531376471L;
 	double robotAngle;		//angle of entire robot
 	double bendAngle;		//angle of middle segment
 	double extend;		//extension of the screw
@@ -23,6 +28,13 @@ public class RobotSkeletonFront extends JPanel{
 	List<Integer> attachedClaws = new LinkedList<Integer>();
 	Color color;
 
+	/**
+	 * Constructs the initial view
+	 * @param robotAngle - alpha value
+	 * @param bendAngle - yaw value
+	 * @param extend - extension of the robot
+	 * @param color - color of the robot to be drawn
+	 */
 	RobotSkeletonFront(double robotAngle, double bendAngle, double extend, Color color){
 		botHeight /= scale;
 		topHeight /= scale;
@@ -31,6 +43,13 @@ public class RobotSkeletonFront extends JPanel{
 		update(robotAngle, bendAngle, extend, color);
 	}
 
+	/**
+	 * Updates the position values for the robot
+	 * @param robotAngle - alpha value
+	 * @param bendAngle - yaw value
+	 * @param extend - extension of the robot
+	 * @param color - color of the robot to be drawn
+	 */
 	public void update(double robotAngle, double bendAngle, double extend, Color color){
 		//convert to radians and change direction
 		this.robotAngle = Math.toRadians(90-robotAngle);
@@ -40,24 +59,38 @@ public class RobotSkeletonFront extends JPanel{
 		repaint();
 	}
 
+	/**
+	 * Updates the  graphic to indicate which individual claws are attached to the tree
+	 * @param attachedClaws - IDs of claw sensors that are currently attached
+	 */
 	public void updateClaws(List<Integer> attachedClaws){
 		this.attachedClaws = attachedClaws;
 		repaint();
 	}
 
+	/**
+	 * updates the robot graphic with any obstructions detects by the ultrasonic sensors
+	 * @param top - distance to top obstruction
+	 * @param bot - distance to bottom obstruction
+	 */
 	public void updateBranchDistances(float top, float bot){
 		topBranchDistance = top;
 		botBranchDistance = bot;
-		repaint();
 	}
 	
+	/** 
+	 * Overridden method to prevent sizing issues
+	 * 
+	 * (non-Javadoc)
+	 * @see javax.swing.JComponent#getPreferredSize()
+	 */
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(500,500);
 	}
 
 	/**
-	 * Draws robot using the joint variables
+	 * Is called internally by the GUI to update the graphics
 	 */
 	@Override
 	public void paintComponent(Graphics g){
@@ -68,6 +101,10 @@ public class RobotSkeletonFront extends JPanel{
 		drawRobot(g);
 	}	
 		
+	/**
+	 * draws the robot graphics
+	 * @param g - graphics object passed by @paintComponent
+	 */
 	private void drawRobot(Graphics g){
 		//x coordinate of center of ball joint
 		double x2 = getWidth()/2; 	
@@ -160,6 +197,12 @@ public class RobotSkeletonFront extends JPanel{
 
 	}
 
+	
+	/**
+	 * helper function to get color for whether claw is attached
+	 * @param claw - id of claw
+	 * @return - the color of the claw (red if not attached and green if attached)
+	 */
 	private Color getClawColor(Integer claw){
 		if(!attachedClaws.contains(claw)){
 			return Color.RED;
@@ -168,27 +211,45 @@ public class RobotSkeletonFront extends JPanel{
 		}
 	}
 	
+	/**
+	 * draws the tree graphics
+	 * @param g - graphics object passed by @paintComponent
+	 */
 	private void drawTree(Graphics g){
 		g.setColor(new Color(97, 65, 38));
 		g.fillRect(getWidth()/4, 0, getWidth()/2, getHeight());
 	}
 	
+	/**
+	 * draws the top branch graphics
+	 * @param g - graphics object passed by @paintComponent
+	 */
 	private void drawTopBranch(Graphics g){
 		g.setColor(Color.BLACK);
-		double branchDiameter = getHeight()/40;
+		double branchDiameter = getHeight()/30;
 		double robotOffset = extend + topHeight + height/2;
+		
+		//scale the distance from 0 to 100 to the distance from the edge of the robot to the edge of the graphic
 		double topBranchScaledDistance = 4 + branchDiameter/2 + robotOffset + topBranchDistance*(getHeight()/2 - robotOffset)/100;
+		
 		g.fillOval((int)(getWidth()/2 - branchDiameter/2), 
 				(int)(getHeight()/2 - topBranchScaledDistance - branchDiameter/2),
 				(int)branchDiameter,
 				(int)branchDiameter);
 	}
 	
+	/**
+	 * draws the bottom branch graphics
+	 * @param g - graphics object passed by @paintComponent
+	 */
 	private void drawBotBranch(Graphics g){
 		g.setColor(Color.BLACK);
-		double branchDiameter = getHeight()/40;
+		double branchDiameter = getHeight()/30;
 		double robotOffset = botHeight + height/2;
+		
+		//scale the distance from 0 to 100 to the distance from the edge of the robot to the edge of the graphic
 		double botBranchScaledDistance = 4 + branchDiameter/2 + robotOffset + botBranchDistance*(getHeight()/2 - robotOffset)/100;
+		
 		g.fillOval((int)(getWidth()/2 - branchDiameter/2), 
 				(int)(getHeight()/2 + botBranchScaledDistance - branchDiameter/2),
 				(int)branchDiameter,

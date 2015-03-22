@@ -8,12 +8,13 @@ import java.util.List;
 
 import javax.swing.*;
 
-/**Draws a block diagram of the robot from the side based on 3 of the joint values */
-
-
+/**
+ * @author dave
+ * View that contains the side robot graphic
+ */
 public class RobotSkeletonSide extends JPanel{
 
-
+	private static final long serialVersionUID = 6314173508249085642L;
 	double robotAngle;		//angle of entire robot
 	double bendAngle;		//angle of middle segment
 	double extend;		//extension of the screw
@@ -26,11 +27,13 @@ public class RobotSkeletonSide extends JPanel{
 	double botBranchDistance = 0;
 	boolean isTopAttached;
 	Color color;
+	
 	/**
-	 * @param alpha		pitch angle of the ball joint
-	 * @param beta 		pitch angle of the entire robot
-	 * @param extend 	extension of the lead screw
-	 * @param color		color to draw the image in
+	 * Constructs the initial view
+	 * @param robotAngle - gamma value
+	 * @param bendAngle - pitch value
+	 * @param extend - extension of the robot
+	 * @param color - color of the robot to be drawn
 	 */
 	RobotSkeletonSide(double robotAngle, double bendAngle, double extend, Color color){
 		botHeight /= scale;
@@ -41,6 +44,13 @@ public class RobotSkeletonSide extends JPanel{
 		update(robotAngle, bendAngle, extend, color);
 	}
 	
+	/**
+	 * Updates the position values for the robot
+	 * @param robotAngle - alpha value
+	 * @param bendAngle - yaw value
+	 * @param extend - extension of the robot
+	 * @param color - color of the robot to be drawn
+	 */
 	public void update(double robotAngle, double bendAngle, double extend, Color color){
 		//convert to radians and change direction
 		this.robotAngle = Math.toRadians(90-robotAngle);
@@ -50,6 +60,10 @@ public class RobotSkeletonSide extends JPanel{
 		repaint();
 	}
 	
+	/**
+	 * Updates the  graphic to indicate which half of the robot is attached to the tree
+	 * @param attachedClaws - IDs of claw sensors that are currently attached
+	 */
 	public void updateClaws(List<Integer> attachedClaws){
 		int top = 0;
 		int bot = 0;
@@ -64,19 +78,41 @@ public class RobotSkeletonSide extends JPanel{
 		repaint();
 	}
 	
+	/**
+	 * updates the robot graphic with any obstructions detects by the ultrasonic sensors
+	 * note: if value is greater than 99 meaning there is no obstruction, it will artificially
+	 *   raise the values internally to make sure the branch goes off the edge of the graphic
+	 *   when the tree is at an angle
+	 * @param top - distance to top obstruction
+	 * @param bot - distance to bottom obstruction
+	 */
 	public void updateBranchDistances(float top, float bot){
-		topBranchDistance = top;
-		botBranchDistance = bot;
+		if(top >= 100){
+			topBranchDistance = 170;
+		} else {
+			topBranchDistance = top;
+		}
+		if(bot >= 100){
+			botBranchDistance = 170;
+		} else {
+			botBranchDistance = bot;
+		}
 		repaint();
 	}
 	
+	/** 
+	 * Overridden method to prevent sizing issues
+	 * 
+	 * (non-Javadoc)
+	 * @see javax.swing.JComponent#getPreferredSize()
+	 */
 	@Override
 	public Dimension getPreferredSize() {
-        return new Dimension(500,500);
-    }
+		return new Dimension(500,500);
+	}
 
 	/**
-	 * Draws robot using the joint variables
+	 * Is called internally by the GUI to update the graphics
 	 */
 	@Override
 	public void paintComponent(Graphics g){
@@ -87,8 +123,11 @@ public class RobotSkeletonSide extends JPanel{
 		drawRobot(g);
 	}
 	
+	/**
+	 * draws the robot graphics
+	 * @param g - graphics object passed by @paintComponent
+	 */
 	private void drawRobot(Graphics g){
-
 		//x coordinate of center of ball joint
 		double x2 = getWidth()/2; 	
 		//x coordinate of center point of lower segment
@@ -157,13 +196,21 @@ public class RobotSkeletonSide extends JPanel{
 		g.drawLine((int)x2, (int)y2, (int)x3, (int)y3);
 	}
 	
+	/**
+	 * draws the tree graphics
+	 * @param g - graphics object passed by @paintComponent
+	 */
 	private void drawTree(Graphics g){
 		g.setColor(new Color(97, 65, 38));
 		double treeAngle = -(isTopAttached? robotAngle + bendAngle: robotAngle) + Math.PI/2;
 		double treeWidth = getWidth()/2;
 		double treeHeight = getHeight() + 70;
+		
+		//determine offset from center of robot (also equivalent to center of panel
 		double xtreeOffset = (7 + getWidth()/4)*Math.cos(treeAngle) + getWidth()/2;
 		double ytreeOffset = (7 + getWidth()/4)*Math.sin(treeAngle) + getHeight()/2;
+		
+		//determine points of corners of the tree
 		double xTree0 = xtreeOffset - treeWidth/2*Math.cos(treeAngle) - treeHeight*Math.sin(treeAngle);
 		double xTree1 = xtreeOffset + treeWidth/2*Math.cos(treeAngle) - treeHeight*Math.sin(treeAngle);
 		double xTree2 = xtreeOffset + treeWidth/2*Math.cos(treeAngle) + treeHeight*Math.sin(treeAngle);
@@ -180,15 +227,25 @@ public class RobotSkeletonSide extends JPanel{
 		g.fillPolygon(xPoints, yPoints, 4);
 	}
 	
+	/**
+	 * draws the top branch graphics
+	 * @param g - graphics object passed by @paintComponent
+	 */
 	private void drawTopBranch(Graphics g){
 		g.setColor(new Color(97, 65, 38));
 		double branchAngle = -(isTopAttached? robotAngle + bendAngle: robotAngle) + Math.PI/2;
 		double branchWidth = getWidth()/4;
-		double branchHeight = getHeight()/70;
+		double branchHeight = getHeight()/40;
 		double robotOffset = extend + topHeight + height/2;
+		
+		//scale the distance from 0 to 100 to the distance from the edge of the robot to the edge of the graphic
 		double topBranchScaledDistance = 4 + branchHeight/2 + robotOffset + topBranchDistance*(getHeight()/2 - robotOffset)/100;
+		
+		//determine offset from center of robot (also equivalent to center of panel
 		double xbranchOffset = (9 - branchWidth/2)*Math.cos(branchAngle) + topBranchScaledDistance*Math.sin(branchAngle) + getWidth()/2;
 		double ybranchOffset = (9 - branchWidth/2)*Math.sin(branchAngle) - topBranchScaledDistance*Math.cos(branchAngle) + getHeight()/2;
+		
+		//determine points of corners of the branch
 		double xBranch0 = xbranchOffset - branchWidth/2*Math.cos(branchAngle) - branchHeight*Math.sin(branchAngle);
 		double xBranch1 = xbranchOffset + branchWidth/2*Math.cos(branchAngle) - branchHeight*Math.sin(branchAngle);
 		double xBranch2 = xbranchOffset + branchWidth/2*Math.cos(branchAngle) + branchHeight*Math.sin(branchAngle);
@@ -205,15 +262,25 @@ public class RobotSkeletonSide extends JPanel{
 		g.fillPolygon(xPoints, yPoints, 4);
 	}
 	
+	/**
+	 * draws the bottom branch graphics
+	 * @param g - graphics object passed by @paintComponent
+	 */
 	private void drawBotBranch(Graphics g){
 		g.setColor(new Color(97, 65, 38));
 		double branchAngle = -(isTopAttached? robotAngle + bendAngle: robotAngle) + Math.PI/2;
 		double branchWidth = getWidth()/4;
-		double branchHeight = getHeight()/70;
+		double branchHeight = getHeight()/40;
 		double robotOffset = botHeight + height/2; 
+		
+		//scale the distance from 0 to 100 to the distance from the edge of the robot to the edge of the graphic
 		double botBranchScaledDistance = 4 + branchHeight/2 + robotOffset + botBranchDistance*(getHeight()/2 - robotOffset)/100;
+		
+		//determine offset from center of robot (also equivalent to center of panel
 		double xbranchOffset = (9 - branchWidth/2)*Math.cos(branchAngle) - botBranchScaledDistance*Math.sin(branchAngle) + getWidth()/2;
 		double ybranchOffset = (9 - branchWidth/2)*Math.sin(branchAngle) + botBranchScaledDistance*Math.cos(branchAngle) + getHeight()/2;
+		
+		//determine points of corners of the branch
 		double xBranch0 = xbranchOffset - branchWidth/2*Math.cos(branchAngle) - branchHeight*Math.sin(branchAngle);
 		double xBranch1 = xbranchOffset + branchWidth/2*Math.cos(branchAngle) - branchHeight*Math.sin(branchAngle);
 		double xBranch2 = xbranchOffset + branchWidth/2*Math.cos(branchAngle) + branchHeight*Math.sin(branchAngle);

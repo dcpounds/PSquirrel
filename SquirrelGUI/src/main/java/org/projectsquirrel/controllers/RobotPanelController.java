@@ -54,7 +54,7 @@ public class RobotPanelController {
 	}
 	
 	/**
-	 * updates the robot graphic to indicate which claws are attacjed
+	 * updates the robot graphic to indicate which claws are attached
 	 * @param attachedClaws - ids of claw sensors that are attached
 	 */
 	public static void updateRobotClaws(List<Integer> attachedClaws){

@@ -54,11 +54,11 @@ public class RobotPanel extends JPanel {
 	
 	/**
 	 * updates the position of the robot
-	 * @param alpha
-	 * @param yaw
-	 * @param gamma
-	 * @param pitch
-	 * @param extend
+	 * @param alpha - angle of robot to ground with respect to front of tree
+	 * @param yaw - bend of robot with respect to front of tree
+	 * @param gamma - angle of robot to ground with respect to side of tree
+	 * @param pitch - bend of robot with respect to front of tree
+	 * @param extend - extension of robot
 	 */
 	public void update(float alpha, float yaw, float gamma, float pitch, float extend) {
 		robotFrontPanel.update(alpha, yaw, extend, Color.BLACK);

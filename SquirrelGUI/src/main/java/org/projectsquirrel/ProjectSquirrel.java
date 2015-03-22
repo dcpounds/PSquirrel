@@ -17,6 +17,8 @@ import org.projectsquirrel.views.MainView;
 /**
  * @author dave 
  *
+ * Main class, initialize main GUI and runs a thread to receive camera frames
+ *
  */
 public class ProjectSquirrel {
 
