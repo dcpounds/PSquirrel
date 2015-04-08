@@ -76,6 +76,7 @@ public class RobotSkeletonFront extends JPanel{
 	public void updateBranchDistances(float top, float bot){
 		topBranchDistance = top;
 		botBranchDistance = bot;
+		repaint();
 	}
 	
 	/** 
