@@ -1,8 +1,8 @@
 from src.sensors.sensor import Sensor
 
-class Encoder(Sensor):
+class StrainGauge(Sensor):
     """
-    Class representing an encoder.
+    Class representing a current sensor.
     """
     
     def __init__(self, ID, pin):
@@ -12,9 +12,9 @@ class Encoder(Sensor):
         ID - id number of sensor
         pin - pin sensor is attached to
         """
-        super(Encoder, self).__init__("ENCODER", ID, pin)
+        super(StrainGauge, self).__init__("StrainGauge", ID, pin)
     
-    def takeReading(self):
+    def readValue(self):
         """
         Update the internally stored value for the sensor.
         """

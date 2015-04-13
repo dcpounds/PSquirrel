@@ -22,9 +22,6 @@ import javax.swing.JLabel;
 
 import org.projectsquirrel.controllers.CameraController;
 import org.projectsquirrel.controllers.RobotPanelController;
-import org.projectsquirrel.models.Sensor;
-import org.projectsquirrel.models.SensorPacket;
-import org.projectsquirrel.models.SensorType;
 import org.projectsquirrel.network.SocketManager;
 import org.projectsquirrel.views.miscViews.SidePanel;
 import org.projectsquirrel.views.robotViews.RobotPanel;

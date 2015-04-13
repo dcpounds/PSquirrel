@@ -1,8 +1,8 @@
 from src.sensors.sensor import Sensor
 
-class Ultrasonic(Sensor):
+class Battery(Sensor):
     """
-    Class representing a sonar sensor.
+    Class representing an encoder.
     """
     
     def __init__(self, ID, pin):
@@ -12,9 +12,9 @@ class Ultrasonic(Sensor):
         ID - id number of sensor
         pin - pin sensor is attached to
         """
-        super(Ultrasonic, self).__init__("ULTRASONIC", ID, pin)
+        super(Battery, self).__init__("ENCODER", ID, pin)
     
-    def takeReading(self):
+    def readValue(self):
         """
         Update the internally stored value for the sensor.
         """

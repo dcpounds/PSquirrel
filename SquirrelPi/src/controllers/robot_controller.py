@@ -19,7 +19,6 @@ class RobotController():
         self.driveMotorManager = motorManager
         self.driveCommand = "STOP"
         self.cameraCommand = "STOP"
-        self.stateData = self.sensorManager.getRobotStateData()
         
     def run(self):
         """
@@ -34,10 +33,10 @@ class RobotController():
                 command = self.networkManager.receiveCommand()
                 if command['commandType'] == 'DRIVE':
                     self.driveCommand = command['command']
-                    self.networkManager.sendSensorData(self.stateData)
                 if command['commandType'] == 'CAMERA':
                     self.cameraCommand = command['command']
-            self.stateData = self.sensorManager.getRoboStateData()
+            self.stateData = self.sensorManager.getRobotStateData()
+            self.networkManager.sendRobotStateData(self.stateData)
             self.driveMotorManager.driveMotor(self.driveCommand)
             self.cameraMotorManager.driveMotor(self.cameraCommand)
                 

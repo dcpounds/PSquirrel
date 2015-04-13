@@ -1,102 +1,85 @@
-from src.sensors.encoder import Encoder
+from src.sensors.battery import Battery
 from src.sensors.potentiometer import Potentiometer
-from src.sensors.current import Current
+from src.sensors.strain_gauge import StrainGauge
 from src.sensors.gyro import Gyro
-from src.sensors.ir import IR
+from src.sensors.accelerometer import Accelerometer
 from src.sensors.limit_switch import LimitSwitch
-from src.sensors.sonar import Ultrasonic
+from src.sensors.ultrasonic import Ultrasonic
+
+import math
 
 class SensorManager():
     """
     Class for managing reading sensor data
     """
+    POT_FIRE_POSITION = None
     
-    CAMERA = 1
-    CAMERA_ANGLE_MIN = 0
-    CAMERA_ANGLE_MAX = 1024    
+    BALL_YAW_MIN = None
+    BALL_YAW_MAX = None
     
-    BALL_YAW = 1
-    BALL_YAW_MIN = 0
-    BALL_YAW_MAX = 1024
-    
-    BALL_PITCH = 2
-    BALL_PITCH_MIN = 0
-    BALL_PITCH_MAX = 1024
-    
-    SCREW_ENCODER = 1
-    SCREW_RETRACTED = 0
-    SCREW_EXTENDED = 1024
-    
-    CLAW_TTL = 1
-    CLAW_TTR = 2
-    CLAW_TBL = 3
-    CLAW_TBR = 4
-    CLAW_BTL = 5
-    CLAW_BTR = 6
-    CLAW_BBL = 7
-    CLAW_BBR = 8
-    IR_TOP = 1
-    IR_BOT = 2
-    SONAR_TOP = 1 
-    SONAR_BOT = 2
+    BALL_PITCH_MIN = None
+    BALL_PITCH_MAX = None
+   
+    CLAW_THRESHOLD = -1
+
     
     def __init__(self):
         """
         Initializes the sensor manager with the various list of sensors.
         """
-        self.sensors = []
-        self.sensors.append(Encoder(1, 0))
-        self.sensors.append(Potentiometer(1, 0))
-        self.sensors.append(Potentiometer(2, 0))
-        self.sensors.append(Current(1, 0))
-        self.sensors.append(Current(2, 0))
-        self.sensors.append(Current(3, 0))
-        self.sensors.append(Current(4, 0))
-        self.sensors.append(Current(5, 0))
-        self.sensors.append(Gyro(1, 0))
-        self.sensors.append(IR(1, 0))
-        self.sensors.append(IR(2, 0))
-        self.sensors.append(LimitSwitch(1, 0))
-        self.sensors.append(LimitSwitch(2, 0))
-        self.sensors.append(LimitSwitch(3, 0))
-        self.sensors.append(LimitSwitch(4, 0))
-        self.sensors.append(LimitSwitch(5, 0))
-        self.sensors.append(LimitSwitch(6, 0))
-        self.sensors.append(LimitSwitch(7, 0))
-        self.sensors.append(LimitSwitch(8, 0))
-        self.sensors.append(Ultrasonic(1, 0))
-        self.sensors.append(Ultrasonic(2, 0))
-        for sensor in self.sensors:
-            sensor.takeReading()
+        self.topClawMotorPot = Potentiometer(1, 0)
+        self.botClawMotorPot = Potentiometer(2, 0)
+        self.yawMotorPot1 = Potentiometer(3, 0)
+        self.yawMotorPot2 = Potentiometer(4, 0)
+        self.pitchMotorPot1 = Potentiometer(5, 0)
+        self.pitchMotorPot2 = Potentiometer(6, 0)
+        self.gyro = Gyro(1, 0)
+        self.accel = Accelerometer(1, 0)
+        self.topTLClaw = StrainGauge(1, 0)
+        self.topTRClaw = StrainGauge(2, 0)
+        self.topBLClaw = StrainGauge(3, 0)
+        self.topBRClaw = StrainGauge(4, 0)
+        self.botTLClaw = StrainGauge(5, 0)
+        self.botTRClaw = StrainGauge(6, 0)
+        self.botBLClaw = StrainGauge(7, 0)
+        self.botBRClaw = StrainGauge(8, 0)
+        self.leadScrewTopLim = LimitSwitch(1, 0)
+        self.leadScrewBotLim = LimitSwitch(2, 0)
+        self.topBranchUltrasonic = Ultrasonic(1, 0)
+        self.topTreeUltrasonic = Ultrasonic(2, 0)
+        self.botBranchUltrasonic = Ultrasonic(1, 0)
+        self.botTreeUltrasonic = Ultrasonic(2, 0)
+        self.battery = Battery(1, 0)
         
-    def getRobotStateData(self):
+    def readRobotPositionData(self):
         """
         reads all the data about the robot's position, claws attached, and battery
         """
+        accelValues = self.accel.readValue()
+        gyroValues = self.gyro.readValue()
+        alpha = -1
+        yaw = -1
+        gamma = -1
+        pitch = -1
         
-    
-    def getSensor(self, sensorID, sensorType):
-        """
-        returns the sensor with the given ID and type
+        claws = [self.topTLClaw, self.topTRClaw, self.topBLClaw, self.topBRClaw,
+                 self.botTLClaw, self.botTRClaw, self.botBLClaw, self.botBRClaw]
+        attachedClaws = [claw for claw in claws if claw.readValue() > self.CLAW_THRESHOLD]
         
-        sensorType - type of the sensor
-        sensorID - id number of the sensor
-        """
-        for sensor in self.sensors:
-            if sensor.sensorType == sensorType and sensor.ID == sensorID:
-                return sensor
-            
-    def readSensorValue(self, sensorID, sensorType):
-        """
-        reads the current sensor data on the robot
+        topClearance = self.topTreeUltrasonic.readValue()
+        botClearance = self.botTreeUltrasonic.readValue()
+        battery = self.battery.readValue()
         
-        sensorType - type of the sensor
-        sensorID - id number of the sensor
-        """
-        for sensor in self.sensors:
-            if sensor.sensorType == sensorType and sensor.ID == sensorID:
-                return sensor
-            
+        return {"Alpha": alpha,
+                "Yaw": yaw,
+                "Gamma": gamma, 
+                "Pitch": pitch,
+                "Extend": -1,
+                "AttachedClaws": attachedClaws,
+                "TopClearance": topClearance,
+                "BotClearance": botClearance,
+                "Battery": battery}
+        
     def areClawsAttached(self, robotHalf, num_claws=3):
         """
         Determines whether the claws for the given robotHalf are attached
@@ -105,51 +88,56 @@ class SensorManager():
         num_claws - the number of claws required to be attached (defaults to 3)
         """
         if(robotHalf == "TOP"):
-            claw_sensors = [self.CLAW_TTL, self.CLAW_TTR, self.CLAW_TBL, self.CLAW_TBR]
+            claws = [self.topTLClaw, self.topTRClaw, self.topBLClaw, self.topBRClaw]
         else:
-            claw_sensors = [self.CLAW_BTL, self.CLAW_BTR, self.CLAW_BBL, self.CLAW_BBR]
+            claws = [self.botTLClaw, self.botTRClaw, self.botBLClaw, self.botBRClaw]
+        
+        return sum([claw > self.CLAW_THRESHOLD for claw in claws]) > num_claws
+    
+    def areClawsInFirePosition(self, robotHalf):
+        """
+        Determines if claws are raised enough to be in fire position
+        """
+        if(robotHalf == "TOP"):
+            potValue = self.topClawMotorPot.readValue()
+        else:
+            potValue = self.botClawMotorPot.readValue()
             
-        num_attached_claws = sum([self.readSensorValue(claw_sensor, "LIMIT_SWITCH")
-                                    for claw_sensor in claw_sensors])
+        return potValue > self.POT_FIRE_POSITION
         
-        return num_attached_claws >= 4 
-        
-    def isCameraPastEdge(self):
-        """
-        Test if camera is within limits
-        """
-        cameraAngle = self.readSensorValue(self.CAMERA, "POTENTIOMETER")
-        return cameraAngle > self.CAMERA_ANGLE_MAX or cameraAngle < self.CAMERA_ANGLE_MIN
-        
-    def isBallYawPastEdge(self):
+    def isGimblePastEdge(self, angle):
         """
         Test if ball yaw is within limits
         """
-        ballYaw = self.get_sensor(self.BALL_YAW, "POTENTIOMETER")
-        return ballYaw> self.BALL_YAW_MAX or ballYaw < self.BALL_YAW_MIN
         
         
-    def isBallPitchPastEdge(self):
-        """
-        Test if ball pitch is within limits
-        """
-        ballPitch = self.get_sensor(self.BALL_PITCH, "POTENTIOMETER")
-        return ballPitch > self.BALL_PITCH_MAX or ballPitch < self.BALL_PITCH_MIN
+    def getGimblePotAngles(self, angle):
+        if(angle == "YAW"):
+            potValues = (self.yawMotorPot1.readValue(), self.yawMotorPot2.readValue())
+        else:
+            potValues = (self.pitchMotorPot1.readValue(), self.pitchMotorPot2.readValue())
+    
+        angle1 = potValues[0]*2*math.pi/1024
+        angle2 = potValues[1]*2*math.pi/1024
+    
+        return (angle1, angle2)
     
     def isLeadScrewPastEdge(self):
         """
         Test if lead screw is past edge
         """
-        return self.isLeadScrewExtended or self.isLeadScrewRetracted
+        
+        return self.isLeadScrewExtended() or self.isLeadScrewRetracted()
         
     def isLeadScrewExtended(self):
         """
         Test if lead screw is extended
         """
-        return self.readSensorValue(self.SCREW_ENCODER, "ENCODER") > self.SCREW_EXTENDED
+        return self.leadScrewTopLim.readValue() == 1
     
     def isLeadScrewRetracted(self):
         """
         Test if lead screw is retracted
         """
-        return self.readSensorValue(self.SCREW_ENCODER, "ENCODER") < self.SCREW_RETRACTED
+        return self.leadScrewBotLim.readValue() == 1
+    

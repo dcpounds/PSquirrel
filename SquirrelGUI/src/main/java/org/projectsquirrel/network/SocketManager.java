@@ -14,13 +14,12 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.Base64;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import org.projectsquirrel.models.CommandPacket;
-import org.projectsquirrel.models.SensorPacket;
+import org.projectsquirrel.models.RobotState;
 
 /**
  * @author dave
@@ -87,18 +86,18 @@ public class SocketManager {
 	}
 
 	/**
-	 * Receives raw sensor data from the RasPi
-	 * @return - raw sensor data as a SensorPacket
+	 * Receives robot data from the RasPi
+	 * @return - robot state data as a RobotState
 	 * @throws IOException
 	 * @throws NetworkUninitializedException
 	 */
-	public static SensorPacket receiveSensorPacket() throws IOException,
+	public static RobotState receiveSensorPacket() throws IOException,
 			NetworkUninitializedException {
 		if (!isInitialized) {
 			throw new NetworkUninitializedException();
 		}
 		// while(!in.ready());
-		return SensorPacket.fromJson(in.readLine());
+		return RobotState.fromJson(in.readLine());
 	}
 
 	/**

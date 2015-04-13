@@ -8,6 +8,8 @@ import java.util.List;
 import org.projectsquirrel.controllers.BatteryPanelController;
 import org.projectsquirrel.controllers.RobotPanelController;
 
+import com.google.gson.Gson;
+
 /**
  * @author dave
  * 
@@ -23,14 +25,14 @@ public class RobotState {
 	private float extend;
 	private float topClearance;
 	private float botClearance;
-	private List<Integer> claws;
+	private List<Integer> attachedClaws;
 	private float battery;
 	
 	/**
 	 * Construct a model of the robot data based off the given sensor packet from the RasPi
 	 * @param sensorPacket
 	 */
-	public RobotState(SensorPacket sensorPacket){
+	public RobotState(){
 		
 	}
 	
@@ -39,8 +41,29 @@ public class RobotState {
 	 */
 	public void updateGUI(){
 		RobotPanelController.updateRobotPosition(alpha, yaw, gamma, pitch, extend);
-		RobotPanelController.updateRobotClaws(claws);
+		RobotPanelController.updateRobotClaws(attachedClaws);
 		RobotPanelController.updateBranchDistances(topClearance, botClearance);
 		BatteryPanelController.updateBattery(battery);
+	}
+	
+	/**
+	 * @return A {@link String} representing the {@link RobotState} as Json.
+	 */
+	public String toJson() {
+		String json;
+		Gson gson = new Gson();
+		json = gson.toJson(this, RobotState.class);
+		return json;
+	}
+
+	/**
+	 * @param json
+	 *            A {@link String} of Json to create a {@link RobotState}
+	 *            from.
+	 * @return A new {@link RobotState}.
+	 */
+	public static RobotState fromJson(String json) {
+		final Gson parser = new Gson();
+		return parser.fromJson(json, RobotState.class);
 	}
 }

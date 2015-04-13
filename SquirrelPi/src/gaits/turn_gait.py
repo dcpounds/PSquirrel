@@ -25,6 +25,6 @@ class TurnGait():
 		elif(self.sensor_manger.areClawsAttached("TOP")):
 			self.drive_motor_manager.detachClaws("TOP")
 		else:
-			self.drive_motor_manager.turn(self.direction)
+			self.drive_motor_manager.turnStep("YAW", self.direction)
 					
 					

@@ -42,19 +42,22 @@ class NetworkManager:
         self.client.close()
         self.server.close()
 
-    def sendSensorData(self, sensorData):
+    def sendRobotStateData(self, stateData):
         """
         Sends the JSON encoded sensor data packet to the network.
         
-        sensorData - sensor data in dictionary of form:
-        {"sensorData":[{"sensorType": <type>, 
-                        "number": <number>, 
-                        "value": <value>},
-                       {"sensorType": <type>, 
-                        "number": <number>,
-                        "value": <value>} ...]}
+        stateData - state data in dictionary of form:
+        {"alpha": alpha,
+         "yaw": yaw,
+         "gamma": gamma, 
+         "pitch": pitch,
+         "extend: extend,
+         "attachedClaws":[claw1, claw2....],
+         "topClearance": top clearance,
+         "botClearance": bottom clearance,
+         "battery": battery percentage,
         """
-        data = json.dumps(sensorData)
+        data = json.dumps(stateData)
         self.client.send(data + "\n")
         
     def sendFrame(self, cameraFrame):

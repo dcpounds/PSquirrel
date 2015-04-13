@@ -1,8 +1,8 @@
 from src.sensors.sensor import Sensor
 
-class Potentiometer(Sensor):
+class Ultrasonic(Sensor):
     """
-    Class representing a potentiometer.
+    Class representing a sonar sensor.
     """
     
     def __init__(self, ID, pin):
@@ -12,7 +12,7 @@ class Potentiometer(Sensor):
         ID - id number of sensor
         pin - pin sensor is attached to
         """
-        super(Potentiometer, self).__init__("POTENTIOMETER", ID, pin)
+        super(Ultrasonic, self).__init__("ULTRASONIC", ID, pin)
     
     def readValue(self):
         """

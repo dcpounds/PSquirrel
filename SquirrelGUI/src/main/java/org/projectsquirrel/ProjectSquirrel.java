@@ -43,7 +43,9 @@ public class ProjectSquirrel {
 						if(imageBuf != null){
 							CameraController.updateCameraPanel(imageBuf);
 						}
-					} catch (IOException | NetworkUninitializedException e) {
+					} catch (IOException  e) {
+						e.printStackTrace();
+					} catch (NetworkUninitializedException e){
 						e.printStackTrace();
 					}
 				}

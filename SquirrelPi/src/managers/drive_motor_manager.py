@@ -1,15 +1,19 @@
 from src.motors.motor import Motor
+from src.motors.stepper_motor import StepperMotor
 from src.managers.sensor_manager import SensorManager
 from src.gaits.drive_gait import DriveGait
 from src.gaits.turn_gait import TurnGait
+
+import math
 
 class DriveMotorManager():
     """
     Class for driving motors for the robot gait based off given drive commands
     """
+    CW = 0
+    CCW = 1
     
-    BALL_PITCH_SPEED = 0
-    BALL_YAW_SPEED = 0
+    GIMBLE_SPEED = 0
     CLAW_SPEED = 0
     SCREW_SPEED = 0
     
@@ -22,9 +26,11 @@ class DriveMotorManager():
         self.sensorManager = sensorManager
         self.clawMotorTop = Motor(0)
         self.clawMotorBottom = Motor(0)
-        self.ballMotorYaw = Motor(0)
-        self.ballMotorPitch = Motor(0)
-        self.screwMotor = Motor(0)
+        self.gimbleMotorYaw1 = Motor(0)
+        self.gimbleMotorYaw2 = Motor(0)
+        self.gimbleMotorPitch1 = Motor(0)
+        self.gimbleMotorPitch2 = Motor(0)
+        self.screwMotor = StepperMotor(0)
         self.upGait = DriveGait("UP", sensorManager, self)
         self.downGait = DriveGait("DOWN", sensorManager, self)
         self.leftGait = TurnGait("LEFT", sensorManager, self)
@@ -48,8 +54,6 @@ class DriveMotorManager():
         
         distance - specified half (TOP or BOTTOM)
         """
-        #PID stuff?
-        pass
     
     def attachClaws(self, robotHalf):
         """
@@ -57,8 +61,15 @@ class DriveMotorManager():
         
         distance - specified half (TOP or BOTTOM)
         """
-        #attach claws
-        pass
+        if(robotHalf == "TOP"):
+            clawMotor = self.clawMotorTop()
+        else:
+            clawMotor = self.clawMotorBot()
+        
+        while(not self.sensorManager.areClawsAttached(robotHalf)):
+            clawMotor.write(self.CW, self.CLAW_SPEED)
+            
+        clawMotor.stop()
         
     def detachClaws(self, robotHalf):
         """
@@ -66,53 +77,70 @@ class DriveMotorManager():
         
         distance - specified half (TOP or BOTTOM)
         """
-        #detach claws
-        pass
+        if(robotHalf == "TOP"):
+            clawMotor = self.clawMotorTop()
+        else:
+            clawMotor = self.clawMotorBot()
+            
+        while(not self.sensorManager.areClawsInFirePostion(robotHalf)):
+            clawMotor.write(self.CW, self.CLAW_SPEED)
+            
+        clawMotor.stop()
     
-    def driveLeadScrew(self, direction):
+    def driveLeadScrewStep(self, direction):
         """
         drive lead screw in specified direction
         
         direction - direction to drive in (RETRACT or EXTEND)
         """
-        if(self.sensor_manager.isLeadScrewPastEdge()):
-            if(direction == "RETRACT"):
-                self.screwMotor.write(Motor.CCW, self.SCREW_SPEED)
-            elif(direction == "EXTEND"):
-                self.screwMotor.write(Motor.CW, self.SCREW_SPEED)
-        elif(direction == "RETRACT"):
-            self.screwMotor.write(Motor.CW, self.SCREW_SPEED)
-        elif(direction == "EXTEND"):
-            self.screwMotor.write(Motor.CCW, self.SCREW_SPEED)
+        if(direction == "RETRACT"):
+            self.screwMotor.write(self.CW, self.SCREW_SPEED)
         else:
-            self.screwMotor.stop()
-            raise ValueError("Invalid Direction")
+            self.screwMotor.write(self.CCW, self.SCREW_SPEED)
         
-    def turn(self, direction):
+    def turnStep(self, angle, direction):
         """
         turn robot in specified direction
         
         direction - direction to drive in (LEFT or RIGHT)
         """
-        if(self.sensor_manager.isBallPitchPastEdge()):
-            if(direction == "LEFT"):
-                self.ballMotorPitch.write(Motor.CCW, self.SCREW_SPEED)
-            elif(direction == "RIGHT"):
-                self.ballMotorPitch.write(Motor.CW, self.SCREW_SPEED)
-        elif(direction == "LEFT"):
-            self.ballMotorPitch.write(Motor.CW, self.BALL_PITCH_SPEED)
-        elif(direction == "RIGHT"):
-            self.ballMotorPitch.write(Motor.CCW, self.BALL_PITCH_SPEED)
+        if(angle == "PITCH"):
+            motor1 = self.gimbleMotorPitch1.stop()
+            motor2 = self.gimbleMotorPitch2.stop()
         else:
-            self.ballMotorPitch.stop()
-            raise ValueError("Invalid Direction")
+            motor1 = self.gimbleMotorYaw1.stop()
+            motor2 = self.gimbleMotorYaw2.stop()
+        angles = self.sensorManager.getGimblePotAngles(angle)
+    
+        speed1 = self.GIMBLE_SPEED
+        """do calculation for speed of other motor here"""
+        e = 1
+        f = 1
+        s0 = 1
+        r = 1
+        
+        s = s0 + r*angles[0]
+        l = s0 + r*angles[1]
+        S = math.acos((-(s**2) + e**2 + f**2)/(2*e*f))
+        L = math.acos((-(l**2) + e**2 + f**2)/(2*e*f))
+         
+        speed2 = -(l*math.sin(S))/(s*math.sin(L)) 
+        
+        if(direction == "LEFT"):
+            motor1.write(self.CW, speed1)
+            motor2.write(self.CW, speed2)
+        else:
+            motor1.write(self.CCW, speed2)
+            motor2.write(self.CCW, speed1)
     
     def stop(self):
         """
         Stop the robot.
         """
+        self.gimbleMotorPitch1.stop()
+        self.gimbleMotorPitch2.stop()
+        self.gimbleMotorYaw1.stop()
+        self.gimbleMotorYaw2.stop()
         self.clawMotorTop.stop()
         self.clawMotorBottom.stop()
-        self.ballMotorYaw.stop()
-        self.ballMotorPitch.stop()
         self.screwMotor.stop()

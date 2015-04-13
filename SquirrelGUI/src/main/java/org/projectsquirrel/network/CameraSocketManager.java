@@ -14,13 +14,10 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.Base64;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import org.projectsquirrel.models.CommandPacket;
-import org.projectsquirrel.models.SensorPacket;
 
 /**
  * @author dave

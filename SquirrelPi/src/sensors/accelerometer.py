@@ -1,8 +1,8 @@
 from src.sensors.sensor import Sensor
 
-class Current(Sensor):
+class Accelerometer(Sensor):
     """
-    Class representing a current sensor.
+    Class representing a gyro.
     """
     
     def __init__(self, ID, pin):
@@ -12,9 +12,9 @@ class Current(Sensor):
         ID - id number of sensor
         pin - pin sensor is attached to
         """
-        super(Current, self).__init__("CURRENT", ID, pin)
+        super(Accelerometer, self).__init__("GYRO", ID, pin)
     
-    def takeReading(self):
+    def readValue(self):
         """
         Update the internally stored value for the sensor.
         """
