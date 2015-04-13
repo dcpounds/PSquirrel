@@ -7,6 +7,7 @@ from src.sensors.limit_switch import LimitSwitch
 from src.sensors.ultrasonic import Ultrasonic
 
 import math
+import spidev
 
 class SensorManager():
     """
@@ -27,22 +28,26 @@ class SensorManager():
         """
         Initializes the sensor manager with the various list of sensors.
         """
-        self.topClawMotorPot = Potentiometer(1, 0)
-        self.botClawMotorPot = Potentiometer(2, 0)
-        self.yawMotorPot1 = Potentiometer(3, 0)
-        self.yawMotorPot2 = Potentiometer(4, 0)
-        self.pitchMotorPot1 = Potentiometer(5, 0)
-        self.pitchMotorPot2 = Potentiometer(6, 0)
+        
+        self.spi = spidev.SpiDev()
+        self.spi.open(0, 0)
+        
+        self.topClawMotorPot = Potentiometer(1, 0, self.spi)
+        self.botClawMotorPot = Potentiometer(2, 0, self.spi)
+        self.yawMotorPot1 = Potentiometer(3, 0, self.spi)
+        self.yawMotorPot2 = Potentiometer(4, 0, self.spi)
+        self.pitchMotorPot1 = Potentiometer(5, 0, self.spi)
+        self.pitchMotorPot2 = Potentiometer(6, 0, self.spi)
         self.gyro = Gyro(1, 0)
         self.accel = Accelerometer(1, 0)
-        self.topTLClaw = StrainGauge(1, 0)
-        self.topTRClaw = StrainGauge(2, 0)
-        self.topBLClaw = StrainGauge(3, 0)
-        self.topBRClaw = StrainGauge(4, 0)
-        self.botTLClaw = StrainGauge(5, 0)
-        self.botTRClaw = StrainGauge(6, 0)
-        self.botBLClaw = StrainGauge(7, 0)
-        self.botBRClaw = StrainGauge(8, 0)
+        self.topTLClaw = StrainGauge(1, 0, self.spi)
+        self.topTRClaw = StrainGauge(2, 0, self.spi)
+        self.topBLClaw = StrainGauge(3, 0, self.spi)
+        self.topBRClaw = StrainGauge(4, 0, self.spi)
+        self.botTLClaw = StrainGauge(5, 0, self.spi)
+        self.botTRClaw = StrainGauge(6, 0, self.spi)
+        self.botBLClaw = StrainGauge(7, 0, self.spi)
+        self.botBRClaw = StrainGauge(8, 0, self.spi)
         self.leadScrewTopLim = LimitSwitch(1, 0)
         self.leadScrewBotLim = LimitSwitch(2, 0)
         self.topBranchUltrasonic = Ultrasonic(1, 0)

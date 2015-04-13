@@ -102,6 +102,7 @@ class DriveMotorManager():
         """
         turn robot in specified direction
         
+        angle - gimble angle to drive on (YAW or PITCH)
         direction - direction to drive in (LEFT or RIGHT)
         """
         if(angle == "PITCH"):
@@ -113,7 +114,8 @@ class DriveMotorManager():
         angles = self.sensorManager.getGimblePotAngles(angle)
     
         speed1 = self.GIMBLE_SPEED
-        """do calculation for speed of other motor here"""
+        
+        """TODO: set e,f,s0 and r as constants"""
         e = 1
         f = 1
         s0 = 1

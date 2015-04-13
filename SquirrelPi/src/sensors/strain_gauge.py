@@ -5,7 +5,7 @@ class StrainGauge(Sensor):
     Class representing a current sensor.
     """
     
-    def __init__(self, ID, pin):
+    def __init__(self, ID, pin, spi):
         """
         Initialize the sensor
         
@@ -13,6 +13,7 @@ class StrainGauge(Sensor):
         pin - pin sensor is attached to
         """
         super(StrainGauge, self).__init__("StrainGauge", ID, pin)
+        self.spi = spi
     
     def readValue(self):
         """

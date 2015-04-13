@@ -5,7 +5,7 @@ class Potentiometer(Sensor):
     Class representing a potentiometer.
     """
     
-    def __init__(self, ID, pin):
+    def __init__(self, ID, pin, spi):
         """
         Initialize the sensor
         
@@ -13,6 +13,7 @@ class Potentiometer(Sensor):
         pin - pin sensor is attached to
         """
         super(Potentiometer, self).__init__("POTENTIOMETER", ID, pin)
+        self.spi = spi
     
     def readValue(self):
         """
