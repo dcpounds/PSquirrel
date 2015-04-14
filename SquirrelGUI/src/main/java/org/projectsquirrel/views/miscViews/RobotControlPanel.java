@@ -46,14 +46,14 @@ public class RobotControlPanel extends JPanel {
 		lblRobotControls = new JLabel("Robot Controls");
 
 		Dimension buttonDimension = new Dimension(15, 30);
-		robotLeftBtn = new JButton("\u2190");
+		robotLeftBtn = new JButton("\u21B6");
 		robotLeftBtn.setSize(buttonDimension);
 		robotUpBtn = new JButton("\u2191");
-		robotLeftBtn.setSize(buttonDimension);
+		robotUpBtn.setSize(buttonDimension);
 		robotDownBtn = new JButton("\u2193");
-		robotLeftBtn.setSize(buttonDimension);
-		robotRightBtn = new JButton("\u2192");
-		robotLeftBtn.setSize(buttonDimension);
+		robotDownBtn.setSize(buttonDimension);
+		robotRightBtn = new JButton("\u21B7");
+		robotRightBtn.setSize(buttonDimension);
 
 		JPanel robotButtonPanel = new JPanel();
 		setLayout(new MigLayout("", "[]", "[][][]"));

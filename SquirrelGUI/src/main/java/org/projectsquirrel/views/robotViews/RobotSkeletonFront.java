@@ -3,9 +3,13 @@ package org.projectsquirrel.views.robotViews;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -227,16 +231,29 @@ public class RobotSkeletonFront extends JPanel{
 	 */
 	private void drawTopBranch(Graphics g){
 		g.setColor(Color.BLACK);
-		double branchDiameter = getHeight()/30;
+		double branchWidth = getHeight()/17;
 		double robotOffset = extend + topHeight + height/2;
 		
 		//scale the distance from 0 to 100 to the distance from the edge of the robot to the edge of the graphic
-		double topBranchScaledDistance = 4 + branchDiameter/2 + robotOffset + topBranchDistance*(getHeight()/2 - robotOffset)/100;
+		double topBranchScaledDistance = 4 + branchWidth/2 + robotOffset + topBranchDistance*(getHeight()/2 - robotOffset)/100;
 		
-		g.fillOval((int)(getWidth()/2 - branchDiameter/2), 
-				(int)(getHeight()/2 - topBranchScaledDistance - branchDiameter/2),
-				(int)branchDiameter,
-				(int)branchDiameter);
+		g.fillRect((int)(getWidth()/2 - branchWidth/2), 
+				(int)(getHeight()/2 - topBranchScaledDistance - branchWidth/2),
+				(int)branchWidth,
+				(int)branchWidth);
+		
+		try{
+			BufferedImage warningIcon = ImageIO.read(new File("src/resources/warning.png"));
+			int imageScaledWidth = (int)(branchWidth);
+			g.drawImage(warningIcon, 
+					-imageScaledWidth/2 + (int)(getWidth()/2), 
+					-imageScaledWidth/2 + (int)(getHeight()/2 - topBranchScaledDistance), 
+					imageScaledWidth, 
+					imageScaledWidth, 
+					null);
+		} catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -245,16 +262,29 @@ public class RobotSkeletonFront extends JPanel{
 	 */
 	private void drawBotBranch(Graphics g){
 		g.setColor(Color.BLACK);
-		double branchDiameter = getHeight()/30;
+		double branchWidth = getHeight()/17;
 		double robotOffset = botHeight + height/2;
 		
 		//scale the distance from 0 to 100 to the distance from the edge of the robot to the edge of the graphic
-		double botBranchScaledDistance = 4 + branchDiameter/2 + robotOffset + botBranchDistance*(getHeight()/2 - robotOffset)/100;
+		double botBranchScaledDistance = 4 + branchWidth/2 + robotOffset + botBranchDistance*(getHeight()/2 - robotOffset)/100;
 		
-		g.fillOval((int)(getWidth()/2 - branchDiameter/2), 
-				(int)(getHeight()/2 + botBranchScaledDistance - branchDiameter/2),
-				(int)branchDiameter,
-				(int)branchDiameter);
+		g.fillRect((int)(getWidth()/2 - branchWidth/2), 
+				(int)(getHeight()/2 + botBranchScaledDistance - branchWidth/2),
+				(int)branchWidth,
+				(int)branchWidth);
+		
+		try{
+			BufferedImage warningIcon = ImageIO.read(new File("src/resources/warning.png"));
+			int imageScaledWidth = (int)(branchWidth);
+			g.drawImage(warningIcon, 
+					-imageScaledWidth/2 + (int)(getWidth()/2), 
+					-imageScaledWidth/2 + (int)(getHeight()/2 + botBranchScaledDistance), 
+					imageScaledWidth, 
+					imageScaledWidth, 
+					null);
+		} catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 	
 }

@@ -42,6 +42,7 @@ public class SidePanel extends JPanel {
 	private ConnectionPanel connectionPanel;
 	private CameraControlPanel cameraControlPanel;
 	private RobotControlPanel robotControlPanel;
+	private Legend legend;
 	
 	/**
 	 * Constructs the View
@@ -51,13 +52,15 @@ public class SidePanel extends JPanel {
 		connectionPanel = ConnectionPanelController.getConnectionPanel();
 		cameraControlPanel = new CameraControlPanel();
 		robotControlPanel = new RobotControlPanel();
+		legend = new Legend();
+		legend.repaint();
 		
-		setLayout(new MigLayout("", "[]", "[][]30[]70[]"));
+		setLayout(new MigLayout("", "[]", "[][]30[]70[][]"));
 		add(batteryPanel, "cell 0 1, alignx center");
 		add(connectionPanel, "cell 0 2, alignx center");
 		add(cameraControlPanel, "cell 0 3, alignx center");
 		add(robotControlPanel, "cell 0 4, alignx center");
-		
+		add(legend, "cell 0 5, alignx center");
 		
 	}
 }

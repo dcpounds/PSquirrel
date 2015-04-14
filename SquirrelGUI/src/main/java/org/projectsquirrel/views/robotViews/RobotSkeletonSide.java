@@ -3,9 +3,13 @@ package org.projectsquirrel.views.robotViews;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -234,7 +238,7 @@ public class RobotSkeletonSide extends JPanel{
 	private void drawTopBranch(Graphics g){
 		g.setColor(new Color(97, 65, 38));
 		double branchAngle = -(isTopAttached? robotAngle + bendAngle: robotAngle) + Math.PI/2;
-		double branchWidth = getWidth()/4;
+		double branchWidth = getWidth()/8;
 		double branchHeight = getHeight()/40;
 		double robotOffset = extend + topHeight + height/2;
 		
@@ -260,6 +264,19 @@ public class RobotSkeletonSide extends JPanel{
 		int[] xPoints = {(int)xBranch0,(int)xBranch1,(int)xBranch2,(int)xBranch3};
 		int[] yPoints = {(int)yBranch0,(int)yBranch1,(int)yBranch2,(int)yBranch3};
 		g.fillPolygon(xPoints, yPoints, 4);
+		
+		try{
+			BufferedImage warningIcon = ImageIO.read(new File("src/resources/warning.png"));
+			int imageScaledWidth = (int)(branchHeight*3);
+			g.drawImage(warningIcon, 
+					-imageScaledWidth/2 + (int)xbranchOffset, 
+					-imageScaledWidth/2 + (int)ybranchOffset, 
+					imageScaledWidth, 
+					imageScaledWidth, 
+					null);
+		} catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -269,7 +286,7 @@ public class RobotSkeletonSide extends JPanel{
 	private void drawBotBranch(Graphics g){
 		g.setColor(new Color(97, 65, 38));
 		double branchAngle = -(isTopAttached? robotAngle + bendAngle: robotAngle) + Math.PI/2;
-		double branchWidth = getWidth()/4;
+		double branchWidth = getWidth()/8;
 		double branchHeight = getHeight()/40;
 		double robotOffset = botHeight + height/2; 
 		
@@ -295,6 +312,19 @@ public class RobotSkeletonSide extends JPanel{
 		int[] xPoints = {(int)xBranch0,(int)xBranch1,(int)xBranch2,(int)xBranch3};
 		int[] yPoints = {(int)yBranch0,(int)yBranch1,(int)yBranch2,(int)yBranch3};
 		g.fillPolygon(xPoints, yPoints, 4);
+
+		try{
+			BufferedImage warningIcon = ImageIO.read(new File("src/resources/warning.png"));
+			int imageScaledWidth = (int)(branchHeight*3);
+			g.drawImage(warningIcon, 
+					-imageScaledWidth/2 + (int)xbranchOffset, 
+					-imageScaledWidth/2 + (int)ybranchOffset, 
+					imageScaledWidth, 
+					imageScaledWidth, 
+					null);
+		} catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 	
 }
