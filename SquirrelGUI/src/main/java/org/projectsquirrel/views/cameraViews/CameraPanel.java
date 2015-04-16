@@ -37,8 +37,8 @@ public class CameraPanel extends JPanel {
 	 */
 	public CameraPanel() {
 		setLayout(new MigLayout("", "[grow]", "[grow]"));
-		setPreferredSize(new Dimension(480, 360));
-		setMinimumSize(new Dimension(360, 270));
+		setPreferredSize(new Dimension(430, 300));
+		setMinimumSize(new Dimension(430, 300));
 		add(picture, "cell 0 0, alignx left, aligny center");
 	}
 	

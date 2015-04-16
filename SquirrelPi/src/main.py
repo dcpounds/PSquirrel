@@ -24,13 +24,14 @@ def main():
     cameraNetworkManager = network_manager.NetworkManager(host, cameraPort, bufSize)
     
     
-    sensorManager = sensor_manager()
-    motorManager = drive_motor_manager(sensorManager)
-    robotController = robot_controller(mainNetworkManager, sensorManager, motorManager)
+    #sensorManager = sensor_manager()
+    #motorManager = drive_motor_manager(sensorManager)
+    #robotController = robot_controller(mainNetworkManager, sensorManager, motorManager)
     cameraController = camera_controller.CameraController(cameraNetworkManager)
     
     #mp.Process(target=cameraController.run)
-    robotController.run()
+    #robotController.run()
+    cameraController.run()
     
 if __name__ == "__main__":
     main()

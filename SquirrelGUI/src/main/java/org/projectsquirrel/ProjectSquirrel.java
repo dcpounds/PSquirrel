@@ -26,17 +26,23 @@ public class ProjectSquirrel {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		/*try {
-			String ip = "localhost";
+		try {
+			String ip = "10.5.5.1";
 			SocketManager.initialize(ip, 9003);
-			CameraSocketManager.initialize(ip, 9004);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
 
 		Thread cameraThread = new Thread(){
 			public void run() {
 				BufferedImage imageBuf;
+				try {
+					String ip = "10.5.5.1";
+					CameraSocketManager.initialize(ip, 9004);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
 				while(true){
 					try {
 						imageBuf = CameraSocketManager.receiveCameraPacket();
@@ -62,7 +68,7 @@ public class ProjectSquirrel {
 		}
 
 		cameraThread.setDaemon(true);
-		//cameraThread.start();
+		cameraThread.start();
 		
 		
 	}

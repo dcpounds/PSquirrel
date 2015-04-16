@@ -86,7 +86,6 @@ public class CameraSocketManager {
 		byte [] sizeBuf = new byte[10];
 		cameraStream.read(sizeBuf);
         int size = Integer.parseInt(new String(sizeBuf, Charset.forName("UTF-8")));
-        
         byte[] imageBuf = new byte[size];
         int bytesRead = 0;
         while(bytesRead < size){

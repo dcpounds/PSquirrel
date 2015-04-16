@@ -28,14 +28,15 @@ class CameraController():
         """
         with picamera.PiCamera() as camera:
             stream = io.BytesIO()
-            camera.resolution = (512, 384)
+            camera.resolution = (720, 480)
             camera.start_preview()
             while 1:
                 stream.seek(0)
                 camera.capture(stream, format='jpeg', use_video_port=True)
+                print "captured camera frame"
                 stream.seek(0)
                 img = stream.read()
                 self.networkManager.client.send("{:0>10}".format(str(len(img))))
-                print "{:0>10}".format(str(len(img)))
+                print "sending camera frame of size: {:0>10}".format(str(len(img)))
                 self.networkManager.client.send(img)
                 
