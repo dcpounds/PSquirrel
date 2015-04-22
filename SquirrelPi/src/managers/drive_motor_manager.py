@@ -1,5 +1,5 @@
-from src.motors.motor import Motor
-from src.motors.stepper_motor import StepperMotor
+from src.motors.gimbal_motor_driver import GimbalMotorDriver
+from src.motors.stepper_motor_driver import StepperMotorDriver
 from src.managers.sensor_manager import SensorManager
 from src.gaits.drive_gait import DriveGait
 from src.gaits.turn_gait import TurnGait
@@ -13,7 +13,7 @@ class DriveMotorManager():
     CW = 0
     CCW = 1
     
-    GIMBLE_SPEED = 0
+    
     CLAW_SPEED = 0
     SCREW_SPEED = 0
     
@@ -23,20 +23,23 @@ class DriveMotorManager():
         
         sensorManager - manager for looking at sensor data
         """
+        self.currentPitch = 0
+        self.currentYaw = 0
         self.sensorManager = sensorManager
-        self.clawMotorTop = Motor(0)
-        self.clawMotorBottom = Motor(0)
-        self.gimbleMotorYaw1 = Motor(0)
-        self.gimbleMotorYaw2 = Motor(0)
-        self.gimbleMotorPitch1 = Motor(0)
-        self.gimbleMotorPitch2 = Motor(0)
-        self.screwMotor = StepperMotor(0)
+        self.gpio_expander = sensorManager.gpio_expander
+        self.clawMotorTop = GimbalMotorDriver(12, 26, 16, self.gpio_expander)
+        self.clawMotorBottom = GimbalMotorDriver(13, 21, 20, self.gpio_expander)
+        self.gimbleMotorYaw1 = GimbalMotorDriver(8, 17, 27, self.gpio_expander)
+        self.gimbleMotorYaw2 = GimbalMotorDriver(9, 5, 12, self.gpio_expander)
+        self.gimbleMotorPitch1 = GimbalMotorDriver(10, 6, 24, self.gpio_expander)
+        self.gimbleMotorPitch2 = GimbalMotorDriver(11, 13, 19, self.gpio_expander)
+        self.screwMotor = StepperMotorDriver(14, self.gpio_expander)
         self.upGait = DriveGait("UP", sensorManager, self)
         self.downGait = DriveGait("DOWN", sensorManager, self)
         self.leftGait = TurnGait("LEFT", sensorManager, self)
         self.rightGait = TurnGait("RIGHT", sensorManager, self)
     
-    def driveMotor(self, driveCommand, cameraCommand):
+    def executeDriveCommand(self, driveCommand):
         """
         Run correct gait based on the given drive command.
         """
@@ -98,42 +101,61 @@ class DriveMotorManager():
         else:
             self.screwMotor.write(self.CCW, self.SCREW_SPEED)
         
-    def turnStep(self, angle, direction):
+        
+        
+    def driveToAngleValue(self, angle, value):
         """
-        turn robot in specified direction
+        turn robot gimble one degree in specified direction
         
         angle - gimble angle to drive on (YAW or PITCH)
-        direction - direction to drive in (LEFT or RIGHT)
+        value - value in degrees to drive to (-25 to 25)
         """
         if(angle == "PITCH"):
-            motor1 = self.gimbleMotorPitch1.stop()
-            motor2 = self.gimbleMotorPitch2.stop()
+            motor1 = self.gimbleMotorPitch1
+            motor2 = self.gimbleMotorPitch2
         else:
-            motor1 = self.gimbleMotorYaw1.stop()
-            motor2 = self.gimbleMotorYaw2.stop()
-        angles = self.sensorManager.getGimblePotAngles(angle)
-    
-        speed1 = self.GIMBLE_SPEED
+            motor1 = self.gimbleMotorYaw1
+            motor2 = self.gimbleMotorYaw2
+            
         
-        """TODO: set e,f,s0 and r as constants"""
-        e = 1
-        f = 1
-        s0 = 1
-        r = 1
+        value*math.pi/180.0
+            
+        height = 1.25
+        length = 3.75
+        pulleyRadius = 0.5
+        tolerance = 0.1
+        speed = 75
         
-        s = s0 + r*angles[0]
-        l = s0 + r*angles[1]
-        S = math.acos((-(s**2) + e**2 + f**2)/(2*e*f))
-        L = math.acos((-(l**2) + e**2 + f**2)/(2*e*f))
-         
-        speed2 = -(l*math.sin(S))/(s*math.sin(L)) 
+        desiredAngle1 = (height*(math.cos(value/2) - 1) + length*(math.sin(value/2)))/pulleyRadius
+        desiredAngle2 = -(height*(math.cos(value/2) - 1) - length*(math.sin(value/2)))/pulleyRadius
         
-        if(direction == "LEFT"):
-            motor1.write(self.CW, speed1)
-            motor2.write(self.CW, speed2)
-        else:
-            motor1.write(self.CCW, speed2)
-            motor2.write(self.CCW, speed1)
+        currentAngle1, currentAngle2 = self.sensorManager.getGimblePotAngles(angle)
+        
+        print "Desired angles {}, {}".format(desiredAngle1, desiredAngle2)
+        print "Current angles {}, {}".format(currentAngle1, currentAngle2)
+        
+        
+        while(abs(currentAngle1 - desiredAngle1) > tolerance 
+                 and abs(currentAngle2 - desiredAngle2) > tolerance):
+            if(abs(currentAngle1 - desiredAngle1) > 0.01):
+                if(currentAngle1 < desiredAngle1):
+                    motor1.write("CCW", speed)
+                else:
+                    motor1.write("CW", speed)
+            else:
+                motor1.stop()
+            if(abs(currentAngle2 - desiredAngle2) > 0.01):
+                if(currentAngle2 < desiredAngle2):
+                    motor2.write("CCW", speed)
+                else:
+                    motor2.write("CW", speed)
+            else:
+                motor2.stop
+            currentAngle1, currentAngle2 = self.sensorManager.getGimblePotAngles(angle)
+            
+        motor1.stop()
+        motor2.stop()
+        
     
     def stop(self):
         """

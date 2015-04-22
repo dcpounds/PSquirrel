@@ -1,19 +1,18 @@
 from src.sensors.sensor import Sensor
 
-class StrainGauge(Sensor):
+class IMUSensor(Sensor):
     """
-    Class representing a current sensor.
+    Class representing a gyro.
     """
     
-    def __init__(self, ID, pin, spi):
+    def __init__(self, ID, pin):
         """
         Initialize the sensor
         
         ID - id number of sensor
         pin - pin sensor is attached to
         """
-        super(StrainGauge, self).__init__("StrainGauge", ID, pin)
-        self.spi = spi
+        super(IMUSensor, self).__init__(pin)
     
     def readValue(self):
         """

@@ -12,7 +12,7 @@ class Ultrasonic(Sensor):
         ID - id number of sensor
         pin - pin sensor is attached to
         """
-        super(Ultrasonic, self).__init__("ULTRASONIC", ID, pin)
+        super(Ultrasonic, self).__init__(pin)
     
     def readValue(self):
         """

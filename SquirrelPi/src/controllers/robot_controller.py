@@ -37,6 +37,6 @@ class RobotController():
                     self.cameraCommand = command['command']
             self.stateData = self.sensorManager.getRobotStateData()
             self.networkManager.sendRobotStateData(self.stateData)
-            self.driveMotorManager.driveMotor(self.driveCommand)
-            self.cameraMotorManager.driveMotor(self.cameraCommand)
+            self.driveMotorManager.executeDriveCommand(self.driveCommand)
+            self.cameraMotorManager.executeDriveCommand(self.cameraCommand)
                 

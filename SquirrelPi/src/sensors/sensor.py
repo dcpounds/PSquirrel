@@ -4,7 +4,7 @@ class Sensor(object):
     Class representing a generic sensor.
     """
     
-    def __init__(self, sensorType, ID, pin):
+    def __init__(self, pin):
         """
         Initialize the sensor
         
@@ -12,8 +12,6 @@ class Sensor(object):
         ID - id number of sensor
         pin - pin sensor is attached to
         """
-        self.sensorType = sensorType
-        self.ID = ID
         self.value = -1
         self.pin = pin
         

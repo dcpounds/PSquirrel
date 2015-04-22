@@ -28,7 +28,18 @@ public class Legend extends JPanel{
 	 */
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(500,500);
+		return new Dimension(200,200);
+	}
+	
+	/** 
+	 * Overridden method to prevent sizing issues
+	 * 
+	 * (non-Javadoc)
+	 * @see javax.swing.JComponent#getPreferredSize()
+	 */
+	@Override
+	public Dimension getMinimumSize() {
+		return new Dimension(200,200);
 	}
 
 	/**
@@ -46,7 +57,7 @@ public class Legend extends JPanel{
 		g.setColor(Color.RED);
 		g.fillOval(10, 50, 10, 10);
 		g.setColor(Color.BLACK);
-		g.drawString(": Dettached Claw", 30, 60);
+		g.drawString(": Detached Claw", 30, 60);
 		
 		try{
 			BufferedImage warningIcon = ImageIO.read(new File("src/resources/warning.png"));

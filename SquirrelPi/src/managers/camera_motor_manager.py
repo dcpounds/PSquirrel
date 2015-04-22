@@ -1,4 +1,4 @@
-from src.motors.motor import Motor
+from src.motors.gimbal_motor_driver import Motor_Driver
 
 class CameraMotorManager():
     """
@@ -14,9 +14,9 @@ class CameraMotorManager():
         sensorManager - manager for looking at sensor data
         """
         self.sensorManager = sensorManager
-        self.cameraMotor = Motor(0)
+        self.cameraMotor = Motor_Driver(0)
         
-    def driveMotor(self, cameraCommand):
+    def executeDriveCommand(self, cameraCommand):
         """
         Run correct gait based on the given camera command.
         """
@@ -32,7 +32,7 @@ class CameraMotorManager():
         if(self.isCameraAtEdge):
             self.cameraMotor.stop()
         else:
-            self.cameraMotor.write(Motor.CW, self.CAMERA_SPEED)
+            self.cameraMotor.write(Motor_Driver.CW, self.CAMERA_SPEED)
         
     def driveCameraDown(self):
         """
@@ -41,7 +41,7 @@ class CameraMotorManager():
         if(self.sensorManager.isCameraAtEdge()):
             self.cameraMotor.stop()
         else:
-            self.cameraMotor.write(Motor.CW, self.CAMERA_SPEED)
+            self.cameraMotor.write(Motor_Driver.CW, self.CAMERA_SPEED)
         
     def stopCamera(self):
         """

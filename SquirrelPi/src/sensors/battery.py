@@ -12,7 +12,7 @@ class Battery(Sensor):
         ID - id number of sensor
         pin - pin sensor is attached to
         """
-        super(Battery, self).__init__("ENCODER", ID, pin)
+        super(Battery, self).__init__(pin)
     
     def readValue(self):
         """

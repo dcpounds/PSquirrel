@@ -2,6 +2,8 @@ package org.projectsquirrel.controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 import java.io.IOException;
 
 import org.projectsquirrel.models.Command;
@@ -17,9 +19,10 @@ import org.projectsquirrel.network.SocketManager;
  * Class for sending a command received by the GUI
  * 
  */
-public class SendCommandController implements ActionListener {
+public class SendCommandController extends MouseAdapter {
 
 	private CommandPacket commandPacket;
+	private CommandPacket stopCommandPacket;
 
 	/**
 	 * Initializes the controller for the given command and command type
@@ -29,23 +32,37 @@ public class SendCommandController implements ActionListener {
 	 */
 	public SendCommandController(Command command, CommandType commandType) {
 		commandPacket = new CommandPacket(command, commandType);
+		stopCommandPacket = new CommandPacket(Command.STOP, commandType);
 	}
 
 	/**
-	 * Sends the command through the network manager when event is triggered by GUI
+	 * Sends the command through the network manager when button is pressed
 	 *  (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
-	public void actionPerformed(ActionEvent event) {
+	public void mousePressed(MouseEvent event) {
 		try {
+			System.out.println(commandPacket);
 			SocketManager.sendCommandPacket(commandPacket);
-			System.out.println(SocketManager.receiveSensorPacket().toJson());
 		} catch (NetworkUninitializedException e) {
-			System.out
-					.println("cannot send command without initializing network");
+			System.out.println("cannot send command without initializing network");
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+	}
+	
+	/**
+	 * Sends a stop command through the network manager when button is released
+	 *  (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void mouseReleased(MouseEvent event) {
+		try {
+			System.out.println(commandPacket);
+			SocketManager.sendCommandPacket(stopCommandPacket);
+		} catch (NetworkUninitializedException e) {
+			System.out.println("cannot send command without initializing network");
 			e.printStackTrace();
 		}
 	}

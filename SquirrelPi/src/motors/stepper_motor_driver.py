@@ -1,12 +1,12 @@
 
-class StepperMotor():
+class StepperMotorDriver():
     """
     Class representing a stepper motor.
     """
     CW = 0
     CCW = 255
     
-    def __init__(self, pin):
+    def __init__(self, pin, gpio_expander):
         """
         Initializes the motor
     

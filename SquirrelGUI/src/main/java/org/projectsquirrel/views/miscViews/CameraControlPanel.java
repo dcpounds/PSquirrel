@@ -64,8 +64,8 @@ public class CameraControlPanel extends JPanel {
 	 * Adds action listeners to all the buttons in the view.
 	 */
 	private void addButtonActionListeners(){
-		cameraCCWBtn.addActionListener(new SendCommandController(Command.LEFT, CommandType.CAMERA));
-		cameraCWBtn.addActionListener(new SendCommandController(Command.RIGHT, CommandType.CAMERA));
+		cameraCCWBtn.addMouseListener(new SendCommandController(Command.LEFT, CommandType.CAMERA));
+		cameraCWBtn.addMouseListener(new SendCommandController(Command.RIGHT, CommandType.CAMERA));
 	}
 
 }

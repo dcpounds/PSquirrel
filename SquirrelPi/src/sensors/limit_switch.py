@@ -12,7 +12,7 @@ class LimitSwitch(Sensor):
         ID - id number of sensor
         pin - pin sensor is attached to
         """
-        super(LimitSwitch, self).__init__("LIMITSWITCH", ID, pin)
+        super(LimitSwitch, self).__init__(pin)
     
     def readValue(self):
         """

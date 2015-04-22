@@ -12,7 +12,7 @@ class IR(Sensor):
         ID - id number of sensor
         pin - pin sensor is attached to
         """
-        super(IR, self).__init__("IR", ID, pin)
+        super(IR, self).__init__(pin)
     
     def readValue(self):
         """
