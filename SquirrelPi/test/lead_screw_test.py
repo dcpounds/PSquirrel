@@ -13,11 +13,7 @@ if __name__ == "__main__":
     sensor_manager = SensorManager()
     drive_manager = DriveMotorManager(sensor_manager)
     
-    drive_manager.driveLeadScrew("FORWARD", 1000)
-    drive_manager.stop()
-    time.sleep(5)
-    drive_manager.driveLeadScrew("BACKWARD", 1000)
-    drive_manager.stop()
+    drive_manager.driveLeadScrew("FORWARD", 10000)
     
     
     GPIO.cleanup()

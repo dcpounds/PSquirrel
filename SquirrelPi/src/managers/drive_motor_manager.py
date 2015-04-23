@@ -103,10 +103,10 @@ class DriveMotorManager():
         """
         if(direction == "RETRACT"):
             self.screwMotor.write(self.CW, steps)
-            self.steps -= 5
+            self.steps -= steps
         else:
             self.screwMotor.write(self.CCW, steps)
-            self.steps += 5
+            self.steps += steps
         
         
         

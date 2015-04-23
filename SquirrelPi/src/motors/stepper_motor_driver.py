@@ -21,18 +21,18 @@ class StepperMotorDriver():
         self.pinIn1B = pinIn1B
         self.pinIn2B = pinIn2B
         gpio_expander.config(self.pinMD, gpio_expander.OUTPUT)
-        gpio_expander.output(self.pinMD, 1)
+        gpio_expander.output(self.pinMD, 0)
         GPIO.setup(self.pinIn1A, GPIO.OUT)
         GPIO.setup(self.pinIn2A, GPIO.OUT)
         GPIO.setup(self.pinIn1B, GPIO.OUT)
         GPIO.setup(self.pinIn2B, GPIO.OUT)
         
-    def setStep(self, w1, w2, w3, w4):
+    def setStep(self, out1, out2, out3, out4):
     
-        GPIO.output(self.pinIn1A, w1)
-        GPIO.output(self.pinIn2A, w2)
-        GPIO.output(self.pinIn1B, w3)
-        GPIO.output(self.pinIn2B, w4)
+        GPIO.output(self.pinIn1A, out1)
+        GPIO.output(self.pinIn2A, out2)
+        GPIO.output(self.pinIn1B, out3)
+        GPIO.output(self.pinIn2B, out4)
         
     def stop(self):
         """
@@ -40,7 +40,7 @@ class StepperMotorDriver():
         """
         self.setStep(0, 0, 0, 0);
         
-    def write(self, direction, steps=1, delay=.001):
+    def write(self, direction, steps=1, delay=.002):
         """
         writes a value to the motor to drive it
         
