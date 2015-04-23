@@ -13,8 +13,11 @@ class SensorManager():
     """
     Class for managing reading sensor data
     """
-    POT_ATTACHED_POSITION = 700
-    POT_FIRE_POSITION = 900
+    TOP_POT_ATTACHED_POSITION = 400
+    TOP_POT_FIRE_POSITION = 500
+    
+    BOT_POT_ATTACHED_POSITION = 400
+    BOT_POT_FIRE_POSITION = 500
     
     BALL_YAW_MIN = None
     BALL_YAW_MAX = None
@@ -33,6 +36,10 @@ class SensorManager():
         self.spi = spidev.SpiDev()
         self.gpio_expander = Adafruit_MCP230XX(address = 0x20, num_gpios = 16) 
         GPIO.setmode(GPIO.BCM)
+        
+        self.pitch = 0
+        self.yaw = 0
+        self.steps = 0
         
         self.topClawMotorPot = SPISensor(1, 0, 0, self.spi)
         self.botClawMotorPot = SPISensor(2, 1, 0, self.spi)
@@ -99,10 +106,13 @@ class SensorManager():
         """
         if(robotHalf == "TOP"):
             potValue = self.topClawMotorPot.readValue()
+            return potValue < self.TOP_POT_ATTACHED_POSITION
         else:
             potValue = self.botClawMotorPot.readValue()
+            return potValue < self.BOT_POT_ATTACHED_POSITION
             
-        return potValue < self.POT_ATTACHED_POSITION
+        
+        
     
     def areClawsInFirePosition(self, robotHalf):
         """
@@ -110,10 +120,10 @@ class SensorManager():
         """
         if(robotHalf == "TOP"):
             potValue = self.topClawMotorPot.readValue()
+            return potValue > self.TOP_POT_FIRE_POSITION
         else:
             potValue = self.botClawMotorPot.readValue()
-            
-        return potValue > self.POT_FIRE_POSITION
+            return potValue > self.BOT_POT_FIRE_POSITION
         
         
     def getGimblePotAngles(self, angle):
@@ -140,11 +150,29 @@ class SensorManager():
         """
         Test if lead screw is extended
         """
-        return self.leadScrewTopLim.readValue() == 1
+        return self.steps > 1000
     
     def isLeadScrewRetracted(self):
         """
         Test if lead screw is retracted
         """
-        return self.leadScrewBotLim.readValue() == 1
+        return self.steps < -1000
+    
+    def setPitch(self, pitch):
+        """
+        called by motor manager to update pitch
+        """
+        self.pitch = pitch
+        
+    def setYaw(self, yaw):
+        """
+        called by motor manager to update yaw
+        """
+        self.yaw = yaw
+    
+    def setSteps(self, steps):
+        """
+        called by motor manager to update steps
+        """
+        self.steps = steps
     

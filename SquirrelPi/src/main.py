@@ -29,7 +29,7 @@ def main():
     robotController = robot_controller(mainNetworkManager, sensorManager, motorManager)
     cameraController = camera_controller.CameraController(cameraNetworkManager)
     
-    mp.Process(target=cameraController.run)
+    #mp.Process(target=cameraController.run)
     robotController.run()
     
 if __name__ == "__main__":

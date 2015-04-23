@@ -21,9 +21,9 @@ class DriveGait():
 		execute the next step of the gait
 		"""	
 		self.drive_motor_manager.maintainDistance()
-		if(self.sensor_manager.areClawsAttached("BOTTOM")):
+		if(not self.sensor_manager.areClawsAttached("BOTTOM")):
 			self.bottom_cycle()
-		elif(self.sensor_manger.areClawsAttached("TOP")):
+		elif(not self.sensor_manger.areClawsAttached("TOP")):
 			self.top_cycle()
 		else:
 			self.middle_cycle()

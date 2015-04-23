@@ -7,7 +7,9 @@ if __name__ == "__main__":
     reserved_pins = [2, 3, 7, 8, 9, 10, 11]
     for x in range(2, 28):
         if x not in reserved_pins:
+            
             GPIO.setup(x, GPIO.OUT)
+            GPIO.output(x, 0)
     GPIO.cleanup()
 
     

@@ -12,8 +12,8 @@ class DriveMotorManager():
     """
     Class for driving motors for the robot gait based off given drive commands
     """
-    CW = 0
-    CCW = 1
+    CW = "CW"
+    CCW = "CCW"
     
     
     CLAW_SPEED = 0
@@ -36,7 +36,7 @@ class DriveMotorManager():
         self.gimbleMotorYaw2 = GimbalMotorDriver(9, 5, 12, self.gpio_expander)
         self.gimbleMotorPitch1 = GimbalMotorDriver(15, 6, 24, self.gpio_expander)
         self.gimbleMotorPitch2 = GimbalMotorDriver(11, 13, 19, self.gpio_expander)
-        self.screwMotor = StepperMotorDriver(14, 4, 18, 15, 14, self.gpio_expander)
+        self.screwMotor = StepperMotorDriver(14, 4, 18, 15, 25, self.gpio_expander)
         self.upGait = DriveGait("UP", sensorManager, self)
         self.downGait = DriveGait("DOWN", sensorManager, self)
         self.leftGait = TurnGait("LEFT", sensorManager, self)
@@ -70,7 +70,7 @@ class DriveMotorManager():
         if(robotHalf == "TOP"):
             clawMotor = self.clawMotorTop
         else:
-            clawMotor = self.clawMotorBot
+            clawMotor = self.clawMotorBottom
         
         
         while(not self.sensorManager.areClawsAttached(robotHalf)):
@@ -87,7 +87,7 @@ class DriveMotorManager():
         if(robotHalf == "TOP"):
             clawMotor = self.clawMotorTop
         else:
-            clawMotor = self.clawMotorBot
+            clawMotor = self.clawMotorBottom
             
         while(not self.sensorManager.areClawsInFirePosition(robotHalf)):
             clawMotor.write()
@@ -102,13 +102,12 @@ class DriveMotorManager():
         steps - number of steps to drive in
         """
         if(direction == "RETRACT"):
-            self.screwMotor.write(self.CW, steps)
             self.steps -= steps
         else:
-            self.screwMotor.write(self.CCW, steps)
             self.steps += steps
-        
-        
+            
+        self.screwMotor.write(direction, steps)
+        self.sensorManager.setSteps(self.steps)
         
         
     def driveToAngleValue(self, angle, value):
@@ -122,10 +121,12 @@ class DriveMotorManager():
             motor1 = self.gimbleMotorPitch1
             motor2 = self.gimbleMotorPitch2
             self.currentPitch = value
+            self.sensorManager.setPitch(self.currentPitch)
         else:
             motor1 = self.gimbleMotorYaw1
             motor2 = self.gimbleMotorYaw2
             self.currentYaw = value
+            self.sensorManager.setYaw(self.currentYaw)
             
         
         value = value*math.pi/180.0

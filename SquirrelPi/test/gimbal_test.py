@@ -12,9 +12,10 @@ def main():
     
     for _ in range(0, 10):
         try:
-            drive_manager.driveToAngleValue("PITCH", -5)
+            drive_manager.driveToAngleValue("PITCH", -30)
         except KeyboardInterrupt:
-            break
+            break    
+        GPIO.cleanup()
     GPIO.cleanup()
 
 if __name__ == '__main__':
