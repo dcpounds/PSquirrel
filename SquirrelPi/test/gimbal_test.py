@@ -7,13 +7,12 @@ from src.managers.sensor_manager import SensorManager
 import RPi.GPIO as GPIO
 
 def main():
-    
     sensor_manager = SensorManager()
     drive_manager = DriveMotorManager(sensor_manager)
     
     for _ in range(0, 10):
         try:
-            drive_manager.driveToAngleValue("PITCH", 5)
+            drive_manager.driveToAngleValue("PITCH", -5)
         except KeyboardInterrupt:
             break
     GPIO.cleanup()

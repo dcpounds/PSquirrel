@@ -1,10 +1,12 @@
 from src.motors.gimbal_motor_driver import GimbalMotorDriver
+from src.motors.claw_motor_driver import ClawMotorDriver
 from src.motors.stepper_motor_driver import StepperMotorDriver
 from src.managers.sensor_manager import SensorManager
 from src.gaits.drive_gait import DriveGait
 from src.gaits.turn_gait import TurnGait
 
 import math
+import time
 
 class DriveMotorManager():
     """
@@ -25,15 +27,16 @@ class DriveMotorManager():
         """
         self.currentPitch = 0
         self.currentYaw = 0
+        self.steps = 0
         self.sensorManager = sensorManager
         self.gpio_expander = sensorManager.gpio_expander
-        self.clawMotorTop = GimbalMotorDriver(12, 26, 16, self.gpio_expander)
-        self.clawMotorBottom = GimbalMotorDriver(13, 21, 20, self.gpio_expander)
+        self.clawMotorTop = ClawMotorDriver(12, 26, 16, self.gpio_expander)
+        self.clawMotorBottom = ClawMotorDriver(13, 21, 20, self.gpio_expander)
         self.gimbleMotorYaw1 = GimbalMotorDriver(8, 17, 27, self.gpio_expander)
         self.gimbleMotorYaw2 = GimbalMotorDriver(9, 5, 12, self.gpio_expander)
-        self.gimbleMotorPitch1 = GimbalMotorDriver(10, 6, 24, self.gpio_expander)
+        self.gimbleMotorPitch1 = GimbalMotorDriver(15, 6, 24, self.gpio_expander)
         self.gimbleMotorPitch2 = GimbalMotorDriver(11, 13, 19, self.gpio_expander)
-        self.screwMotor = StepperMotorDriver(14, self.gpio_expander)
+        self.screwMotor = StepperMotorDriver(14, 4, 18, 15, 14, self.gpio_expander)
         self.upGait = DriveGait("UP", sensorManager, self)
         self.downGait = DriveGait("DOWN", sensorManager, self)
         self.leftGait = TurnGait("LEFT", sensorManager, self)
@@ -65,12 +68,13 @@ class DriveMotorManager():
         distance - specified half (TOP or BOTTOM)
         """
         if(robotHalf == "TOP"):
-            clawMotor = self.clawMotorTop()
+            clawMotor = self.clawMotorTop
         else:
-            clawMotor = self.clawMotorBot()
+            clawMotor = self.clawMotorBot
+        
         
         while(not self.sensorManager.areClawsAttached(robotHalf)):
-            clawMotor.write(self.CW, self.CLAW_SPEED)
+            clawMotor.write()
             
         clawMotor.stop()
         
@@ -81,25 +85,29 @@ class DriveMotorManager():
         distance - specified half (TOP or BOTTOM)
         """
         if(robotHalf == "TOP"):
-            clawMotor = self.clawMotorTop()
+            clawMotor = self.clawMotorTop
         else:
-            clawMotor = self.clawMotorBot()
+            clawMotor = self.clawMotorBot
             
-        while(not self.sensorManager.areClawsInFirePostion(robotHalf)):
-            clawMotor.write(self.CW, self.CLAW_SPEED)
+        while(not self.sensorManager.areClawsInFirePosition(robotHalf)):
+            clawMotor.write()
             
         clawMotor.stop()
     
-    def driveLeadScrewStep(self, direction):
+    def driveLeadScrew(self, direction, steps=5):
         """
         drive lead screw in specified direction
         
         direction - direction to drive in (RETRACT or EXTEND)
+        steps - number of steps to drive in
         """
         if(direction == "RETRACT"):
-            self.screwMotor.write(self.CW, self.SCREW_SPEED)
+            self.screwMotor.write(self.CW, steps)
+            self.steps -= 5
         else:
-            self.screwMotor.write(self.CCW, self.SCREW_SPEED)
+            self.screwMotor.write(self.CCW, steps)
+            self.steps += 5
+        
         
         
         
@@ -113,16 +121,18 @@ class DriveMotorManager():
         if(angle == "PITCH"):
             motor1 = self.gimbleMotorPitch1
             motor2 = self.gimbleMotorPitch2
+            self.currentPitch = value
         else:
             motor1 = self.gimbleMotorYaw1
             motor2 = self.gimbleMotorYaw2
+            self.currentYaw = value
             
         
-        value*math.pi/180.0
+        value = value*math.pi/180.0
             
-        height = 1.25
-        length = 3.75
-        pulleyRadius = 0.5
+        height = 1.15
+        length = 3.6
+        pulleyRadius = 0.375
         tolerance = 0.1
         speed = 75
         
@@ -146,9 +156,9 @@ class DriveMotorManager():
                 motor1.stop()
             if(abs(currentAngle2 - desiredAngle2) > 0.01):
                 if(currentAngle2 < desiredAngle2):
-                    motor2.write("CCW", speed)
-                else:
                     motor2.write("CW", speed)
+                else:
+                    motor2.write("CCW", speed)
             else:
                 motor2.stop
             currentAngle1, currentAngle2 = self.sensorManager.getGimblePotAngles(angle)

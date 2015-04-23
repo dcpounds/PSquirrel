@@ -13,7 +13,8 @@ class SensorManager():
     """
     Class for managing reading sensor data
     """
-    POT_FIRE_POSITION = None
+    POT_ATTACHED_POSITION = 700
+    POT_FIRE_POSITION = 900
     
     BALL_YAW_MIN = None
     BALL_YAW_MAX = None
@@ -34,9 +35,7 @@ class SensorManager():
         GPIO.setmode(GPIO.BCM)
         
         self.topClawMotorPot = SPISensor(1, 0, 0, self.spi)
-        self.topClawMotorPotStartValue = self.topClawMotorPot.readValue()
         self.botClawMotorPot = SPISensor(2, 1, 0, self.spi)
-        self.botClawMotorPotStartValue = self.topClawMotorPot.readValue()
         self.yawMotorPot1 = SPISensor(3, 4, 0, self.spi)
         self.yawMotorPot1StartValue = self.yawMotorPot1.readValue()
         self.yawMotorPot2 = SPISensor(4, 5, 0, self.spi)
@@ -96,14 +95,14 @@ class SensorManager():
         Determines whether the claws for the given robotHalf are attached
         
         robotHalf - half of the robot to read claws from
-        num_claws - the number of claws required to be attached (defaults to 3)
+        num_claws - the number of claws required to be attached (defaults to 3) (currently ignored due to lack of strain gauges)
         """
         if(robotHalf == "TOP"):
-            claws = [self.topTLClaw, self.topTRClaw, self.topBLClaw, self.topBRClaw]
+            potValue = self.topClawMotorPot.readValue()
         else:
-            claws = [self.botTLClaw, self.botTRClaw, self.botBLClaw, self.botBRClaw]
-        
-        return sum([claw > self.CLAW_THRESHOLD for claw in claws]) > num_claws
+            potValue = self.botClawMotorPot.readValue()
+            
+        return potValue < self.POT_ATTACHED_POSITION
     
     def areClawsInFirePosition(self, robotHalf):
         """
