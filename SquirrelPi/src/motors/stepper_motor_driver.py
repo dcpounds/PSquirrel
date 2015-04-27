@@ -49,8 +49,7 @@ class StepperMotorDriver():
         delay - delay between parts of steps. Total delay time = 4 * delay * steps
         """
         
-        if direction == "RETRACT": 
-            print "RETRACTING"
+        if direction == "EXTEND": 
             for _ in range(0, steps):
                 self.setStep(1, 0, 1, 0)
                 time.sleep(delay)
@@ -61,7 +60,6 @@ class StepperMotorDriver():
                 self.setStep(1, 0, 0, 1)
                 time.sleep(delay)
         else:
-            print "EXTENDING"
             for _ in range(0, steps):
                 self.setStep(1, 0, 0, 1)
                 time.sleep(delay)

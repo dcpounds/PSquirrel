@@ -10,13 +10,14 @@ def main():
     sensor_manager = SensorManager()
     drive_manager = DriveMotorManager(sensor_manager)
     
-    for _ in range(0, 10):
-        try:
-            drive_manager.driveToAngleValue("PITCH", -30)
-        except KeyboardInterrupt:
-            break    
+    try:
+        for _ in range(0, 10):
+        
+            drive_manager.driveToAngleValue("PITCH", 5)
         GPIO.cleanup()
-    GPIO.cleanup()
+        
+    except KeyboardInterrupt:
+        GPIO.cleanup()
 
 if __name__ == '__main__':
     main()

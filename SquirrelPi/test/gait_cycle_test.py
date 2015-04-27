@@ -11,14 +11,6 @@ def main():
     drive_manager = DriveMotorManager(sensor_manager)
     #drive_manager.stop()
     
-    drive_manager.detachClaws("TOP");
-    drive_manager.detachClaws("BOTTOM");
-    time.sleep(5);
-    drive_manager.attachClaws("TOP");
-    drive_manager.attachClaws("BOTTOM");
-    print "attached"
-    time.sleep(5);
-    print "starting gait"
     
     while 1:
         try:
@@ -27,25 +19,16 @@ def main():
             
             drive_manager.detachClaws("BOTTOM");
             #drive_manager.driveToAngleValue("PITCH", -5);
-            drive_manager.driveLeadScrew("RETRACT", 1000);
+            drive_manager.driveLeadScrew("RETRACT", 3000);
             #drive_manager.driveToAngleValue("PITCH", 5);
             drive_manager.attachClaws("BOTTOM");
             
             print "moving up"
             drive_manager.detachClaws("TOP");
             #drive_manager.driveToAngleValue("PITCH", -5);
-            drive_manager.driveLeadScrew("EXTEND", 1000);
+            drive_manager.driveLeadScrew("EXTEND", 3000);
             #drive_manager.driveToAngleValue("PITCH", 5);
             drive_manager.attachClaws("TOP");
-            
-            print "moving down"
-            
-            drive_manager.detachClaws("BOTTOM");
-            #drive_manager.driveToAngleValue("PITCH", -5);
-            drive_manager.driveLeadScrew("RETRACT", 1000);
-            #drive_manager.driveToAngleValue("PITCH", 5);
-            drive_manager.attachClaws("BOTTOM");
-            break
             
         except KeyboardInterrupt:
             GPIO.cleanup()

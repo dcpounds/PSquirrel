@@ -13,11 +13,11 @@ class SensorManager():
     """
     Class for managing reading sensor data
     """
-    TOP_POT_ATTACHED_POSITION = 400
-    TOP_POT_FIRE_POSITION = 500
+    TOP_POT_ATTACHED_POSITION = 500
+    TOP_POT_FIRE_POSITION = 550
     
-    BOT_POT_ATTACHED_POSITION = 400
-    BOT_POT_FIRE_POSITION = 500
+    BOT_POT_ATTACHED_POSITION = 500
+    BOT_POT_FIRE_POSITION = 550
     
     BALL_YAW_MIN = None
     BALL_YAW_MAX = None
